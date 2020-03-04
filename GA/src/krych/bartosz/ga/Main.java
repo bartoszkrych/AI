@@ -11,26 +11,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        GeneticAlgorithm ga = new GeneticAlgorithm(123, getData());
+        GeneticAlgorithm ga = new GeneticAlgorithm(5, getData());
+
+        ga.showEx();
 
     }
-
-//    private static List<City> randomRoute(List<City> cities) {
-//        List<Integer> gen = new ArrayList<>();
-//        for (int i = 0; i < cities.size(); i++) {
-//            gen.add(i);
-//        }
-//        Collections.shuffle(gen);
-//
-//        Integer[] genInt = new Integer[cities.size()];
-//        gen.toArray(genInt);
-//
-//        List<City> result = new ArrayList<>();
-//        for (int i = 0; i < gen.size(); i++) {
-//            result.add(cities.get(genInt[i]));
-//        }
-//        return result;
-//    }
 
     private static City[] getData() {
         File file = new File("TSP/berlin11_modified.tsp");
