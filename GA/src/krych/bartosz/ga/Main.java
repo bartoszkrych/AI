@@ -2,9 +2,7 @@ package krych.bartosz.ga;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Main {
@@ -12,6 +10,22 @@ public class Main {
     public static void main(String[] args) {
 
         getData();
+    }
+
+    private static List<City> randomRoute(List<City> cities) {
+        Set<Integer> gen = new LinkedHashSet<>();
+
+        while (gen.size() < cities.size()) {
+            gen.add(new Random().nextInt(cities.size()));
+        }
+        Integer[] genInt = new Integer[cities.size()];
+        gen.toArray(genInt);
+
+        List<City> result = new ArrayList<>();
+        for (int i = 0; i < gen.size(); i++) {
+            result.add(cities.get(genInt[i]));
+        }
+        return result;
     }
 
     private static void getData() {
@@ -42,11 +56,5 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        for( City c : cities)
-        {
-            System.out.println(c.toString());
-        }
-
     }
 }
