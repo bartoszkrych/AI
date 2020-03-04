@@ -2,7 +2,10 @@ package krych.bartosz.ga;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Main {
@@ -13,11 +16,12 @@ public class Main {
     }
 
     private static List<City> randomRoute(List<City> cities) {
-        Set<Integer> gen = new LinkedHashSet<>();
-
-        while (gen.size() < cities.size()) {
-            gen.add(new Random().nextInt(cities.size()));
+        List<Integer> gen = new ArrayList<>();
+        for (int i = 0; i < cities.size(); i++) {
+            gen.add(i);
         }
+        Collections.shuffle(gen);
+
         Integer[] genInt = new Integer[cities.size()];
         gen.toArray(genInt);
 
@@ -39,9 +43,8 @@ public class Main {
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 line= scanner.nextLine();
-                if(line.equals("EOF")) break;
-                if(startCities)
-                {
+                if (line.equals("EOF")) break;
+                if (startCities) {
                     Pattern pattern = Pattern.compile(" ");
 
                     readDouble = pattern.splitAsStream(line)
@@ -50,7 +53,7 @@ public class Main {
 
                     cities.add(new City(readDouble[1], readDouble[2]));
                 }
-                if(line.equals("NODE_COORD_SECTION")) startCities=true;
+                if (line.equals("NODE_COORD_SECTION")) startCities = true;
             }
 
         } catch (IOException e) {
