@@ -1,11 +1,11 @@
 package krych.bartosz.ga;
 
-public class Fitness {
+public class Individual {
     private City[] route;
     private Double distance;
     private Double fitnessVal;
 
-    public Fitness(City[] route) {
+    public Individual(City[] route) {
         this.route = route;
         distance = 0D;
         fitnessVal = 0D;
