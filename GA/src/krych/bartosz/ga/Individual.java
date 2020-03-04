@@ -1,5 +1,7 @@
 package krych.bartosz.ga;
 
+import java.text.DecimalFormat;
+
 public class Individual {
     private City[] route;
     private Double distance;
@@ -9,6 +11,7 @@ public class Individual {
         this.route = route;
         distance = 0D;
         fitness = 0D;
+        getFitness();
     }
 
     public Double getDistance() {
@@ -36,5 +39,15 @@ public class Individual {
             fitness = 1 / getDistance();
         }
         return fitness;
+    }
+
+    @Override
+    public String toString() {
+        DecimalFormat df = new DecimalFormat("#.#########");
+
+        return "Individual{" +
+                "distance=" + distance +
+                ", fitness=" + df.format(fitness) +
+                '}';
     }
 }
