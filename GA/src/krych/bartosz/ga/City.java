@@ -16,4 +16,11 @@ public class City {
                 ", y=" + y +
                 '}';
     }
+
+    public Double distance(City city)
+    {
+        Double xDis = Math.abs(x - city.x);
+        Double yDis = Math.abs(y - city.y);
+        return Math.sqrt((xDis * xDis) + (yDis * yDis));
+    }
 }
