@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        GeneticAlgorithm ga = new GeneticAlgorithm(5, getData());
+        GeneticAlgorithm ga = new GeneticAlgorithm(7, getData());
 
         ga.showEx();
 
