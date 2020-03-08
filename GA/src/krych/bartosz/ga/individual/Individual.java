@@ -1,4 +1,6 @@
-package krych.bartosz.ga;
+package krych.bartosz.ga.individual;
+
+import krych.bartosz.ga.TSPProblem;
 
 public class Individual {
     private Integer[] genotype;
