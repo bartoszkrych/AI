@@ -19,7 +19,7 @@ public class GreedyAlgorithm implements AlgorithmIndividual {
 
     public Individual generateGreedyIndi(int cityIdx) {
         List<Integer> liCities = new ArrayList<>();
-        liCities.add(cityIdx);
+        liCities.add(cityIdx % countCity);
         City[] cities = tsp.getCities();
         for (int i = 0; i < countCity - 1; i++) {
             Double minDis = Double.MAX_VALUE;
