@@ -1,5 +1,7 @@
 package krych.bartosz.ga;
 
+import krych.bartosz.ga.individual.GreedyAlgorithm;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,11 +12,10 @@ import java.util.regex.Pattern;
 public class Main {
 
     public static void main(String[] args) {
-
-        GeneticAlgorithm ga = new GeneticAlgorithm(7, getData());
+        TSPProblem tsp = new TSPProblem(getData());
+        GeneticAlgorithm ga = new GeneticAlgorithm(tsp, new GreedyAlgorithm(tsp));
 
         ga.showEx();
-
     }
 
     private static City[] getData() {
