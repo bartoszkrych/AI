@@ -1,5 +1,7 @@
 package krych.bartosz.ga;
 
+import krych.bartosz.ga.individual.Individual;
+
 public class TSPProblem {
 
     private City[] cities;
