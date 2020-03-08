@@ -1,26 +1,26 @@
 package krych.bartosz.ga;
 
 public class Individual {
-    private Integer[] route;
-    private Double distance;
+    private Integer[] genotype;
+    private Double fitness;
 
     public Individual(Integer[] route, TSPProblem tsp) {
-        this.route = route;
-        distance = tsp.getDistance(this);
+        this.genotype = route;
+        this.fitness = tsp.getDistance(this);
     }
 
-    public Double getDistance() {
-        return distance;
+    public Double getFitness() {
+        return fitness;
     }
 
     public int getCityByIdx(Integer idx) {
-        return route[idx];
+        return genotype[idx];
     }
 
     @Override
     public String toString() {
         return "Individual{" +
-                "distance=" + distance +
+                "fitness=" + fitness +
                 '}';
     }
 }
