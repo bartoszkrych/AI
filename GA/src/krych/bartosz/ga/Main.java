@@ -17,7 +17,7 @@ public class Main {
     }
 
     private static City[] getData() {
-        File file = new File("TSP/berlin11_modified.tsp");
+        File file = new File("TSP/berlin52.tsp");
         List<City> cities = new ArrayList<>();
 
         double[] readDouble;

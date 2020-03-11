@@ -9,12 +9,12 @@ import java.util.stream.Collectors;
 
 public class GeneticAlgorithm {
     private TSPProblem tspProblem;
-    private int popSize = 1000;
 
-    private int reproductSize = 100;
+    private int tournamentSize = 350;
     private int maxIter = 1000;
-    private int generationSize = 1000;
-    private double crossProb = 0.6;
+
+    private int popSize = 1000;
+    private double crossProb = 0.7;
     private double mutProb = 0.1;
     private int genomeSize;
 
@@ -47,7 +47,10 @@ public class GeneticAlgorithm {
                 bestIndividual = popBestIndividual;
 //                System.out.println("CHANGED IT");
             }
-//            System.out.println("pop: " + i + ",     best in pop: " + popBestIndividual.toString());
+            if (i > maxIter * 0.99) {
+                System.out.println("pop: " + i + ",     best in pop: " + popBestIndividual.toString());
+                mutProb += (0.1 * mutProb);
+            }
         }
 
         System.out.println(bestIndividual.toString());
@@ -56,7 +59,7 @@ public class GeneticAlgorithm {
     private List<Individual> selection(List<Individual> population) {
         List<Individual> selected = new ArrayList<>();
         for (int i = 0; i < popSize; i++) {
-            selected.add(rouletteSelection(population));
+            selected.add(tournamentSelection(population));
         }
         return selected;
     }
@@ -90,7 +93,7 @@ public class GeneticAlgorithm {
     }
 
     private Individual tournamentSelection(List<Individual> population) {
-        List<Individual> selected = getRandomInd(population, popSize);
+        List<Individual> selected = getRandomInd(population, tournamentSize);
         return Collections.min(selected, (i1, i2) -> i1.getFitness().compareTo(i2.getFitness()));
     }
 
@@ -99,7 +102,7 @@ public class GeneticAlgorithm {
         List<Individual> generation = new ArrayList<>();
         int curGeneration = 0;
         Random random = new Random();
-        while (curGeneration < generationSize) {
+        while (curGeneration < popSize) {
             List<Individual> parents = getRandomInd(population, 2);
             if (random.nextDouble() < crossProb) {
                 List<Individual> children = crossoverPMX(parents);
