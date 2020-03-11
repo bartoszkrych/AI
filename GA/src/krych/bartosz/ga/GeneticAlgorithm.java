@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class GeneticAlgorithm {
     private TSPProblem tspProblem;
-    private int posSize = 1000;
+    private int popSize = 1000;
 
     private int reproductSize = 100;
     private int maxIter = 1000;
@@ -26,10 +26,10 @@ public class GeneticAlgorithm {
         this.genomeSize = tspProblem.getCountCity();
     }
 
-    public List<Individual> initPopulation() {
+    private List<Individual> initPopulation() {
         List<Individual> population = new ArrayList<>();
         AlgorithmIndividual algIndi = new RandAlgorithm(tspProblem);
-        for (int i = 0; i < posSize; i++) {
+        for (int i = 0; i < popSize; i++) {
             population.add(algIndi.getNewIndividual());
         }
         return population;
@@ -40,49 +40,67 @@ public class GeneticAlgorithm {
         bestIndividual = population.get(0);
         Individual popBestIndividual = bestIndividual;
         for (int i = 0; i < maxIter; i++) {
-//            List<Individual> selected = selection(population);
-            population = createGeneration(population);
+            List<Individual> selected = selection(population);
+            population = createGeneration(selected);
             popBestIndividual = Collections.min(population, (p1, p2) -> p1.getFitness().compareTo(p2.getFitness()));
             if (bestIndividual.getFitness() > popBestIndividual.getFitness()) {
                 bestIndividual = popBestIndividual;
-                System.out.println("CHANGED IT");
+//                System.out.println("CHANGED IT");
             }
-            System.out.println("pop: " + i + ",     best: " + popBestIndividual.toString());
+//            System.out.println("pop: " + i + ",     best in pop: " + popBestIndividual.toString());
         }
 
         System.out.println(bestIndividual.toString());
     }
 
-    public List<Individual> selection(List<Individual> population) {
+    private List<Individual> selection(List<Individual> population) {
         List<Individual> selected = new ArrayList<>();
-        for (int i = 0; i < reproductSize; i++) {
+        for (int i = 0; i < popSize; i++) {
             selected.add(rouletteSelection(population));
         }
         return selected;
     }
 
-    public Individual rouletteSelection(List<Individual> population) {
+    private Individual rouletteSelection(List<Individual> population) {
         double totalFit = population.stream().map(Individual::getFitness).mapToDouble(Double::doubleValue).sum();
         Random random = new Random();
-        float selectedVal = (float) (random.nextFloat() * totalFit);
-        float recVal = (float) 1 / selectedVal;
-        float curSum = 0F;
+        double selectedVal = random.nextDouble() * totalFit;
+        double recVal = 1 / selectedVal;
+        double curSum = 0D;
         for (Individual i : population) {
-            curSum += (float) 1 / i.getFitness();
+            curSum += 1 / i.getFitness();
             if (curSum >= recVal) {
+
                 return i;
             }
         }
-        return population.get(random.nextInt(posSize));
+        return population.get(random.nextInt(popSize));
+    }
+
+    private static List<Individual> getRandomInd(List<Individual> list, int n) {
+        Random r = new Random();
+        int length = list.size();
+
+        if (length < n) return null;
+
+        for (int i = length - 1; i >= length - n; --i) {
+            Collections.swap(list, i, r.nextInt(i + 1));
+        }
+        return list.subList(length - n, length);
+    }
+
+    private Individual tournamentSelection(List<Individual> population) {
+        List<Individual> selected = getRandomInd(population, popSize);
+        return Collections.min(selected, (i1, i2) -> i1.getFitness().compareTo(i2.getFitness()));
     }
 
 
-    public List<Individual> createGeneration(List<Individual> population) {
+    private List<Individual> createGeneration(List<Individual> population) {
         List<Individual> generation = new ArrayList<>();
         int curGeneration = 0;
         Random random = new Random();
         while (curGeneration < generationSize) {
-            List<Individual> parents = getParents(population);
+            List<Individual> parents = getRandomInd(population, 2);
             if (random.nextDouble() < crossProb) {
                 List<Individual> children = crossoverPMX(parents);
                 for (int i = 0; i < 2; i++) {
@@ -97,16 +115,6 @@ public class GeneticAlgorithm {
             curGeneration += 2;
         }
         return generation;
-    }
-
-    private List<Individual> getParents(List<Individual> list) {
-        Random r = new Random();
-        int length = list.size();
-
-        for (int i = length - 1; i >= length - 2; --i) {
-            Collections.swap(list, i, r.nextInt(i + 1));
-        }
-        return list.subList(length - 2, length);
     }
 
     private List<Individual> crossoverPMX(List<Individual> parents) {
@@ -136,7 +144,7 @@ public class GeneticAlgorithm {
         return children;
     }
 
-    public Individual mutate(Individual children) {
+    private Individual mutate(Individual children) {
         Random random = new Random();
         List<Integer> genome = Arrays.stream(children.getGenotype()).boxed().collect(Collectors.toList());
         Collections.swap(genome, random.nextInt(genomeSize), random.nextInt(genomeSize));
