@@ -2,8 +2,6 @@ package krych.bartosz.ga.individual;
 
 import krych.bartosz.ga.TSPProblem;
 
-import java.util.Arrays;
-
 public class Individual {
     private int[] genotype;
     private Double fitness;
@@ -27,9 +25,8 @@ public class Individual {
 
     @Override
     public String toString() {
-        return "{" +
-                "genotype=" + Arrays.toString(genotype) +
-                ", fitness=" + fitness +
+        return "Individual{" +
+                "fitness=" + fitness +
                 '}';
     }
 }
