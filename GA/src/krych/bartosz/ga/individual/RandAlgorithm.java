@@ -23,9 +23,7 @@ public class RandAlgorithm implements AlgorithmIndividual {
         }
         Collections.shuffle(gen);
 
-        Integer[] genInt = new Integer[countCity];
-        gen.toArray(genInt);
-        return new Individual(genInt, tsp);
+        return new Individual(gen.stream().mapToInt(Integer::intValue).toArray(), tsp);
     }
 
     public Individual randAlgorithm(int numberOfRand) {

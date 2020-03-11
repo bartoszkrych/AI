@@ -38,7 +38,7 @@ public class GreedyAlgorithm implements AlgorithmIndividual {
 
         Integer[] arrCity = new Integer[countCity];
         liCities.toArray(arrCity);
-        return new Individual(arrCity, tsp);
+        return new Individual(liCities.stream().mapToInt(Integer::intValue).toArray(), tsp);
     }
 
     public Individual getNewIndividual() {
