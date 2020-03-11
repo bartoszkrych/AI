@@ -19,6 +19,10 @@ public class Individual {
         return genotype[idx];
     }
 
+    public Integer[] getGenotype() {
+        return genotype;
+    }
+
     @Override
     public String toString() {
         return "Individual{" +
