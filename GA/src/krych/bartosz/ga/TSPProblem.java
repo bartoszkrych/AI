@@ -1,7 +1,5 @@
 package krych.bartosz.ga;
 
-import krych.bartosz.ga.individual.Individual;
-
 public class TSPProblem {
 
     private City[] cities;
@@ -13,16 +11,16 @@ public class TSPProblem {
     }
 
 
-    public Double getDistance(Individual individual) {
+    public Double getDistance(int[] genotype) {
         Double pathDist = 0D;
         City fromCity;
         City toCity;
         for (int i = 0; i < countCity; i++) {
-            fromCity = cities[individual.getCityByIdx(i)];
+            fromCity = cities[genotype[i]];
             if (i + 1 < countCity) {
-                toCity = cities[individual.getCityByIdx(i + 1)];
+                toCity = cities[genotype[i + 1]];
             } else {
-                toCity = cities[individual.getCityByIdx(0)];
+                toCity = cities[genotype[0]];
             }
             pathDist += fromCity.distance(toCity);
         }
