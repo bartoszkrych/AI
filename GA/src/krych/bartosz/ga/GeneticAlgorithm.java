@@ -21,7 +21,7 @@ public class GeneticAlgorithm {
     private double crossProb;
     private double mutProb;
 
-    private int tournamentSize = (int) (popSize * 0.33);
+    private int tournamentSize;
 
     public GeneticAlgorithm(TSPProblem tspProblem, int maxIter, int popSize, double crossProb, double mutProb) {
         this.tspProblem = tspProblem;
@@ -30,6 +30,7 @@ public class GeneticAlgorithm {
         this.popSize = popSize;
         this.crossProb = crossProb;
         this.mutProb = mutProb;
+        this.tournamentSize = (int) (popSize * 0.33);
     }
 
     private List<Individual> initPopulation() {
