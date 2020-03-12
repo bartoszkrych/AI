@@ -11,9 +11,9 @@ public class Main {
 
     public static void main(String[] args) {
         int maxIter = 2000;
-        int popSize = 200;
+        int popSize = 250;
         double crossProb = 0.8;
-        double mutProb = 0.3;
+        double mutProb = 0.1;
         SelectT selectT = SelectT.TOURNAMENT;
 
         String filename = "berlin52";
