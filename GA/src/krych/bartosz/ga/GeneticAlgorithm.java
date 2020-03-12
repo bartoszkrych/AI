@@ -4,26 +4,32 @@ import krych.bartosz.ga.individual.AlgorithmIndividual;
 import krych.bartosz.ga.individual.Individual;
 import krych.bartosz.ga.individual.RandAlgorithm;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GeneticAlgorithm {
     private TSPProblem tspProblem;
-
-    private int tournamentSize = 350;
-    private int maxIter = 1000;
-
-    private int popSize = 1000;
-    private double crossProb = 0.7;
-    private double mutProb = 0.1;
     private int genomeSize;
-
     private Individual bestIndividual;
 
+    private int maxIter;
+    private int popSize;
+    private double crossProb;
+    private double mutProb;
 
-    public GeneticAlgorithm(TSPProblem tspProblem) {
+    private int tournamentSize = (int) (popSize * 0.33);
+
+    public GeneticAlgorithm(TSPProblem tspProblem, int maxIter, int popSize, double crossProb, double mutProb) {
         this.tspProblem = tspProblem;
         this.genomeSize = tspProblem.getCountCity();
+        this.maxIter = maxIter;
+        this.popSize = popSize;
+        this.crossProb = crossProb;
+        this.mutProb = mutProb;
     }
 
     private List<Individual> initPopulation() {
@@ -39,20 +45,23 @@ public class GeneticAlgorithm {
         List<Individual> population = initPopulation();
         bestIndividual = population.get(0);
         Individual popBestIndividual = bestIndividual;
+        List<String[]> dataLines = new ArrayList<>();
+        dataLines.add(new String[]{"pop", "best", "worst", "avg"});
+
         for (int i = 0; i < maxIter; i++) {
             List<Individual> selected = selection(population);
             population = createGeneration(selected);
             popBestIndividual = Collections.min(population, (p1, p2) -> p1.getFitness().compareTo(p2.getFitness()));
             if (bestIndividual.getFitness() > popBestIndividual.getFitness()) {
                 bestIndividual = popBestIndividual;
-//                System.out.println("CHANGED IT");
             }
-            if (i > maxIter * 0.99) {
-                System.out.println("pop: " + i + ",     best in pop: " + popBestIndividual.toString());
-                mutProb += (0.1 * mutProb);
-            }
+            dataLines.add(new String[]{i + "", popBestIndividual.getFitness() + "", Collections.max(population, (p1, p2) -> p1.getFitness().compareTo(p2.getFitness())).getFitness() + "", population.stream().mapToDouble(Individual::getFitness).average().orElse(0) + ""});
         }
-
+        try {
+            saveToFile(dataLines);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println(bestIndividual.toString());
     }
 
@@ -101,13 +110,12 @@ public class GeneticAlgorithm {
     private List<Individual> createGeneration(List<Individual> population) {
         List<Individual> generation = new ArrayList<>();
         int curGeneration = 0;
-        Random random = new Random();
         while (curGeneration < popSize) {
             List<Individual> parents = getRandomInd(population, 2);
-            if (random.nextDouble() < crossProb) {
+            if (Math.random() < crossProb) {
                 List<Individual> children = crossoverPMX(parents);
                 for (int i = 0; i < 2; i++) {
-                    if (random.nextDouble() < mutProb) {
+                    if (Math.random() < mutProb) {
                         children.set(i, mutate(children.get(i)));
                     }
                 }
@@ -159,4 +167,19 @@ public class GeneticAlgorithm {
         for (Individual i : pop) System.out.print(i.toString() + "   ");
         System.out.println("\n\n\n");
     }
+
+    public void saveToFile(List<String[]> dataLines) throws IOException {
+        File csvOutputFile = new File("result.txt");
+        try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
+            dataLines.stream()
+                    .map(this::convertToCSV)
+                    .forEach(pw::println);
+        }
+    }
+
+    public String convertToCSV(String[] data) {
+        return Stream.of(data)
+                .collect(Collectors.joining(","));
+    }
+
 }
