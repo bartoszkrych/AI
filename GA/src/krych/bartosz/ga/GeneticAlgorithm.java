@@ -32,7 +32,7 @@ public class GeneticAlgorithm {
         this.popSize = popSize;
         this.crossProb = crossProb;
         this.mutProb = mutProb;
-        this.tournamentSize = (int) (popSize * 0.33);
+        this.tournamentSize = (int) (popSize * 0.4);
         this.selectT = selectT;
     }
 
@@ -71,7 +71,7 @@ public class GeneticAlgorithm {
 
     private List<Individual> selection(List<Individual> population) {
         List<Individual> selected = new ArrayList<>();
-        for (int i = 0; i < popSize; i++) {
+        for (int i = 0; i < popSize / 2; i++) {
             if (selectT == SelectT.TOURNAMENT) {
                 selected.add(tournamentSelection(population));
             } else if (selectT == SelectT.ROULETTE) {
@@ -161,15 +161,29 @@ public class GeneticAlgorithm {
             Collections.swap(parent2, parent2.indexOf(newVal), i);
         }
         children.add(new Individual(parent2.stream().mapToInt(Integer::intValue).toArray(), tspProblem));
-
         return children;
     }
 
-    private Individual mutate(Individual children) {
+    private Individual mutate(Individual individual) {
         Random random = new Random();
-        List<Integer> genome = Arrays.stream(children.getGenotype()).boxed().collect(Collectors.toList());
-        Collections.swap(genome, random.nextInt(genomeSize), random.nextInt(genomeSize));
-        return new Individual(genome.stream().mapToInt(Integer::intValue).toArray(), tspProblem);
+        int[] cities = individual.getGenotype();
+        int randomIndex = random.nextInt(genomeSize);
+        int randomDestination = random.nextInt(genomeSize);
+
+        if (randomIndex < randomDestination) {
+            int temp = cities[randomIndex];
+            for (int i = randomIndex; i < randomDestination; i++) {
+                cities[i] = cities[i + 1];
+            }
+            cities[randomDestination] = temp;
+        } else {
+            int temp = cities[randomIndex];
+            for (int i = randomIndex; i > randomDestination; i--) {
+                cities[i] = cities[i - 1];
+            }
+            cities[randomDestination] = temp;
+        }
+        return new Individual(cities, tspProblem);
     }
 
     private void printPop(List<Individual> pop, int iter) {

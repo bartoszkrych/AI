@@ -10,14 +10,22 @@ import java.util.regex.Pattern;
 public class Main {
 
     public static void main(String[] args) {
-        TSPProblem tsp = new TSPProblem(getData());
-        GeneticAlgorithm ga = new GeneticAlgorithm(tsp);
+        int maxIter = 2000;
+        int popSize = 200;
+        double crossProb = 0.8;
+        double mutProb = 0.3;
+        SelectT selectT = SelectT.TOURNAMENT;
+
+        String filename = "berlin52";
+
+        TSPProblem tsp = new TSPProblem(getData(filename));
+        GeneticAlgorithm ga = new GeneticAlgorithm(tsp, maxIter, popSize, crossProb, mutProb, selectT);
 
         ga.startAlgorithm();
     }
 
-    private static City[] getData() {
-        File file = new File("TSP/berlin52.tsp");
+    private static City[] getData(String filename) {
+        File file = new File("TSP/" + filename + ".tsp");
         List<City> cities = new ArrayList<>();
 
         double[] readDouble;
