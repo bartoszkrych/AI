@@ -17,6 +17,7 @@ public class Main {
         int popSize = 250;
         double crossProb = 0.8;
         double mutProb = 0.1;
+        //Type of selection
         SelectT selectT = SelectT.TOURNAMENT;
 
         String filename = "berlin52";

@@ -31,7 +31,7 @@ public class GeneticAlgorithm {
         this.popSize = popSize;
         this.crossProb = crossProb;
         this.mutProb = mutProb;
-        this.tournamentSize = (int) (popSize * 0.3);
+        this.tournamentSize = (int) (popSize * 0.2);
         this.selectT = selectT;
     }
 
@@ -70,13 +70,15 @@ public class GeneticAlgorithm {
 
     private List<Individual> selection(List<Individual> population) {
         List<Individual> selected = new ArrayList<>();
-        for (int i = 0; i < popSize; i++) {
+        for (int i = 0; i < popSize * 0.5; i++) {
             if (selectT == SelectT.TOURNAMENT) {
                 selected.add(tournamentSelection(population));
             } else if (selectT == SelectT.ROULETTE) {
                 selected.add(rouletteSelection(population));
             } else if (selectT == SelectT.WITHOUT) {
                 return population;
+            } else if (selectT == SelectT.KRYCH) {
+                selected.add(mySelection(population));
             }
         }
         return selected;
@@ -87,8 +89,10 @@ public class GeneticAlgorithm {
         double worstFit = population.stream().max(Comparator.comparing(Individual::getFitness)).get().getFitness();
         double selectedVal = (Math.random() * totalFit);
         double curSum = 0D;
+        double curVal;
         for (Individual i : population) {
-            curSum += (worstFit - i.getFitness());
+            curVal = i.getFitness() > worstFit * 0.8 ? i.getFitness() * 1.2 : i.getFitness();
+            curSum += (worstFit - curVal);
             if (curSum >= selectedVal) {
                 return i;
             }
@@ -101,6 +105,12 @@ public class GeneticAlgorithm {
         return Collections.min(Objects.requireNonNull(selected), (i1, i2) -> i1.getFitness().compareTo(i2.getFitness()));
     }
 
+    private Individual mySelection(List<Individual> population) {
+        double worstFit = population.stream().max(Comparator.comparing(Individual::getFitness)).get().getFitness();
+        List<Individual> selected = population.stream().sorted(Comparator.comparing(Individual::getFitness)).collect(Collectors.toList());
+        selected = selected.subList(0, (int) (popSize * 0.3));
+        return getRandomInd(selected, 1).get(0);
+    }
 
     private List<Individual> createGeneration(List<Individual> population) {
         List<Individual> generation = new ArrayList<>();
