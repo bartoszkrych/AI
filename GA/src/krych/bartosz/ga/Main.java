@@ -13,7 +13,7 @@ public class Main {
         int maxIter = 2000;
         int popSize = 250;
         double crossProb = 0.8;
-        double mutProb = 0.1;
+        double mutProb = 0.2;
         SelectT selectT = SelectT.TOURNAMENT;
 
         String filename = "berlin52";
