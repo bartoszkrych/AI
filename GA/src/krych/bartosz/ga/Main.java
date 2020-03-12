@@ -17,7 +17,11 @@ public class Main {
         int popSize = 250;
         double crossProb = 0.8;
         double mutProb = 0.1;
-        //Type of selection
+        //Type of selection:
+        //  *   TOURNAMENT
+        //  *   KRYCH
+        //  *   ROULETTE
+        //  *   WITHOUT
         SelectT selectT = SelectT.TOURNAMENT;
 
         String filename = "berlin52";
