@@ -23,7 +23,9 @@ public class GeneticAlgorithm {
 
     private int tournamentSize;
 
-    public GeneticAlgorithm(TSPProblem tspProblem, int maxIter, int popSize, double crossProb, double mutProb) {
+    private SelectT selectT;
+
+    public GeneticAlgorithm(TSPProblem tspProblem, int maxIter, int popSize, double crossProb, double mutProb, SelectT selectT) {
         this.tspProblem = tspProblem;
         this.genomeSize = tspProblem.getCountCity();
         this.maxIter = maxIter;
@@ -31,6 +33,7 @@ public class GeneticAlgorithm {
         this.crossProb = crossProb;
         this.mutProb = mutProb;
         this.tournamentSize = (int) (popSize * 0.33);
+        this.selectT = selectT;
     }
 
     private List<Individual> initPopulation() {
@@ -69,7 +72,13 @@ public class GeneticAlgorithm {
     private List<Individual> selection(List<Individual> population) {
         List<Individual> selected = new ArrayList<>();
         for (int i = 0; i < popSize; i++) {
-            selected.add(tournamentSelection(population));
+            if (selectT == SelectT.TOURNAMENT) {
+                selected.add(tournamentSelection(population));
+            } else if (selectT == SelectT.ROULETTE) {
+                selected.add(rouletteSelection(population));
+            } else if (selectT == SelectT.WITHOUT) {
+                return population;
+            }
         }
         return selected;
     }
@@ -184,3 +193,4 @@ public class GeneticAlgorithm {
     }
 
 }
+
