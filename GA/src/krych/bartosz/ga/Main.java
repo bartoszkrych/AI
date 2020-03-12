@@ -1,5 +1,8 @@
 package krych.bartosz.ga;
 
+import krych.bartosz.ga.individual.GreedyAlgorithm;
+import krych.bartosz.ga.individual.RandAlgorithm;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,15 +16,22 @@ public class Main {
         int maxIter = 2000;
         int popSize = 250;
         double crossProb = 0.8;
-        double mutProb = 0.2;
+        double mutProb = 0.1;
         SelectT selectT = SelectT.TOURNAMENT;
 
         String filename = "berlin52";
 
         TSPProblem tsp = new TSPProblem(getData(filename));
         GeneticAlgorithm ga = new GeneticAlgorithm(tsp, maxIter, popSize, crossProb, mutProb, selectT);
-
+        System.out.print("GA:     ");
         ga.startAlgorithm();
+
+        int randIter = 1000000;
+        RandAlgorithm randA = new RandAlgorithm(tsp);
+        System.out.println("Random: " + randA.getNewIndividual(randIter).toString());
+
+        GreedyAlgorithm greedyA = new GreedyAlgorithm(tsp);
+        System.out.println("Greedy: " + greedyA.bestFromCity().toString());
     }
 
     private static City[] getData(String filename) {
