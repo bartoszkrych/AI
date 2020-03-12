@@ -70,7 +70,7 @@ public class GeneticAlgorithm {
 
     private List<Individual> selection(List<Individual> population) {
         List<Individual> selected = new ArrayList<>();
-        for (int i = 0; i < popSize * 0.5; i++) {
+        for (int i = 0; i < popSize; i++) {
             if (selectT == SelectT.TOURNAMENT) {
                 selected.add(tournamentSelection(population));
             } else if (selectT == SelectT.ROULETTE) {
