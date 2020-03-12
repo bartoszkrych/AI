@@ -49,4 +49,14 @@ public class GreedyAlgorithm implements AlgorithmIndividual {
         return generateGreedyIndi(cityIdx);
     }
 
+    public Individual bestFromCity() {
+        Individual bestInd = generateGreedyIndi(0);
+        Individual newInd;
+        for (int i = 1; i < countCity; i++) {
+            newInd = getNewIndividual(i);
+            if (bestInd.getFitness() > newInd.getFitness()) bestInd = newInd;
+        }
+        return bestInd;
+    }
+
 }
