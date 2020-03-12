@@ -17,7 +17,7 @@ public class GreedyAlgorithm implements AlgorithmIndividual {
         this.tsp = tsp;
     }
 
-    public Individual generateGreedyIndi(int cityIdx) {
+    private Individual generateGreedyIndi(int cityIdx) {
         List<Integer> liCities = new ArrayList<>();
         liCities.add(cityIdx % countCity);
         City[] cities = tsp.getCities();
