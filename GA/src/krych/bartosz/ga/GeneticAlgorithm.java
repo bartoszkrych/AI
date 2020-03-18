@@ -104,7 +104,7 @@ public class GeneticAlgorithm {
         double worstFit = population.stream().max(Comparator.comparing(Individual::getFitness)).get().getFitness();
         List<Double> weights = new ArrayList<>();
         for (int i = 0; i < popSize; i++) {
-            double weight = Math.pow(2, (worstFit - population.get(i).getFitness() + popSize * 0.5) / 100);
+            double weight = Math.pow(2, (worstFit - population.get(i).getFitness() + rouletteEpsilon) / 100);
             weights.add(weight);
         }
         return weights;
