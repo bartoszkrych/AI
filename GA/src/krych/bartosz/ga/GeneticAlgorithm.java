@@ -17,6 +17,7 @@ public class GeneticAlgorithm {
     private SelectT selectT;
     private int genomeSize;
     private int tournamentSize;
+    private int rouletteEpsilon;
 
     private int maxIter;
     private int popSize;
@@ -24,15 +25,18 @@ public class GeneticAlgorithm {
     private double mutProb;
 
 
-    public GeneticAlgorithm(TSPProblem tspProblem, int maxIter, int popSize, double crossProb, double mutProb, SelectT selectT) {
+    public GeneticAlgorithm(TSPProblem tspProblem, int maxIter, int popSize, double crossProb, double mutProb, SelectT selectT, int selectionParam) {
         this.tspProblem = tspProblem;
         this.genomeSize = tspProblem.getCountCity();
         this.maxIter = maxIter;
         this.popSize = popSize;
         this.crossProb = crossProb;
         this.mutProb = mutProb;
-        this.tournamentSize = (int) (popSize * 0.2);
         this.selectT = selectT;
+        if (selectT == SelectT.TOURNAMENT)
+            this.tournamentSize = selectionParam;
+        if (selectT == SelectT.ROULETTE)
+            this.rouletteEpsilon = selectionParam;
     }
 
     public void startAlgorithm() {
@@ -63,7 +67,7 @@ public class GeneticAlgorithm {
         List<Individual> population = new ArrayList<>();
         AlgorithmIndividual algIndi = new RandAlgorithm(tspProblem);
         for (int i = 0; i < popSize; i++) {
-            population.add(algIndi.getNewIndividual());
+            population.add(algIndi.getNewIndividual(1000));
         }
         return population;
     }
@@ -85,19 +89,25 @@ public class GeneticAlgorithm {
     }
 
     private Individual rouletteSelection(List<Individual> population) {
-        double totalFit = population.stream().mapToDouble(Individual::getFitness).sum();
+        List<Double> weights = generateWeights(population);
+        double totalWeight = weights.stream().mapToDouble(Double::doubleValue).sum();
+        double selectedVal = (Math.random() * totalWeight);
+        int i = -1;
+        do {
+            selectedVal -= (weights.get(++i));
+        } while (selectedVal > 0.0);
+
+        return population.get(i);
+    }
+
+    private List<Double> generateWeights(List<Individual> population) {
         double worstFit = population.stream().max(Comparator.comparing(Individual::getFitness)).get().getFitness();
-        double selectedVal = (Math.random() * totalFit);
-        double curSum = 0D;
-        double curVal;
-        for (Individual i : population) {
-            curVal = i.getFitness() > worstFit * 0.8 ? i.getFitness() * 1.2 : i.getFitness();
-            curSum += (worstFit - curVal);
-            if (curSum >= selectedVal) {
-                return i;
-            }
+        List<Double> weights = new ArrayList<>();
+        for (int i = 0; i < popSize; i++) {
+            double weight = Math.pow(2, (worstFit - population.get(i).getFitness() + popSize * 0.5) / 100);
+            weights.add(weight);
         }
-        return population.get(random.nextInt(popSize));
+        return weights;
     }
 
     private Individual tournamentSelection(List<Individual> population) {
@@ -106,9 +116,8 @@ public class GeneticAlgorithm {
     }
 
     private Individual mySelection(List<Individual> population) {
-        double worstFit = population.stream().max(Comparator.comparing(Individual::getFitness)).get().getFitness();
         List<Individual> selected = population.stream().sorted(Comparator.comparing(Individual::getFitness)).collect(Collectors.toList());
-        selected = selected.subList(0, (int) (popSize * 0.3));
+        selected = selected.subList(0, (int) (popSize * 0.5));
         return getRandomInd(selected, 1).get(0);
     }
 
