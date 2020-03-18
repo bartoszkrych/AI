@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(String[] args) {
         int maxIter = 2000;
-        int popSize = 250;
+        int popSize = 200;
         double crossProb = 0.8;
         double mutProb = 0.1;
         //Type of selection:
@@ -22,12 +22,13 @@ public class Main {
         //  *   KRYCH
         //  *   ROULETTE
         //  *   WITHOUT
-        SelectT selectT = SelectT.TOURNAMENT;
+        SelectT selectT = SelectT.ROULETTE;
+        int selectionParam = 100;
 
         String filename = "berlin52";
 
         TSPProblem tsp = new TSPProblem(getData(filename));
-        GeneticAlgorithm ga = new GeneticAlgorithm(tsp, maxIter, popSize, crossProb, mutProb, selectT);
+        GeneticAlgorithm ga = new GeneticAlgorithm(tsp, maxIter, popSize, crossProb, mutProb, selectT, selectionParam);
         System.out.print("GA:     ");
         ga.startAlgorithm();
 
