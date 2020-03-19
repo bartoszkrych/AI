@@ -4,16 +4,13 @@ import krych.bartosz.ga.individual.AlgorithmIndividual;
 import krych.bartosz.ga.individual.Individual;
 import krych.bartosz.ga.individual.RandAlgorithm;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class GeneticAlgorithm {
     private Random random = new Random();
     private TSPProblem tspProblem;
-    private Individual bestIndividual;
     private SelectT selectT;
     private int genomeSize;
     private int tournamentSize;
