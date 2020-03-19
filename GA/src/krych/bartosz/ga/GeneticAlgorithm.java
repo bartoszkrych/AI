@@ -24,8 +24,11 @@ public class GeneticAlgorithm {
     private double crossProb;
     private double mutProb;
 
+    Main main = new Main();
+    int saveIter;
 
-    public GeneticAlgorithm(TSPProblem tspProblem, int maxIter, int popSize, double crossProb, double mutProb, SelectT selectT, int selectionParam) {
+
+    public GeneticAlgorithm(TSPProblem tspProblem, int maxIter, int popSize, double crossProb, double mutProb, SelectT selectT, int selectionParam, int saveIter) {
         this.tspProblem = tspProblem;
         this.genomeSize = tspProblem.getCountCity();
         this.maxIter = maxIter;
@@ -37,14 +40,15 @@ public class GeneticAlgorithm {
             this.tournamentSize = selectionParam;
         if (selectT == SelectT.ROULETTE)
             this.rouletteEpsilon = selectionParam;
+        this.saveIter = saveIter;
     }
 
-    public void startAlgorithm() {
+    public Double startAlgorithm() {
         List<Individual> population = initPopulation();
-        bestIndividual = population.get(0);
+        Individual bestIndividual = population.get(0);
         Individual popBestIndividual;
         List<String[]> dataLines = new ArrayList<>();
-        dataLines.add(new String[]{"pop", "best", "worst", "avg"});
+        dataLines.add(new String[]{"pop", "best", "worst", "avg", "THEBEST"});
 
         for (int i = 0; i < maxIter; i++) {
             List<Individual> selected = selection(population);
@@ -53,14 +57,20 @@ public class GeneticAlgorithm {
             if (bestIndividual.getFitness() > popBestIndividual.getFitness()) {
                 bestIndividual = popBestIndividual;
             }
-            dataLines.add(new String[]{i + "", popBestIndividual.getFitness() + "", Collections.max(population, (p1, p2) -> p1.getFitness().compareTo(p2.getFitness())).getFitness() + "", population.stream().mapToDouble(Individual::getFitness).average().orElse(0) + ""});
+            dataLines.add(new String[]{i + 1 + "",
+                    popBestIndividual.getFitness() + "",
+                    Collections.max(population, (p1, p2) -> p1.getFitness().compareTo(p2.getFitness())).getFitness() + "",
+                    population.stream().mapToDouble(Individual::getFitness).average().orElse(0) + "",
+                    bestIndividual.getFitness() + ""});
         }
         try {
-            saveToFile(dataLines);
+            main.saveToFile(dataLines, saveIter);
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println(bestIndividual.toString());
+
+        return bestIndividual.getFitness();
     }
 
     private List<Individual> initPopulation() {
@@ -197,19 +207,6 @@ public class GeneticAlgorithm {
         System.out.println("\n ############################         POP " + iter + "        ############################\n");
         for (Individual i : pop) System.out.print(i.toString() + "   ");
         System.out.println("\n\n\n");
-    }
-
-    private void saveToFile(List<String[]> dataLines) throws IOException {
-        File csvOutputFile = new File("result.txt");
-        try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
-            dataLines.stream()
-                    .map(this::convertToCSV)
-                    .forEach(pw::println);
-        }
-    }
-
-    private String convertToCSV(String[] data) {
-        return String.join(",", data);
     }
 
 }
