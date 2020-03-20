@@ -11,16 +11,18 @@ import java.util.regex.Pattern;
 
 public class Main {
 
-    private static int crossProb = 70;
-    private static int mutProb;
+    private static int maxIter;
+    private static int popSize = 300;
+    private static int crossProb = 95;
+    private static int mutProb = 75;
     private static String filename;
     private static SelectT selectT = SelectT.TOURNAMENT;
-    private static int selectionParam = 30;
-    private static int[] testedProb = new int[]{5, 20, 50, 70, 95};
+    private static int selectionParam = 300;
+    private static int[] testedProb = new int[]{3, 30, 100, 300, 1000, 3000};
     private static String[] testedFile = new String[]{"kroA100", "kroA150", "kroA200"};
 
     public void saveToFile(List<String[]> dataLines, int saveIter) throws IOException {
-        File csvOutputFile = new File("mut_" + mutProb + "/" + filename + "_tour_" + crossProb + "_" + mutProb + "_" + saveIter + ".csv");
+        File csvOutputFile = new File("iter_" + maxIter + "/" + filename + "_iter_" + maxIter + "_" + saveIter + ".csv");
         try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
             dataLines.stream()
                     .map(s -> String.join(";", s))
@@ -29,7 +31,7 @@ public class Main {
     }
 
     public static void saveToFile(List<String[]> dataLines) throws IOException {
-        File txtOutputFile = new File("mut_" + mutProb + "/" + filename + "_tour_" + crossProb + "_" + mutProb + ".txt");
+        File txtOutputFile = new File("iter_" + maxIter + "/" + filename + "_iter_" + maxIter + ".txt");
         try (PrintWriter pw = new PrintWriter(txtOutputFile)) {
             dataLines.stream()
                     .map(s -> String.join(";", s))
@@ -38,14 +40,12 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        int maxIter = 1000;
-        int popSize = 300;
 
         for (int k = 0; k < testedFile.length; k++) {
             filename = testedFile[k];
             TSPProblem tsp = new TSPProblem(getData(filename));
             for (int j = 0; j < testedProb.length; j++) {
-                mutProb = testedProb[j];
+                maxIter = testedProb[j];
                 List<String[]> dataLinesResult = new ArrayList<>();
                 List<Double> resultFit = new ArrayList<>();
                 dataLinesResult.add(new String[]{"iteration", "Fitness"});
@@ -56,6 +56,7 @@ public class Main {
                     Double result = ga.startAlgorithm();
                     resultFit.add(result);
                     dataLinesResult.add(new String[]{i + "", +result + ""});
+                    if (maxIter == 3000) i++;
                 }
                 dataLinesResult.add(new String[]{"----", "----"});
                 dataLinesResult.add(new String[]{"best", Collections.min(resultFit) + " "});

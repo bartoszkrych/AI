@@ -118,6 +118,7 @@ public class GeneticAlgorithm {
     }
 
     private Individual tournamentSelection(List<Individual> population) {
+        if (tournamentSize == 1) return population.get(random.nextInt(popSize));
         List<Individual> selected = getRandomInd(population, tournamentSize);
         return Collections.min(Objects.requireNonNull(selected), (i1, i2) -> i1.getFitness().compareTo(i2.getFitness()));
     }
