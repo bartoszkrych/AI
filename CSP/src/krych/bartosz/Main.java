@@ -10,8 +10,14 @@ public class Main {
 
     public static void main(String[] args) {
         List<Sudoku> s = getSudokuFromFile();
-        s.forEach(Sudoku::printBoard);
+//        s.forEach(Sudoku::printBoard);
 
+        Backtracking backtracking = new Backtracking();
+
+        for (Sudoku sudoku : s) {
+            sudoku.printBoard();
+            backtracking.start(sudoku);
+        }
     }
 
     private static List<Sudoku> getSudokuFromFile() {
