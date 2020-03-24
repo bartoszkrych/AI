@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 public class Sudoku {
 
-    int[][] board;
+    Variable[][] board;
     String level;
 
-    public Sudoku(int[][] board, String level) {
+    public Sudoku(Variable[][] board, String level) {
         this.board = board;
         this.level = level;
     }
@@ -18,7 +18,11 @@ public class Sudoku {
         System.out.println("\n ######   LEVEL  -  "+level+"     ######");
         for(int i =0; i < 9; i++)
         {
-            System.out.println(Arrays.toString(board[i]));
+            for ( int j = 0; j < 9; j++)
+            {
+                System.out.print(board[i][j].getValue()+" ");
+            }
+            System.out.println();
         }
     }
 }

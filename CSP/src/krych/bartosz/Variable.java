@@ -25,4 +25,7 @@ public class Variable {
     }
 
 
+    public int getValue() {
+        return value;
+    }
 }
