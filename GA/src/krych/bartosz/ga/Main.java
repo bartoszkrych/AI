@@ -4,25 +4,24 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Main {
 
-    private static int maxIter;
+    private static int maxIter = 6000;
     private static int popSize = 300;
     private static int crossProb = 95;
     private static int mutProb = 75;
     private static String filename;
     private static SelectT selectT = SelectT.TOURNAMENT;
-    private static int selectionParam = 300;
-    private static int[] testedProb = new int[]{3, 30, 100, 300, 1000, 3000};
-    private static String[] testedFile = new String[]{"kroA100", "kroA150", "kroA200"};
+    private static int selectionParam = 100;
+    private static String[] testedFile = new String[]{"berlin52", "kroA100", "kroA150", "kroA200", "fl417"};
 
+    // na potrzeby badan zmienilem kod na nieoptymalny ale potrzebny do generowania raportów
     public void saveToFile(List<String[]> dataLines, int saveIter) throws IOException {
-        File csvOutputFile = new File("iter_" + maxIter + "/" + filename + "_iter_" + maxIter + "_" + saveIter + ".csv");
+        File csvOutputFile = new File("comparision/" + filename + "_2_" + saveIter + ".csv");
         try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
             dataLines.stream()
                     .map(s -> String.join(";", s))
@@ -31,7 +30,7 @@ public class Main {
     }
 
     public static void saveToFile(List<String[]> dataLines) throws IOException {
-        File txtOutputFile = new File("iter_" + maxIter + "/" + filename + "_iter_" + maxIter + ".txt");
+        File txtOutputFile = new File("comparision/" + filename + "_q.txt");
         try (PrintWriter pw = new PrintWriter(txtOutputFile)) {
             dataLines.stream()
                     .map(s -> String.join(";", s))
@@ -41,38 +40,75 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        for (int k = 0; k < testedFile.length; k++) {
-            filename = testedFile[k];
-            TSPProblem tsp = new TSPProblem(getData(filename));
-            for (int j = 0; j < testedProb.length; j++) {
-                maxIter = testedProb[j];
-                List<String[]> dataLinesResult = new ArrayList<>();
-                List<Double> resultFit = new ArrayList<>();
-                dataLinesResult.add(new String[]{"iteration", "Fitness"});
+        // Badanie GA
 
-                for (int i = 1; i <= 10; i++) {
-                    GeneticAlgorithm ga = new GeneticAlgorithm(tsp, maxIter, popSize, (double) crossProb / (double) 100, (double) mutProb / (double) 100, selectT, selectionParam, i);
-                    System.out.print("GA:     ");
-                    Double result = ga.startAlgorithm();
-                    resultFit.add(result);
-                    dataLinesResult.add(new String[]{i + "", +result + ""});
-                    if (maxIter == 3000) i++;
-                }
-                dataLinesResult.add(new String[]{"----", "----"});
-                dataLinesResult.add(new String[]{"best", Collections.min(resultFit) + " "});
-                dataLinesResult.add(new String[]{"worst", Collections.max(resultFit) + " "});
-                dataLinesResult.add(new String[]{"avg", resultFit.stream().mapToDouble(Double::doubleValue).average().getAsDouble() + " "});
-                saveToFile(dataLinesResult);
-            }
-        }
+//        for (int k = 0; k < testedFile.length; k++) {
+//            filename = testedFile[k];
+//            TSPProblem tsp = new TSPProblem(getData(filename));
+////            for (int j = 0; j < testedProb.length; j++) {
+////                maxIter = testedProb[j];
+//            List<String[]> dataLinesResult = new ArrayList<>();
+//            List<Double> resultFit = new ArrayList<>();
+//            dataLinesResult.add(new String[]{"iteration", "Fitness"});
+//
+//            for (int i = 1; i <= 10; i++) {
+//                GeneticAlgorithm ga = new GeneticAlgorithm(tsp, maxIter, popSize, (double) crossProb / (double) 100, (double) mutProb / (double) 100, selectT, selectionParam, i);
+//                System.out.print("GA:     ");
+//                Double result = ga.startAlgorithm();
+//                resultFit.add(result);
+//                dataLinesResult.add(new String[]{i + "", +result + ""});
+//            }
+//            dataLinesResult.add(new String[]{"----", "----"});
+//            dataLinesResult.add(new String[]{"best", Collections.min(resultFit) + " "});
+//            dataLinesResult.add(new String[]{"worst", Collections.max(resultFit) + " "});
+//            dataLinesResult.add(new String[]{"avg", resultFit.stream().mapToDouble(Double::doubleValue).average().getAsDouble() + " "});
+//            saveToFile(dataLinesResult);
+//        }
 
+        // Badanie algorytmu losowego
 
-        int randIter = 1000000;
-//        RandAlgorithm randA = new RandAlgorithm(tsp);
-//        System.out.println("Random: " + randA.getNewIndividual(randIter).toString());
+//        int randIter = 100000;
+//        for (int k = 0; k < testedFile.length; k++) {
+//            filename = testedFile[k];
+//            TSPProblem tsp = new TSPProblem(getData(filename));
+//            List<String[]> dataLinesResult = new ArrayList<>();
+//            List<Double> resultFit = new ArrayList<>();
+//            RandAlgorithm randA = new RandAlgorithm(tsp);
+//
+//            for (int i = 1; i <= 10; i++) {
+//                Double result = randA.getNewIndividual(randIter).getFitness();
+//                resultFit.add(result);
+//            }
+//            dataLinesResult.add(new String[]{"----", "----"});
+//            dataLinesResult.add(new String[]{"best", Collections.min(resultFit) + " "});
+//            dataLinesResult.add(new String[]{"worst", Collections.max(resultFit) + " "});
+//            dataLinesResult.add(new String[]{"avg", resultFit.stream().mapToDouble(Double::doubleValue).average().getAsDouble() + " "});
+//            saveToFile(dataLinesResult);
+//        }
+
+//      Badanie Algorytmu genetycznego
+
 
 //        GreedyAlgorithm greedyA = new GreedyAlgorithm(tsp);
 //        System.out.println("Greedy: " + greedyA.bestFromCity().toString());
+
+//        for (int k = 0; k < testedFile.length; k++) {
+//            filename = testedFile[k];
+//            TSPProblem tsp = new TSPProblem(getData(filename));
+//            List<String[]> dataLinesResult = new ArrayList<>();
+//            List<Double> resultFit = new ArrayList<>();
+//
+//            for (int i = 0; i < tsp.getCountCity(); i++) {
+//                GreedyAlgorithm randA = new GreedyAlgorithm(tsp);
+//                Double result = randA.getNewIndividual(i).getFitness();
+//                resultFit.add(result);
+//            }
+//            dataLinesResult.add(new String[]{"----", "----"});
+//            dataLinesResult.add(new String[]{"best", Collections.min(resultFit) + " "});
+//            dataLinesResult.add(new String[]{"worst", Collections.max(resultFit) + " "});
+//            dataLinesResult.add(new String[]{"avg", resultFit.stream().mapToDouble(Double::doubleValue).average().getAsDouble() + " "});
+//            saveToFile(dataLinesResult);
+//        }
     }
 
     private static City[] getData(String filename) {
