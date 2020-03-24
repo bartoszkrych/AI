@@ -32,7 +32,8 @@ public class Main {
                 Variable[][] board = new Variable[9][9];
 
                 for (int i = 0; i < readString[2].length(); i++) {
-                    board[y][x++] = readString[2].charAt(i) == '.' ? new Variable(0) : new Variable(Character.getNumericValue(readString[2].charAt(i)));
+                    board[y][x++] = readString[2].charAt(i) == '.' ? new Variable() :
+                            new Variable(Character.getNumericValue(readString[2].charAt(i)));
                     if (x == 9) {
                         x = 0;
                         y++;
