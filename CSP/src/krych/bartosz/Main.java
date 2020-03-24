@@ -12,12 +12,15 @@ public class Main {
         List<Sudoku> s = getSudokuFromFile();
 //        s.forEach(Sudoku::printBoard);
 
-        Backtracking backtracking = new Backtracking();
+        Crossword crossword = getCrosswordFromFile(1);
+        crossword.printBoard();
 
-        for (Sudoku sudoku : s) {
-            sudoku.printBoard();
-            backtracking.start(sudoku);
-        }
+//        Backtracking backtracking = new Backtracking();
+//
+//        for (Sudoku sudoku : s) {
+//            sudoku.printBoard();
+//            backtracking.start(sudoku);
+//        }
     }
 
     private static List<Sudoku> getSudokuFromFile() {
@@ -53,5 +56,44 @@ public class Main {
             e.printStackTrace();
         }
         return sudokus;
+    }
+
+    private static Crossword getCrosswordFromFile(int fileNumber) {
+        File boardFile = new File("Files/Jolka/puzzle" + fileNumber);
+        String line;
+        List<List<Character>> board = new ArrayList<>();
+
+        try (Scanner scanner = new Scanner(boardFile)) {
+            scanner.nextLine();
+            while (scanner.hasNextLine()) {
+                line = scanner.nextLine();
+                List<Character> row = new ArrayList<>();
+                for (int i = 0; i < line.length(); i++) {
+                    row.add(line.charAt(i));
+                }
+                board.add(row);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File wordsFile = new File("Files/Jolka/words" + fileNumber);
+        List<String> words = new ArrayList<>();
+
+        try (Scanner scanner = new Scanner(wordsFile)) {
+            scanner.nextLine();
+            while (scanner.hasNextLine()) {
+                line = scanner.nextLine();
+                words.add(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String[] arrWords = new String[words.size()];
+        words.toArray(arrWords);
+        Character[][] arrBord = board.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new);
+        return new Crossword(arrWords, arrBord);
     }
 }
