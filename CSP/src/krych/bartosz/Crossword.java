@@ -17,6 +17,10 @@ public class Crossword {
         findVariables();
     }
 
+    public List<CrosswordVariable> getVariables() {
+        return variables;
+    }
+
     public void printBoard() {
         for (int i = 0; i < board.length; i++)
             System.out.println(Arrays.toString(board[i]));
