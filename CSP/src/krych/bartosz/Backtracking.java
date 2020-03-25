@@ -3,6 +3,8 @@ package krych.bartosz;
 import krych.bartosz.Crossword.Crossword;
 import krych.bartosz.Crossword.CrosswordConstraint;
 import krych.bartosz.Crossword.CrosswordVariable;
+import krych.bartosz.abstra.Constraint;
+import krych.bartosz.abstra.Problem;
 import krych.bartosz.sudoku.Sudoku;
 import krych.bartosz.sudoku.SudokuConstraint;
 import krych.bartosz.sudoku.SudokuVariable;
@@ -12,44 +14,36 @@ import java.util.List;
 import java.util.Stack;
 
 public class Backtracking {
-
-    Stack<int[][]> boardsStack = new Stack<>();
-    Sudoku sudoku;
-    int[][] board;
-    int iteration = 0;
+    private Problem problem;
+    private Constraint c;
+    private int[][] board;
+    private int results = 0;
     private Stack<SudokuVariable> sudokuVariableStack = new Stack<>();
-    int results = 0;
-    private SudokuConstraint c = new SudokuConstraint();
-    private CrosswordConstraint cc = new CrosswordConstraint();
     private Stack<CrosswordVariable> crosswordVariableStack = new Stack<>();
     private List<CrosswordVariable> crosswordVariables;
-    private Crossword crossword;
 
     public Backtracking(Sudoku sudoku) {
-        this.sudoku = sudoku;
+        this.problem = sudoku;
         board = sudoku.getInt2D();
+        this.c = new SudokuConstraint();
     }
 
     public Backtracking(Crossword crossword) {
-        this.crossword = crossword;
+        this.problem = crossword;
         this.crosswordVariables = crossword.getVariables();
+        this.c = new CrosswordConstraint();
     }
 
     public void start() {
-        //start
-//        do {
-//            printTab2D();
-//        execute(board, 0);
-//        } while (variableStack.empty());
-
-        execute(0);
-
-        System.out.println("results: " + results + ",  stack.si(): " + crosswordVariableStack.size());
-        //koniec
-//        printTab2D(result);
+        if (problem instanceof Sudoku) {
+            execute(board, 0);
+        } else {
+            execute(0);
+        }
+        System.out.println("results: " + results);
     }
 
-    private boolean execute(int sudokuT[][], int position) {
+    private boolean execute(int result[][], int position) {
         if (position == 9 * 9) {
             results++;
             return false;
@@ -57,38 +51,37 @@ public class Backtracking {
         int i = position / 9;
         int j = position % 9;
 
-        if (sudoku.getVariable(i, j).getValue() != 0) {
-            return execute(sudokuT, position + 1);
+        if (((Sudoku) problem).getVariable(i, j).getValue() != 0) {
+            return execute(result, position + 1);
         }
-        sudokuVariableStack.push(sudoku.getVariable(i, j));
+        sudokuVariableStack.push(((Sudoku) problem).getVariable(i, j));
 
         for (Integer val : sudokuVariableStack.peek().getDomain()) {
-            if (c.isGood(sudokuT, i, j, val)) {
-                sudokuT[i][j] = val;
-                if (execute(sudokuT, position + 1)) {
+            if (((SudokuConstraint) c).isGood(result, i, j, val)) {
+                sudokuVariableStack.peek().setValue(val);
+                result[i][j] = val;
+                if (execute(result, position + 1)) {
                     return true;
                 } else {
-                    sudokuT[i][j] = 0;
+                    sudokuVariableStack.peek().setValue(0);
+                    result[i][j] = 0;
                 }
             }
         }
         sudokuVariableStack.pop();
-        sudokuT[i][j] = 0;
+        result[i][j] = 0;
         return false;
     }
 
     private boolean execute(int n) {
         if (n == crosswordVariables.size()) {
             results++;
-//            crosswordVariableStack.forEach( x -> {
-//                System.out.println(x.toString());
-//            });
             return false;
         }
         crosswordVariableStack.push(crosswordVariables.get(n));
 
         for (String k : crosswordVariableStack.peek().getDomain()) {
-            if (cc.isGood(crosswordVariableStack, k)) {
+            if (((CrosswordConstraint) c).isGood(crosswordVariableStack, k)) {
                 crosswordVariableStack.peek().setValue(k);
                 if (execute(n + 1)) {
                     return true;

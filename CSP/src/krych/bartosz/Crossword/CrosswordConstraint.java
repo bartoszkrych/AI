@@ -1,10 +1,12 @@
 package krych.bartosz.Crossword;
 
+import krych.bartosz.abstra.Constraint;
+
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
-public class CrosswordConstraint {
+public class CrosswordConstraint implements Constraint {
 
     public CrosswordConstraint() {
     }

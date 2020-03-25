@@ -1,6 +1,8 @@
 package krych.bartosz.sudoku;
 
-public class SudokuConstraint {
+import krych.bartosz.abstra.Constraint;
+
+public class SudokuConstraint implements Constraint {
 
     public boolean existInRow(int[][] sudoku, int i, int val) {
         for (int j = 0; j < sudoku[i].length; j++) {

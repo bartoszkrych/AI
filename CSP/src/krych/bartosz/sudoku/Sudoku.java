@@ -1,7 +1,11 @@
 package krych.bartosz.sudoku;
 
-public class Sudoku {
+import krych.bartosz.abstra.Problem;
 
+import java.util.ArrayList;
+import java.util.List;
+
+public class Sudoku implements Problem {
     SudokuVariable[][] board;
     String level;
 
@@ -10,22 +14,17 @@ public class Sudoku {
         this.level = level;
     }
 
-    public void printBoard()
-    {
-
+    public void printBoard() {
         System.out.println("\n ######   LEVEL  -  "+level+"     ######");
-        for(int i =0; i < 9; i++)
-        {
-            for ( int j = 0; j < 9; j++)
-            {
+        for(int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 System.out.print(board[i][j].getValue()+" ");
             }
             System.out.println();
         }
     }
 
-    public int[][] getInt2D()
-    {
+    public int[][] getInt2D() {
         int[][] result = new int[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -37,5 +36,15 @@ public class Sudoku {
 
     public SudokuVariable getVariable(int i, int j) {
         return board[i][j];
+    }
+
+    public List<SudokuVariable> getVariables() {
+        ArrayList<SudokuVariable> variables = new ArrayList<>();
+        for (int x = 0; x < board.length; x++) {
+            for (int y = 0; y < board[0].length; y++) {
+                variables.add(board[x][y]);
+            }
+        }
+        return variables;
     }
 }

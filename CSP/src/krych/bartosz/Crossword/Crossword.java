@@ -1,11 +1,13 @@
 package krych.bartosz.Crossword;
 
+import krych.bartosz.abstra.Problem;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Crossword {
+public class Crossword implements Problem {
     private List<String> words;
     private Character[][] board;
     private List<CrosswordVariable> variables;

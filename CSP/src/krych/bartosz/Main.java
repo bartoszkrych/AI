@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-//        List<Sudoku> s = getSudokuFromFile();
+        List<Sudoku> s = getSudokuFromFile();
 //        s.forEach(Sudoku::printBoard);
 
 //        Crossword crossword = getCrosswordFromFile(1);
@@ -21,16 +21,16 @@ public class Main {
 
 //        Backtracking backtracking = new Backtracking(s.get(0));
 
-        for (int i = 0; i < 4; i++) {
-            Backtracking backtracking = new Backtracking(getCrosswordFromFile(i));
-            backtracking.start();
-        }
-
-
-//        for (Sudoku sudoku : s) {
-//            Backtracking backtracking = new Backtracking(sudoku);
+//        for (int i = 0; i < 4; i++) {
+//            Backtracking backtracking = new Backtracking(getCrosswordFromFile(i));
 //            backtracking.start();
 //        }
+
+
+        for (Sudoku sudoku : s) {
+            Backtracking backtracking = new Backtracking(sudoku);
+            backtracking.start();
+        }
     }
 
     private static List<Sudoku> getSudokuFromFile() {
@@ -51,8 +51,8 @@ public class Main {
                 SudokuVariable[][] board = new SudokuVariable[9][9];
 
                 for (int i = 0; i < readString[2].length(); i++) {
-                    board[y][x++] = readString[2].charAt(i) == '.' ? new SudokuVariable() :
-                            new SudokuVariable(Character.getNumericValue(readString[2].charAt(i)));
+                    board[y][x++] = readString[2].charAt(i) == '.' ? new SudokuVariable(y, x) :
+                            new SudokuVariable(Character.getNumericValue(readString[2].charAt(i)), y, x);
                     if (x == 9) {
                         x = 0;
                         y++;

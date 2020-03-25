@@ -6,14 +6,24 @@ import java.util.List;
 public class SudokuVariable {
     private int value;
     private List<Integer> domain = new ArrayList<>();
+    private int i;
+    private int j;
     private final int DEF_LEN_SUDOKU = 9;
 
-    public SudokuVariable() {
-        this.value = 0;
-        for (int i = 1; i <= DEF_LEN_SUDOKU; i++) domain.add(i);
+    public int getI() {
+        return i;
     }
 
-    public SudokuVariable(int value) {
+    public int getJ() {
+        return j;
+    }
+
+    public SudokuVariable(int i, int j) {
+        this.value = 0;
+        for (int k = 1; k <= DEF_LEN_SUDOKU; k++) domain.add(k);
+    }
+
+    public SudokuVariable(int value, int i, int j) {
         this.value = value;
         this.domain.add(value);
     }
