@@ -10,10 +10,10 @@ public class Backtracking {
     Sudoku sudoku;
     int[][] board;
     int iteration = 0;
-    private Stack<Variable> variableStack = new Stack<>();
+    private Stack<SudokuVariable> sudokuVariableStack = new Stack<>();
     int results = 0;
-    private Constraints c = new Constraints();
-    private CrosswordConstraint cc = new CrosswordConstraint();
+    private SudokuConstraints c = new SudokuConstraints();
+    private CrosswordConstraints cc = new CrosswordConstraints();
     private Stack<CrosswordVariable> crosswordVariableStack = new Stack<>();
     private List<CrosswordVariable> crosswordVariables;
     private Crossword crossword;
@@ -37,7 +37,7 @@ public class Backtracking {
 
         execute(0);
 
-        System.out.println("results: " + results + ",  stack.si(): " + variableStack.size());
+        System.out.println("results: " + results + ",  stack.si(): " + crosswordVariableStack.size());
         //koniec
 //        printTab2D(result);
     }
@@ -53,9 +53,9 @@ public class Backtracking {
         if (sudoku.getVariable(i, j).getValue() != 0) {
             return execute(sudokuT, position + 1);
         }
-        variableStack.push(sudoku.getVariable(i, j));
+        sudokuVariableStack.push(sudoku.getVariable(i, j));
 
-        for (Integer k : variableStack.peek().getDomain()) {
+        for (Integer k : sudokuVariableStack.peek().getDomain()) {
             if (!c.existInRow(sudokuT, i, k) && !c.existInCol(sudokuT, j, k) && !c.existInBlock(sudokuT, i, j, k)) {
                 sudokuT[i][j] = k;
                 if (execute(sudokuT, position + 1)) {
@@ -65,7 +65,7 @@ public class Backtracking {
                 }
             }
         }
-        variableStack.pop();
+        sudokuVariableStack.pop();
         sudokuT[i][j] = 0;
         return false;
     }

@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
-public class CrosswordConstraint {
+public class CrosswordConstraints {
 
-    public CrosswordConstraint() {
+    public CrosswordConstraints() {
     }
 
     public boolean contains(Stack<CrosswordVariable> crosswordVariableList, String value) {

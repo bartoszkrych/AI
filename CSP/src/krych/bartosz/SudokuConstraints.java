@@ -1,6 +1,6 @@
 package krych.bartosz;
 
-public class Constraints {
+public class SudokuConstraints {
 
     public boolean existInRow(int[][] sudoku, int i, int val) {
         for (int j = 0; j < sudoku[i].length; j++) {

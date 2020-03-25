@@ -2,10 +2,10 @@ package krych.bartosz;
 
 public class Sudoku {
 
-    Variable[][] board;
+    SudokuVariable[][] board;
     String level;
 
-    public Sudoku(Variable[][] board, String level) {
+    public Sudoku(SudokuVariable[][] board, String level) {
         this.board = board;
         this.level = level;
     }
@@ -35,7 +35,7 @@ public class Sudoku {
         return result;
     }
 
-    public Variable getVariable(int i, int j) {
+    public SudokuVariable getVariable(int i, int j) {
         return board[i][j];
     }
 }

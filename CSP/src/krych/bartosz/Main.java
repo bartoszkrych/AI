@@ -12,11 +12,15 @@ public class Main {
 //        List<Sudoku> s = getSudokuFromFile();
 //        s.forEach(Sudoku::printBoard);
 
-        Crossword crossword = getCrosswordFromFile(1);
-        crossword.printBoard();
+//        Crossword crossword = getCrosswordFromFile(1);
+//        crossword.printBoard();
 
 //        Backtracking backtracking = new Backtracking(s.get(0));
-//        backtracking.start();
+
+        for (int i = 0; i < 4; i++) {
+            Backtracking backtracking = new Backtracking(getCrosswordFromFile(i));
+            backtracking.start();
+        }
 
 
 //        for (Sudoku sudoku : s) {
@@ -40,11 +44,11 @@ public class Main {
 
                 int x = 0;
                 int y = 0;
-                Variable[][] board = new Variable[9][9];
+                SudokuVariable[][] board = new SudokuVariable[9][9];
 
                 for (int i = 0; i < readString[2].length(); i++) {
-                    board[y][x++] = readString[2].charAt(i) == '.' ? new Variable() :
-                            new Variable(Character.getNumericValue(readString[2].charAt(i)));
+                    board[y][x++] = readString[2].charAt(i) == '.' ? new SudokuVariable() :
+                            new SudokuVariable(Character.getNumericValue(readString[2].charAt(i)));
                     if (x == 9) {
                         x = 0;
                         y++;

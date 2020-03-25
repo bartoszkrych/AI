@@ -3,17 +3,17 @@ package krych.bartosz;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Variable {
+public class SudokuVariable {
     private int value;
     private List<Integer> domain = new ArrayList<>();
     private final int DEF_LEN_SUDOKU = 9;
 
-    public Variable() {
+    public SudokuVariable() {
         this.value = 0;
-        for (int i= 1; i <= DEF_LEN_SUDOKU; i++) domain.add(i);
+        for (int i = 1; i <= DEF_LEN_SUDOKU; i++) domain.add(i);
     }
 
-    public Variable(int value) {
+    public SudokuVariable(int value) {
         this.value = value;
         this.domain.add(value);
     }
