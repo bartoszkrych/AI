@@ -20,6 +20,7 @@ public class CrosswordVariable {
     @Override
     public String toString() {
         return "CrosswordVariable{" +
+                "domain=" + domain +
                 ", iBegin=" + iBegin +
                 ", jBegin=" + jBegin +
                 ", length=" + length +

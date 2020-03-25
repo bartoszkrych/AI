@@ -66,7 +66,6 @@ public class Main {
         List<List<Character>> board = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(boardFile)) {
-            scanner.nextLine();
             while (scanner.hasNextLine()) {
                 line = scanner.nextLine();
                 List<Character> row = new ArrayList<>();
@@ -84,7 +83,6 @@ public class Main {
         List<String> words = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(wordsFile)) {
-            scanner.nextLine();
             while (scanner.hasNextLine()) {
                 line = scanner.nextLine();
                 words.add(line);
