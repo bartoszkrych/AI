@@ -1,41 +1,63 @@
 package krych.bartosz;
 
 import java.util.Arrays;
+import java.util.Stack;
 
-public class Backtracking {
+public class Backtracking<V, X> {
 
+    Stack<int[][]> boardsStack = new Stack<>();
+    Sudoku sudoku;
+    int[][] board;
+    int iteration = 0;
+    private Stack<Variable> variableStack = new Stack<>();
+    int results = 0;
     private Constraints c = new Constraints();
 
-    public void start(Sudoku sudoku) {
-        Sudoku s = sudoku;
-        int[][] result = s.getInt2D();
-        execute(result, 0);
-        printTab2D(result);
+    public Backtracking(Sudoku sudoku) {
+        this.sudoku = sudoku;
+        board = sudoku.getInt2D();
     }
 
-    private boolean execute(int sudoku[][], int position) {
-        if (position == 9 * 9) {
-            return true;
-        }
+    public void start() {
+        //start
+//        do {
+//            printTab2D();
+        execute(board, 0);
+//        } while (variableStack.empty());
 
+        System.out.println("results: " + results + ",  stack.si(): " + variableStack.size());
+        //koniec
+//        printTab2D(result);
+    }
+
+    private boolean execute(int sudokuT[][], int position) {
+        if (position == 9 * 9) {
+            results++;
+            return false;
+        }
         int i = position / 9;
         int j = position % 9;
 
-        if (sudoku[i][j] != 0) {
-            return execute(sudoku, position + 1);
+        if (sudoku.getVariable(i, j).getValue() != 0) {
+            return execute(sudokuT, position + 1);
         }
+        variableStack.push(sudoku.getVariable(i, j));
 
-        for (int k = 1; k <= 9; k++) {
-            if (!c.existInRow(sudoku, i, k) && !c.existInCol(sudoku, j, k) && !c.existInBlock(sudoku, i, j, k)) {
-                sudoku[i][j] = k;
-                if (execute(sudoku, position + 1)) {
+        for (Integer k : variableStack.peek().getDomain()) {
+            if (!c.existInRow(sudokuT, i, k) && !c.existInCol(sudokuT, j, k) && !c.existInBlock(sudokuT, i, j, k)) {
+                sudokuT[i][j] = k;
+                if (execute(sudokuT, position + 1)) {
                     return true;
+                } else {
+                    sudokuT[i][j] = 0;
                 }
             }
         }
-        sudoku[i][j] = 0;
+        variableStack.pop();
+        sudokuT[i][j] = 0;
         return false;
     }
+
 
     private void printTab2D(int[][] tab) {
         for (int i = 0; i < 9; i++) {
@@ -43,3 +65,4 @@ public class Backtracking {
         }
     }
 }
+

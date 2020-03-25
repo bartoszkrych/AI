@@ -12,15 +12,17 @@ public class Main {
         List<Sudoku> s = getSudokuFromFile();
 //        s.forEach(Sudoku::printBoard);
 
-        Crossword crossword = getCrosswordFromFile(1);
-        crossword.printBoard();
+//        Crossword crossword = getCrosswordFromFile(1);
+//        crossword.printBoard();
 
-//        Backtracking backtracking = new Backtracking();
-//
-//        for (Sudoku sudoku : s) {
-//            sudoku.printBoard();
-//            backtracking.start(sudoku);
-//        }
+//        Backtracking backtracking = new Backtracking(s.get(0));
+//        backtracking.start();
+
+
+        for (Sudoku sudoku : s) {
+            Backtracking backtracking = new Backtracking(sudoku);
+            backtracking.start();
+        }
     }
 
     private static List<Sudoku> getSudokuFromFile() {
