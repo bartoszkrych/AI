@@ -3,11 +3,12 @@ package krych.bartosz;
 import java.util.List;
 
 public class CrosswordVariable {
-    private List<String> domain;
+    private String value;
     private int iBegin;
     private int jBegin;
     private int length;
     private Orientation orientation;
+    private List<String> domain;
 
     public CrosswordVariable(List<String> domain, int iBegin, int jBegin, int length, Orientation orientation) {
         this.domain = domain;
@@ -17,14 +18,43 @@ public class CrosswordVariable {
         this.orientation = orientation;
     }
 
+    public List<String> getDomain() {
+        return domain;
+    }
+
+    public int getiBegin() {
+        return iBegin;
+    }
+
+    public int getjBegin() {
+        return jBegin;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public Orientation getOrientation() {
+        return orientation;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     @Override
     public String toString() {
         return "CrosswordVariable{" +
-                "domain=" + domain +
+                "value='" + value + '\'' +
                 ", iBegin=" + iBegin +
                 ", jBegin=" + jBegin +
                 ", length=" + length +
                 ", orientation=" + orientation +
+                ", domain=" + domain +
                 '}';
     }
 }
