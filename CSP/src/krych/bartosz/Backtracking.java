@@ -58,9 +58,8 @@ public class Backtracking<V, X> {
         return false;
     }
 
-
-    private void printTab2D(int[][] tab) {
-        for (int i = 0; i < 9; i++) {
+    private <T> void printTab2D(T[][] tab) {
+        for (int i = 0; i < tab.length; i++) {
             System.out.println(Arrays.toString(tab[i]));
         }
     }

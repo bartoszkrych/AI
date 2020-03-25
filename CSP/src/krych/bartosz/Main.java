@@ -9,20 +9,20 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        List<Sudoku> s = getSudokuFromFile();
+//        List<Sudoku> s = getSudokuFromFile();
 //        s.forEach(Sudoku::printBoard);
 
-//        Crossword crossword = getCrosswordFromFile(1);
-//        crossword.printBoard();
+        Crossword crossword = getCrosswordFromFile(1);
+        crossword.printBoard();
 
 //        Backtracking backtracking = new Backtracking(s.get(0));
 //        backtracking.start();
 
 
-        for (Sudoku sudoku : s) {
-            Backtracking backtracking = new Backtracking(sudoku);
-            backtracking.start();
-        }
+//        for (Sudoku sudoku : s) {
+//            Backtracking backtracking = new Backtracking(sudoku);
+//            backtracking.start();
+//        }
     }
 
     private static List<Sudoku> getSudokuFromFile() {
@@ -93,9 +93,7 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String[] arrWords = new String[words.size()];
-        words.toArray(arrWords);
         Character[][] arrBord = board.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new);
-        return new Crossword(arrWords, arrBord);
+        return new Crossword(words, arrBord);
     }
 }
