@@ -1,5 +1,9 @@
 package krych.bartosz;
 
+import krych.bartosz.Crossword.Crossword;
+import krych.bartosz.sudoku.Sudoku;
+import krych.bartosz.sudoku.SudokuVariable;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

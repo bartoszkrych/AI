@@ -1,4 +1,4 @@
-package krych.bartosz;
+package krych.bartosz.sudoku;
 
 import java.util.ArrayList;
 import java.util.List;

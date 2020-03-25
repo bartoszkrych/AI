@@ -1,5 +1,12 @@
 package krych.bartosz;
 
+import krych.bartosz.Crossword.Crossword;
+import krych.bartosz.Crossword.CrosswordConstraint;
+import krych.bartosz.Crossword.CrosswordVariable;
+import krych.bartosz.sudoku.Sudoku;
+import krych.bartosz.sudoku.SudokuConstraint;
+import krych.bartosz.sudoku.SudokuVariable;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
@@ -12,8 +19,8 @@ public class Backtracking {
     int iteration = 0;
     private Stack<SudokuVariable> sudokuVariableStack = new Stack<>();
     int results = 0;
-    private SudokuConstraints c = new SudokuConstraints();
-    private CrosswordConstraints cc = new CrosswordConstraints();
+    private SudokuConstraint c = new SudokuConstraint();
+    private CrosswordConstraint cc = new CrosswordConstraint();
     private Stack<CrosswordVariable> crosswordVariableStack = new Stack<>();
     private List<CrosswordVariable> crosswordVariables;
     private Crossword crossword;
@@ -55,9 +62,9 @@ public class Backtracking {
         }
         sudokuVariableStack.push(sudoku.getVariable(i, j));
 
-        for (Integer k : sudokuVariableStack.peek().getDomain()) {
-            if (!c.existInRow(sudokuT, i, k) && !c.existInCol(sudokuT, j, k) && !c.existInBlock(sudokuT, i, j, k)) {
-                sudokuT[i][j] = k;
+        for (Integer val : sudokuVariableStack.peek().getDomain()) {
+            if (c.isGood(sudokuT, i, j, val)) {
+                sudokuT[i][j] = val;
                 if (execute(sudokuT, position + 1)) {
                     return true;
                 } else {
@@ -81,7 +88,7 @@ public class Backtracking {
         crosswordVariableStack.push(crosswordVariables.get(n));
 
         for (String k : crosswordVariableStack.peek().getDomain()) {
-            if (!cc.contains(crosswordVariableStack, k) && !cc.isWrongIntersection(crosswordVariableStack, k)) {
+            if (cc.isGood(crosswordVariableStack, k)) {
                 crosswordVariableStack.peek().setValue(k);
                 if (execute(n + 1)) {
                     return true;

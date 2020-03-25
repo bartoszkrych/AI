@@ -1,6 +1,6 @@
-package krych.bartosz;
+package krych.bartosz.sudoku;
 
-public class SudokuConstraints {
+public class SudokuConstraint {
 
     public boolean existInRow(int[][] sudoku, int i, int val) {
         for (int j = 0; j < sudoku[i].length; j++) {
@@ -33,5 +33,9 @@ public class SudokuConstraints {
             }
         }
         return false;
+    }
+
+    public boolean isGood(int[][] sudoku, int i, int j, int val) {
+        return !existInRow(sudoku, i, val) && !existInCol(sudoku, j, val) && !existInBlock(sudoku, i, j, val);
     }
 }

@@ -1,20 +1,20 @@
-package krych.bartosz;
+package krych.bartosz.Crossword;
 
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
-public class CrosswordConstraints {
+public class CrosswordConstraint {
 
-    public CrosswordConstraints() {
+    public CrosswordConstraint() {
     }
 
-    public boolean contains(Stack<CrosswordVariable> crosswordVariableList, String value) {
+    private boolean contains(Stack<CrosswordVariable> crosswordVariableList, String value) {
         List<String> strings = crosswordVariableList.stream().map(CrosswordVariable::getValue).collect(Collectors.toList());
         return strings.contains(value);
     }
 
-    public boolean isWrongIntersection(Stack<CrosswordVariable> crosswordVariables, String value) {
+    private boolean isWrongIntersection(Stack<CrosswordVariable> crosswordVariables, String value) {
         List<CrosswordVariable> list = crosswordVariables.stream().filter(x -> x.getValue() != null).collect(Collectors.toList());
         CrosswordVariable toCheck = crosswordVariables.peek();
         int iCheck = toCheck.getiBegin();
@@ -49,5 +49,9 @@ public class CrosswordConstraints {
             }
         }
         return false;
+    }
+
+    public boolean isGood(Stack<CrosswordVariable> crosswordVariableList, String value) {
+        return !contains(crosswordVariableList, value) && !isWrongIntersection(crosswordVariableList, value);
     }
 }

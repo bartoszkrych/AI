@@ -1,4 +1,4 @@
-package krych.bartosz;
+package krych.bartosz.sudoku;
 
 public class Sudoku {
 

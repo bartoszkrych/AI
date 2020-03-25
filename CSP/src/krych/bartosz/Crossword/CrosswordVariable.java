@@ -1,4 +1,4 @@
-package krych.bartosz;
+package krych.bartosz.Crossword;
 
 import java.util.List;
 
