@@ -5,33 +5,6 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class CrosswordConstraint {
-//    private final int indexOfCharOfRowVar;
-//    private final int indexOfCharOfColVar;
-//    public final List<CrosswordVariable> variables;
-//
-//    public CrosswordConstraint(List<CrosswordVariable> variables, int indexOfCharOfRowVar, int indexOfCharOfColVar) {
-//        this.variables = variables;
-//        assert variables.size() == 2;
-//        assert variables.get(0).getOrientation() == Orientation.HORIZONTAL;
-//        assert variables.get(1).getOrientation() == Orientation.VERTICAL;
-//        this.indexOfCharOfRowVar = indexOfCharOfRowVar;
-//        this.indexOfCharOfColVar = indexOfCharOfColVar;
-//    }
-//
-//    public CrosswordConstraint(CrosswordVariable rowVariable, CrosswordVariable columnVariable) {
-//        this.variables =  List.of(rowVariable, columnVariable);
-//        assert rowVariable.getiBegin() - columnVariable.getiBegin() >= 0;
-//        this.indexOfCharOfColVar = rowVariable.getiBegin() - columnVariable.getiBegin();
-//
-//        assert columnVariable.getjBegin() - rowVariable.getjBegin() >= 0;
-//        this.indexOfCharOfRowVar = columnVariable.getjBegin() - rowVariable.getjBegin();
-//    }
-//
-//    public boolean checkCondition() {
-//        return variables.get(0).getValue() == null || variables.get(1).getValue() == null ||
-//                variables.get(0).getValue().charAt(indexOfCharOfRowVar)
-//                        == variables.get(1).getValue().charAt(indexOfCharOfColVar);
-//    }
 
     public CrosswordConstraint() {
     }
