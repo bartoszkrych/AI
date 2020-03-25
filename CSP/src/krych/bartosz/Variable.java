@@ -29,4 +29,8 @@ public class Variable {
     public int getValue() {
         return value;
     }
+
+    public List<Integer> getDomain() {
+        return domain;
+    }
 }

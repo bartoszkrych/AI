@@ -1,7 +1,5 @@
 package krych.bartosz;
 
-import java.util.Arrays;
-
 public class Sudoku {
 
     Variable[][] board;
@@ -29,13 +27,15 @@ public class Sudoku {
     public int[][] getInt2D()
     {
         int[][] result = new int[9][9];
-        for(int i =0; i < 9; i++)
-        {
-            for ( int j = 0; j < 9; j++)
-            {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 result[i][j] = board[i][j].getValue();
             }
         }
         return result;
+    }
+
+    public Variable getVariable(int i, int j) {
+        return board[i][j];
     }
 }
