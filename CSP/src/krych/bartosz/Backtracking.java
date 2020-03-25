@@ -1,9 +1,10 @@
 package krych.bartosz;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
-public class Backtracking<V, X> {
+public class Backtracking {
 
     Stack<int[][]> boardsStack = new Stack<>();
     Sudoku sudoku;
@@ -12,18 +13,29 @@ public class Backtracking<V, X> {
     private Stack<Variable> variableStack = new Stack<>();
     int results = 0;
     private Constraints c = new Constraints();
+    private CrosswordConstraint cc = new CrosswordConstraint();
+    private Stack<CrosswordVariable> crosswordVariableStack = new Stack<>();
+    private List<CrosswordVariable> crosswordVariables;
+    private Crossword crossword;
 
     public Backtracking(Sudoku sudoku) {
         this.sudoku = sudoku;
         board = sudoku.getInt2D();
     }
 
+    public Backtracking(Crossword crossword) {
+        this.crossword = crossword;
+        this.crosswordVariables = crossword.getVariables();
+    }
+
     public void start() {
         //start
 //        do {
 //            printTab2D();
-        execute(board, 0);
+//        execute(board, 0);
 //        } while (variableStack.empty());
+
+        execute(0);
 
         System.out.println("results: " + results + ",  stack.si(): " + variableStack.size());
         //koniec
@@ -58,10 +70,35 @@ public class Backtracking<V, X> {
         return false;
     }
 
+    private boolean execute(int n) {
+        if (n == crosswordVariables.size()) {
+            results++;
+//            crosswordVariableStack.forEach( x -> {
+//                System.out.println(x.toString());
+//            });
+            return false;
+        }
+        crosswordVariableStack.push(crosswordVariables.get(n));
+
+        for (String k : crosswordVariableStack.peek().getDomain()) {
+            if (!cc.contains(crosswordVariableStack, k) && !cc.isWrongIntersection(crosswordVariableStack, k)) {
+                crosswordVariableStack.peek().setValue(k);
+                if (execute(n + 1)) {
+                    return true;
+                } else {
+                    crosswordVariableStack.peek().setValue(null);
+                }
+            }
+        }
+        crosswordVariableStack.pop();
+        return false;
+    }
+
     private <T> void printTab2D(T[][] tab) {
         for (int i = 0; i < tab.length; i++) {
             System.out.println(Arrays.toString(tab[i]));
         }
     }
+
 }
 
