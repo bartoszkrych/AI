@@ -9,7 +9,6 @@ import krych.bartosz.sudoku.Sudoku;
 import krych.bartosz.sudoku.SudokuConstraint;
 import krych.bartosz.sudoku.SudokuVariable;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.TimeUnit;
@@ -130,8 +129,13 @@ public class Backtracking {
     }
 
     private void printSudoku(int[][] tab) {
-        for (int[] ints : tab) {
-            System.out.println(Arrays.toString(ints));
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.print(tab[i][j] + " ");
+                if (j == 2 || j == 5) System.out.print("| ");
+            }
+            if (i == 2 || i == 5) System.out.print("\n---------------------");
+            System.out.println();
         }
     }
 

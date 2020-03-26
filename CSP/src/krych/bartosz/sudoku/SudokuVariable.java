@@ -38,10 +38,6 @@ public class SudokuVariable implements Variable<Integer> {
         this.value = value;
     }
 
-    public void setDomain(List<Integer> domain) {
-        this.domain = domain;
-    }
-
     public Integer getValue() {
         return value;
     }

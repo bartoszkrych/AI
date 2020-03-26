@@ -19,7 +19,9 @@ public class Sudoku implements Problem {
         for(int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 System.out.print(board[i][j].getValue()+" ");
+                if (j == 2 || j == 5) System.out.print("| ");
             }
+            if (i == 2 || i == 5) System.out.print("\n---------------------");
             System.out.println();
         }
     }
