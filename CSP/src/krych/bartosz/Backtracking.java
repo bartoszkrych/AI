@@ -64,9 +64,7 @@ public class Backtracking {
                 reversionFirst = reversion;
                 leavesFirst = leaves;
             }
-            System.out.println("#####       RESULT - " + resultsCount + "       #####");
-            printSudoku(result);
-            System.out.println("\n");
+            printResult(result);
             return false;
         }
         int i = position / 9;
@@ -104,10 +102,7 @@ public class Backtracking {
                 reversionFirst = reversion;
                 leavesFirst = leaves;
             }
-
-            System.out.println("#####       RESULT - " + resultsCount + "       #####");
-            crosswordVariableStack.forEach(System.out::println);
-            System.out.println("\n");
+            printResult(crosswordVariableStack);
             return false;
         }
         crosswordVariableStack.push(crosswordVariables.get(n));
@@ -128,7 +123,8 @@ public class Backtracking {
         return false;
     }
 
-    private void printSudoku(int[][] tab) {
+    private void printResult(int[][] tab) {
+        System.out.println("#####       RESULT - " + resultsCount + "       #####");
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 System.out.print(tab[i][j] + " ");
@@ -137,6 +133,42 @@ public class Backtracking {
             if (i == 2 || i == 5) System.out.print("\n---------------------");
             System.out.println();
         }
+        System.out.println("\n");
+    }
+
+    private void printResult(Stack<CrosswordVariable> stack) {
+        char[][] result = new char[((Crossword) problem).getHeight()][((Crossword) problem).getWidth()];
+
+        for (CrosswordVariable v : stack) {
+            int col = v.getjBegin();
+            int row = v.getiBegin();
+            int len = v.getLength();
+
+            switch (v.getOrientation()) {
+                case VERTICAL: {
+                    for (int i = 0; i < len; i++) {
+                        result[i + row][col] = v.getValue().charAt(i);
+                    }
+                    break;
+                }
+                case HORIZONTAL: {
+                    for (int i = 0; i < len; i++) {
+                        result[row][i + col] = v.getValue().charAt(i);
+                    }
+                    break;
+                }
+            }
+        }
+
+        for (int i = 0; i < result.length; i++) {
+            for (int j = 0; j < result[0].length; j++) {
+                if (result[i][j] == 0) System.out.print("# ");
+                else System.out.print(result[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        System.out.println("\n");
     }
 
 }

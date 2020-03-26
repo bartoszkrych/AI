@@ -81,4 +81,12 @@ public class Crossword implements Problem {
         counter = 0;
         return counter;
     }
+
+    public int getWidth() {
+        return board[0].length;
+    }
+
+    public int getHeight() {
+        return board.length;
+    }
 }
