@@ -160,10 +160,10 @@ public class Backtracking {
             }
         }
 
-        for (int i = 0; i < result.length; i++) {
+        for (char[] chars : result) {
             for (int j = 0; j < result[0].length; j++) {
-                if (result[i][j] == 0) System.out.print("# ");
-                else System.out.print(result[i][j] + " ");
+                if (chars[j] == 0) System.out.print("# ");
+                else System.out.print(chars[j] + " ");
             }
             System.out.println();
         }

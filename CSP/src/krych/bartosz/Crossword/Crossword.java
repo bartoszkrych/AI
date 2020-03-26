@@ -3,7 +3,6 @@ package krych.bartosz.Crossword;
 import krych.bartosz.abstra.Problem;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +23,14 @@ public class Crossword implements Problem {
     }
 
     public void printBoard() {
-        for (Character[] characters : board) System.out.println(Arrays.toString(characters));
+//        for (Character[] characters : board) System.out.println(Arrays.toString(characters));
+        for (Character[] chars : board) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (chars[j] == 0) System.out.print("# ");
+                else System.out.print(chars[j] + " ");
+            }
+            System.out.println();
+        }
 
         System.out.print("WORDS:    ");
         for (String word : words) System.out.print(word + "   ");
