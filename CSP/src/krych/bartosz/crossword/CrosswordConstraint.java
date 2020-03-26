@@ -1,24 +1,22 @@
-package krych.bartosz.Crossword;
+package krych.bartosz.crossword;
 
 import krych.bartosz.abstra.Constraint;
 
+import java.util.ArrayDeque;
 import java.util.List;
-import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class CrosswordConstraint implements Constraint {
 
-    public CrosswordConstraint() {
-    }
-
-    private boolean contains(Stack<CrosswordVariable> crosswordVariableList, String value) {
+    private boolean contains(ArrayDeque<CrosswordVariable> crosswordVariableList, String value) {
         List<String> strings = crosswordVariableList.stream().map(CrosswordVariable::getValue).collect(Collectors.toList());
         return strings.contains(value);
     }
 
-    private boolean isWrongIntersection(Stack<CrosswordVariable> crosswordVariables, String value) {
+    private boolean isWrongIntersection(ArrayDeque<CrosswordVariable> crosswordVariables, String value) {
         List<CrosswordVariable> list = crosswordVariables.stream().filter(x -> x.getValue() != null).collect(Collectors.toList());
         CrosswordVariable toCheck = crosswordVariables.peek();
+        assert toCheck != null;
         int iCheck = toCheck.getiBegin();
         int jCheck = toCheck.getjBegin();
         int maxCheck;
@@ -53,7 +51,7 @@ public class CrosswordConstraint implements Constraint {
         return false;
     }
 
-    public boolean isGood(Stack<CrosswordVariable> crosswordVariableList, String value) {
+    public boolean isGood(ArrayDeque<CrosswordVariable> crosswordVariableList, String value) {
         return !contains(crosswordVariableList, value) && !isWrongIntersection(crosswordVariableList, value);
     }
 }

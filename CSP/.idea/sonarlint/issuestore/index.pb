@@ -23,3 +23,5 @@ T
 $src/krych/bartosz/sudoku/Sudoku.java,e\6\e6a9d3f4a900bfa3bdfd5340c2a42b0536025f42
 S
 #src/krych/bartosz/Backtracking.java,e\1\e15e4a2f046c697330ec898752509a562fbadbe9
+V
+&src/krych/bartosz/abstra/Variable.java,6\7\672b7be4a3c785b014f659f02a4746a794111bfb

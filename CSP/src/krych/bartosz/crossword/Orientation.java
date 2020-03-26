@@ -1,4 +1,4 @@
-package krych.bartosz.Crossword;
+package krych.bartosz.crossword;
 
 public enum Orientation {
     HORIZONTAL,

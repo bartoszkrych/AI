@@ -1,4 +1,4 @@
-package krych.bartosz.Crossword;
+package krych.bartosz.crossword;
 
 import krych.bartosz.abstra.Problem;
 

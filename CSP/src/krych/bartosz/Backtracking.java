@@ -1,24 +1,26 @@
 package krych.bartosz;
 
-import krych.bartosz.Crossword.Crossword;
-import krych.bartosz.Crossword.CrosswordConstraint;
-import krych.bartosz.Crossword.CrosswordVariable;
 import krych.bartosz.abstra.Constraint;
 import krych.bartosz.abstra.Problem;
+import krych.bartosz.crossword.Crossword;
+import krych.bartosz.crossword.CrosswordConstraint;
+import krych.bartosz.crossword.CrosswordVariable;
 import krych.bartosz.sudoku.Sudoku;
 import krych.bartosz.sudoku.SudokuConstraint;
 import krych.bartosz.sudoku.SudokuVariable;
 
+import java.util.ArrayDeque;
 import java.util.List;
-import java.util.Stack;
 import java.util.concurrent.TimeUnit;
+
+import static krych.bartosz.crossword.Orientation.VERTICAL;
 
 public class Backtracking {
     private Problem problem;
     private Constraint c;
     private int resultsCount = 0;
-    private Stack<SudokuVariable> sudokuVariableStack = new Stack<>();
-    private Stack<CrosswordVariable> crosswordVariableStack = new Stack<>();
+    private ArrayDeque<SudokuVariable> sudokuVariableStack = new ArrayDeque<>();
+    private ArrayDeque<CrosswordVariable> crosswordVariableStack = new ArrayDeque<>();
     private List<CrosswordVariable> crosswordVariables;
     private int reversionFirst;
     private int leavesFirst;
@@ -75,14 +77,17 @@ public class Backtracking {
         }
         sudokuVariableStack.push(((Sudoku) problem).getVariable(i, j));
 
+        assert sudokuVariableStack.peek() != null;
         for (Integer val : sudokuVariableStack.peek().getDomain()) {
             leaves++;
             if (((SudokuConstraint) c).isGood(result, i, j, val)) {
+                assert sudokuVariableStack.peek() != null;
                 sudokuVariableStack.peek().setValue(val);
                 result[i][j] = val;
                 if (execute(result, position + 1)) {
                     return true;
                 } else {
+                    assert sudokuVariableStack.peek() != null;
                     sudokuVariableStack.peek().setValue(0);
                     result[i][j] = 0;
                 }
@@ -107,13 +112,16 @@ public class Backtracking {
         }
         crosswordVariableStack.push(crosswordVariables.get(n));
 
+        assert crosswordVariableStack.peek() != null;
         for (String k : crosswordVariableStack.peek().getDomain()) {
             leaves++;
             if (((CrosswordConstraint) c).isGood(crosswordVariableStack, k)) {
+                assert crosswordVariableStack.peek() != null;
                 crosswordVariableStack.peek().setValue(k);
                 if (execute(n + 1)) {
                     return true;
                 } else {
+                    assert crosswordVariableStack.peek() != null;
                     crosswordVariableStack.peek().setValue(null);
                 }
             }
@@ -136,7 +144,7 @@ public class Backtracking {
         System.out.println("\n");
     }
 
-    private void printResult(Stack<CrosswordVariable> stack) {
+    private void printResult(ArrayDeque<CrosswordVariable> stack) {
         char[][] result = new char[((Crossword) problem).getHeight()][((Crossword) problem).getWidth()];
 
         for (CrosswordVariable v : stack) {
@@ -144,19 +152,12 @@ public class Backtracking {
             int row = v.getiBegin();
             int len = v.getLength();
 
-            switch (v.getOrientation()) {
-                case VERTICAL: {
-                    for (int i = 0; i < len; i++) {
-                        result[i + row][col] = v.getValue().charAt(i);
-                    }
-                    break;
-                }
-                case HORIZONTAL: {
-                    for (int i = 0; i < len; i++) {
-                        result[row][i + col] = v.getValue().charAt(i);
-                    }
-                    break;
-                }
+            if (v.getOrientation() == VERTICAL) {
+                for (int i = 0; i < len; i++)
+                    result[i + row][col] = v.getValue().charAt(i);
+            } else {
+                for (int i = 0; i < len; i++)
+                    result[row][i + col] = v.getValue().charAt(i);
             }
         }
 
