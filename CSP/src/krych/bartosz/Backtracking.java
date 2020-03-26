@@ -78,9 +78,9 @@ public class Backtracking {
         sudokuVariableStack.push(((Sudoku) problem).getVariable(i, j));
 
         for (Integer val : sudokuVariableStack.peek().getDomain()) {
+            leaves++;
             if (((SudokuConstraint) c).isGood(result, i, j, val)) {
                 sudokuVariableStack.peek().setValue(val);
-                leaves++;
                 result[i][j] = val;
                 if (execute(result, position + 1)) {
                     return true;
@@ -113,9 +113,9 @@ public class Backtracking {
         crosswordVariableStack.push(crosswordVariables.get(n));
 
         for (String k : crosswordVariableStack.peek().getDomain()) {
+            leaves++;
             if (((CrosswordConstraint) c).isGood(crosswordVariableStack, k)) {
                 crosswordVariableStack.peek().setValue(k);
-                leaves++;
                 if (execute(n + 1)) {
                     return true;
                 } else {
