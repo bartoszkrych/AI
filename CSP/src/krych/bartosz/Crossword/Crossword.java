@@ -24,17 +24,11 @@ public class Crossword implements Problem {
     }
 
     public void printBoard() {
-        for (int i = 0; i < board.length; i++)
-            System.out.println(Arrays.toString(board[i]));
+        for (Character[] characters : board) System.out.println(Arrays.toString(characters));
 
         System.out.print("WORDS:    ");
-        for (int i = 0; i < words.size(); i++)
-            System.out.print(words.get(i) + "   ");
-        System.out.println();
-
-        for (CrosswordVariable cv : variables)
-            System.out.println(cv.toString());
-
+        for (String word : words) System.out.print(word + "   ");
+        System.out.println("\n");
     }
 
     private void findVariables() {
@@ -49,21 +43,9 @@ public class Crossword implements Problem {
                         jBeg = j;
                     }
                     counter++;
-                } else if (counter > 1) {
-                    final int c = counter;
-                    variables.add(new CrosswordVariable(words.stream().filter(x -> x.length() == c).collect(Collectors.toList()), iBeg, jBeg, counter, Orientation.HORIZONTAL));
-                    counter = 0;
-                } else {
-                    counter = 0;
-                }
+                } else counter = getCounter(counter, iBeg, jBeg);
             }
-            if (counter > 1) {
-                final int c = counter;
-                variables.add(new CrosswordVariable(words.stream().filter(x -> x.length() == c).collect(Collectors.toList()), iBeg, jBeg, counter, Orientation.HORIZONTAL));
-                counter = 0;
-            } else {
-                counter = 0;
-            }
+            counter = getCounter(counter, iBeg, jBeg);
         }
 
         for (int i = board[0].length - 1; i >= 0; i--) {
@@ -74,21 +56,29 @@ public class Crossword implements Problem {
                         jBeg = i;
                     }
                     counter++;
-                } else if (counter > 1) {
-                    final int c = counter;
-                    variables.add(new CrosswordVariable(words.stream().filter(x -> x.length() == c).collect(Collectors.toList()), iBeg, jBeg, counter, Orientation.VERTICAL));
-                    counter = 0;
                 } else {
-                    counter = 0;
+                    counter = getCounterTrans(counter, iBeg, jBeg);
                 }
             }
-            if (counter > 1) {
-                final int c = counter;
-                variables.add(new CrosswordVariable(words.stream().filter(x -> x.length() == c).collect(Collectors.toList()), iBeg, jBeg, counter, Orientation.VERTICAL));
-                counter = 0;
-            } else {
-                counter = 0;
-            }
+            counter = getCounterTrans(counter, iBeg, jBeg);
         }
+    }
+
+    private int getCounterTrans(int counter, int iBeg, int jBeg) {
+        if (counter > 1) {
+            final int c = counter;
+            variables.add(new CrosswordVariable(words.stream().filter(x -> x.length() == c).collect(Collectors.toList()), iBeg, jBeg, counter, Orientation.VERTICAL));
+        }
+        counter = 0;
+        return counter;
+    }
+
+    private int getCounter(int counter, int iBeg, int jBeg) {
+        if (counter > 1) {
+            final int c = counter;
+            variables.add(new CrosswordVariable(words.stream().filter(x -> x.length() == c).collect(Collectors.toList()), iBeg, jBeg, counter, Orientation.HORIZONTAL));
+        }
+        counter = 0;
+        return counter;
     }
 }

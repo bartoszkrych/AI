@@ -12,19 +12,25 @@ import krych.bartosz.sudoku.SudokuVariable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
+import java.util.concurrent.TimeUnit;
 
 public class Backtracking {
     private Problem problem;
     private Constraint c;
-    private int[][] board;
-    private int results = 0;
+    private int resultsCount = 0;
     private Stack<SudokuVariable> sudokuVariableStack = new Stack<>();
     private Stack<CrosswordVariable> crosswordVariableStack = new Stack<>();
     private List<CrosswordVariable> crosswordVariables;
+    private int reversionFirst;
+    private int leavesFirst;
+    private long timeFirst;
+    private int reversion;
+    private int leaves;
+    private long startTime;
+
 
     public Backtracking(Sudoku sudoku) {
         this.problem = sudoku;
-        board = sudoku.getInt2D();
         this.c = new SudokuConstraint();
     }
 
@@ -35,17 +41,33 @@ public class Backtracking {
     }
 
     public void start() {
+        reversionFirst = 0;
+        leavesFirst = 0;
+        timeFirst = 0;
+        reversion = 0;
+        leaves = 0;
+        startTime = System.nanoTime();
         if (problem instanceof Sudoku) {
+            int[][] board = ((Sudoku) problem).getInt2D();
             execute(board, 0);
         } else {
             execute(0);
         }
-        System.out.println("results: " + results);
+        System.out.println("results: " + resultsCount + ",    reversions: " + reversion + ",  leaves: " + leaves + ", time:" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + "ms");
+        System.out.println("First result:       reversions: " + reversionFirst + ",  leaves: " + leavesFirst + ", time:" + TimeUnit.NANOSECONDS.toMillis(timeFirst) + "ms");
     }
 
-    private boolean execute(int result[][], int position) {
+    private boolean execute(int[][] result, int position) {
         if (position == 9 * 9) {
-            results++;
+            resultsCount++;
+            if (resultsCount == 1) {
+                timeFirst = System.nanoTime() - startTime;
+                reversionFirst = reversion;
+                leavesFirst = leaves;
+            }
+            System.out.println("#####       RESULT - " + resultsCount + "       #####");
+            printSudoku(result);
+            System.out.println("\n");
             return false;
         }
         int i = position / 9;
@@ -59,6 +81,7 @@ public class Backtracking {
         for (Integer val : sudokuVariableStack.peek().getDomain()) {
             if (((SudokuConstraint) c).isGood(result, i, j, val)) {
                 sudokuVariableStack.peek().setValue(val);
+                leaves++;
                 result[i][j] = val;
                 if (execute(result, position + 1)) {
                     return true;
@@ -68,6 +91,7 @@ public class Backtracking {
                 }
             }
         }
+        reversion++;
         sudokuVariableStack.pop();
         result[i][j] = 0;
         return false;
@@ -75,7 +99,16 @@ public class Backtracking {
 
     private boolean execute(int n) {
         if (n == crosswordVariables.size()) {
-            results++;
+            resultsCount++;
+            if (resultsCount == 1) {
+                timeFirst = System.nanoTime() - startTime;
+                reversionFirst = reversion;
+                leavesFirst = leaves;
+            }
+
+            System.out.println("#####       RESULT - " + resultsCount + "       #####");
+            crosswordVariableStack.forEach(System.out::println);
+            System.out.println("\n");
             return false;
         }
         crosswordVariableStack.push(crosswordVariables.get(n));
@@ -83,6 +116,7 @@ public class Backtracking {
         for (String k : crosswordVariableStack.peek().getDomain()) {
             if (((CrosswordConstraint) c).isGood(crosswordVariableStack, k)) {
                 crosswordVariableStack.peek().setValue(k);
+                leaves++;
                 if (execute(n + 1)) {
                     return true;
                 } else {
@@ -90,13 +124,14 @@ public class Backtracking {
                 }
             }
         }
+        reversion++;
         crosswordVariableStack.pop();
         return false;
     }
 
-    private <T> void printTab2D(T[][] tab) {
-        for (int i = 0; i < tab.length; i++) {
-            System.out.println(Arrays.toString(tab[i]));
+    private void printSudoku(int[][] tab) {
+        for (int[] ints : tab) {
+            System.out.println(Arrays.toString(ints));
         }
     }
 

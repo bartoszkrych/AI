@@ -1,11 +1,25 @@
 
 7
 CSP.iml,6\2\62ad3c9ccac43e626f7f8adc9479bc26e6639387
-M
-src/krych/bartosz/Sudoku.java,4\8\48342bc5cc8709f060dcd878e50bf1a0ec990cc9
-R
-"src/krych/bartosz/Constraints.java,4\7\47446a8c6401865fe894645c5d5c1b85a3c3a519
 K
 src/krych/bartosz/Main.java,2\2\2274909e8815969fa580bad5291eb1a88d7b0fc0
-O
-src/krych/bartosz/Variable.java,1\9\192df73be6b731ea40ff6eacdd01cce62cb0bd04
+b
+2src/krych/bartosz/Crossword/CrosswordVariable.java,6\3\63cc92f440fa62fadc2ee0223cd9fec10fb2b3cc
+\
+,src/krych/bartosz/Crossword/Orientation.java,2\3\235d2bd5672f0beee9ab4b0f50173051d2709c2b
+X
+(src/krych/bartosz/abstra/Constraint.java,f\0\f08f7cc0e1e2052bd481af3ba8ab6406c5b4bcbc
+U
+%src/krych/bartosz/abstra/Problem.java,c\8\c86b87e2605f3b9ffedb88a8f12ecd9519ee5587
+Z
+*src/krych/bartosz/Crossword/Crossword.java,d\f\df7ffdd74bc248af447050044d8e004a2cea9e2b
+d
+4src/krych/bartosz/Crossword/CrosswordConstraint.java,9\7\97810190db08fa8ec09569aa75a53ec037665ef8
+^
+.src/krych/bartosz/sudoku/SudokuConstraint.java,5\1\519ff8c3b1c1d0f517554b2e9b25836c9c15192a
+\
+,src/krych/bartosz/sudoku/SudokuVariable.java,6\e\6e27e002e8cec149bfe95c1569c92439ab13dfe8
+T
+$src/krych/bartosz/sudoku/Sudoku.java,e\6\e6a9d3f4a900bfa3bdfd5340c2a42b0536025f42
+S
+#src/krych/bartosz/Backtracking.java,e\1\e15e4a2f046c697330ec898752509a562fbadbe9

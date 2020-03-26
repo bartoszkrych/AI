@@ -14,23 +14,17 @@ public class Main {
 
     public static void main(String[] args) {
         List<Sudoku> s = getSudokuFromFile();
-//        s.forEach(Sudoku::printBoard);
-
-//        Crossword crossword = getCrosswordFromFile(1);
-//        crossword.printBoard();
-
-//        Backtracking backtracking = new Backtracking(s.get(0));
-
-//        for (int i = 0; i < 4; i++) {
-//            Backtracking backtracking = new Backtracking(getCrosswordFromFile(i));
-//            backtracking.start();
-//        }
+        s.get(0).printBoard();
+        Backtracking backtrackingSudoku = new Backtracking(s.get(0));
+        backtrackingSudoku.start();
 
 
-        for (Sudoku sudoku : s) {
-            Backtracking backtracking = new Backtracking(sudoku);
-            backtracking.start();
-        }
+        Crossword crossword = getCrosswordFromFile(1);
+        crossword.printBoard();
+        Backtracking backtrackingCross = new Backtracking(crossword);
+        backtrackingCross.start();
+
+
     }
 
     private static List<Sudoku> getSudokuFromFile() {

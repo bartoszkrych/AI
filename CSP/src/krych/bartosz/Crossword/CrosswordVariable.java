@@ -1,8 +1,10 @@
 package krych.bartosz.Crossword;
 
+import krych.bartosz.abstra.Variable;
+
 import java.util.List;
 
-public class CrosswordVariable {
+public class CrosswordVariable implements Variable<String> {
     private String value;
     private int iBegin;
     private int jBegin;

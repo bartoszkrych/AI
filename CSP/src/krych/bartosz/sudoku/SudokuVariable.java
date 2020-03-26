@@ -1,10 +1,12 @@
 package krych.bartosz.sudoku;
 
+import krych.bartosz.abstra.Variable;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class SudokuVariable {
-    private int value;
+public class SudokuVariable implements Variable<Integer> {
+    private Integer value;
     private List<Integer> domain = new ArrayList<>();
     private int i;
     private int j;
@@ -20,15 +22,19 @@ public class SudokuVariable {
 
     public SudokuVariable(int i, int j) {
         this.value = 0;
+        this.i = i;
+        this.j = j;
         for (int k = 1; k <= DEF_LEN_SUDOKU; k++) domain.add(k);
     }
 
     public SudokuVariable(int value, int i, int j) {
+        this.i = i;
+        this.j = j;
         this.value = value;
         this.domain.add(value);
     }
 
-    public void setValue(int value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
 
@@ -36,7 +42,7 @@ public class SudokuVariable {
         this.domain = domain;
     }
 
-    public int getValue() {
+    public Integer getValue() {
         return value;
     }
 
