@@ -17,7 +17,7 @@ public class Main {
         // select a sudoku to testing
         s.get(0).printBoard();
         Backtracking backtrackingSudoku = new Backtracking(s.get(0));
-        backtrackingSudoku.start();
+//        backtrackingSudoku.start();
 
         // or all sudokus
         /*for(Sudoku sudoku : s)
@@ -27,18 +27,17 @@ public class Main {
         }*/
 
         // select a file to testing
-        Crossword crossword = getCrosswordFromFile(1);
-        crossword.printBoard();
-        new Backtracking(crossword).start();
+//        Crossword crossword = getCrosswordFromFile(1);
+//        crossword.printBoard();
+//        new Backtracking(crossword).start();
 
 
         // or all files
-        /*for(int i = 0; i <= 4; i++)
-        {
-        Crossword crossword = getCrosswordFromFile(i);
-        crossword.printBoard();
-        new Backtracking(crossword).start();
-        }*/
+        for (int i = 0; i <= 4; i++) {
+            Crossword crossword = getCrosswordFromFile(i);
+            crossword.printBoard();
+            new Backtracking(crossword).start();
+        }
     }
 
     private static List<Sudoku> getSudokuFromFile() {

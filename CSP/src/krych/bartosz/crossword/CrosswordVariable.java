@@ -32,7 +32,7 @@ public class CrosswordVariable implements Variable<String> {
         return jBegin;
     }
 
-    public int getLength() {
+    public Integer getLength() {
         return length;
     }
 

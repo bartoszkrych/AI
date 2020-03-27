@@ -25,3 +25,11 @@ S
 #src/krych/bartosz/Backtracking.java,e\1\e15e4a2f046c697330ec898752509a562fbadbe9
 V
 &src/krych/bartosz/abstra/Variable.java,6\7\672b7be4a3c785b014f659f02a4746a794111bfb
+\
+,src/krych/bartosz/crossword/Orientation.java,9\3\93006c814a510ce00d2bec2efeff3cb7bf827638
+b
+2src/krych/bartosz/crossword/CrosswordVariable.java,6\0\60769821759803a85080902f5c7ca74488ce7a55
+Z
+*src/krych/bartosz/crossword/Crossword.java,6\6\66abc68c49984229a47916a594fcb9af4e5fac33
+d
+4src/krych/bartosz/crossword/CrosswordConstraint.java,5\c\5cbb2ed6fe133bc37f6bcf7d74bd148774d8ad1c

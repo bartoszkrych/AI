@@ -20,7 +20,7 @@ public class Backtracking {
     private Constraint c;
     private int resultsCount = 0;
     private ArrayDeque<SudokuVariable> sudokuVariableStack = new ArrayDeque<>();
-    private ArrayDeque<CrosswordVariable> crosswordVariableStack = new ArrayDeque<>();
+    private ArrayDeque<CrosswordVariable> dequeCrossVar = new ArrayDeque<>();
     private List<CrosswordVariable> crosswordVariables;
     private int reversionFirst;
     private int leavesFirst;
@@ -52,6 +52,7 @@ public class Backtracking {
             int[][] board = ((Sudoku) problem).getInt2D();
             execute(board, 0);
         } else {
+            crosswordVariables = VariableHeuristic.sortDesc(crosswordVariables);
             execute(0);
         }
         System.out.println("results: " + resultsCount + ",    reversions: " + reversion + ",  leaves: " + leaves + ", time:" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + "ms");
@@ -107,27 +108,27 @@ public class Backtracking {
                 reversionFirst = reversion;
                 leavesFirst = leaves;
             }
-            printResult(crosswordVariableStack);
+            printResult(dequeCrossVar);
             return false;
         }
-        crosswordVariableStack.push(crosswordVariables.get(n));
+        dequeCrossVar.push(crosswordVariables.get(n));
 
-        assert crosswordVariableStack.peek() != null;
-        for (String k : crosswordVariableStack.peek().getDomain()) {
+        assert dequeCrossVar.peek() != null;
+        for (String k : dequeCrossVar.peek().getDomain()) {
             leaves++;
-            if (((CrosswordConstraint) c).isGood(crosswordVariableStack, k)) {
-                assert crosswordVariableStack.peek() != null;
-                crosswordVariableStack.peek().setValue(k);
+            if (((CrosswordConstraint) c).isGood(dequeCrossVar, k)) {
+                assert dequeCrossVar.peek() != null;
+                dequeCrossVar.peek().setValue(k);
                 if (execute(n + 1)) {
                     return true;
                 } else {
-                    assert crosswordVariableStack.peek() != null;
-                    crosswordVariableStack.peek().setValue(null);
+                    assert dequeCrossVar.peek() != null;
+                    dequeCrossVar.peek().setValue(null);
                 }
             }
         }
         reversion++;
-        crosswordVariableStack.pop();
+        dequeCrossVar.pop();
         return false;
     }
 
