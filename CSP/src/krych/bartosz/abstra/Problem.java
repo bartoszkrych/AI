@@ -1,5 +1,9 @@
 package krych.bartosz.abstra;
 
-public interface Problem {
+import java.util.List;
+
+public interface Problem<V> {
     void printBoard();
+
+    List<V> getVariables();
 }

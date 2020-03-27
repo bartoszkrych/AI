@@ -17,7 +17,7 @@ public class Main {
         // select a sudoku to testing
         s.get(0).printBoard();
         Backtracking backtrackingSudoku = new Backtracking(s.get(0));
-//        backtrackingSudoku.start();
+        backtrackingSudoku.start();
 
         // or all sudokus
         /*for(Sudoku sudoku : s)

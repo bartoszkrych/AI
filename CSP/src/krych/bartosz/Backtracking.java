@@ -37,7 +37,6 @@ public class Backtracking {
 
     public Backtracking(Crossword crossword) {
         this.problem = crossword;
-        this.crosswordVariables = crossword.getVariables();
         this.c = new CrosswordConstraint();
     }
 
@@ -52,11 +51,13 @@ public class Backtracking {
             int[][] board = ((Sudoku) problem).getInt2D();
             execute(board, 0);
         } else {
-            crosswordVariables = VariableHeuristic.sortDesc(crosswordVariables);
+            crosswordVariables = VariableHeuristic.sortDesc(problem.getVariables());
             execute(0);
         }
-        System.out.println("results: " + resultsCount + ",    reversions: " + reversion + ",  leaves: " + leaves + ", time:" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + "ms");
-        System.out.println("First result:       reversions: " + reversionFirst + ",  leaves: " + leavesFirst + ", time:" + TimeUnit.NANOSECONDS.toMillis(timeFirst) + "ms");
+        System.out.println("results: " + resultsCount + "\nMethod executed      ->      reversions: " + reversion + ",  leaves: " + leaves + ", time:" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + "ms");
+        if (resultsCount > 0)
+            System.out.println("First result         ->      reversions: " + reversionFirst + ",  leaves: " + leavesFirst + ", time:" + TimeUnit.NANOSECONDS.toMillis(timeFirst) + "ms");
+        System.out.println();
     }
 
     private boolean execute(int[][] result, int position) {
@@ -147,6 +148,8 @@ public class Backtracking {
 
     private void printResult(ArrayDeque<CrosswordVariable> stack) {
         char[][] result = new char[((Crossword) problem).getHeight()][((Crossword) problem).getWidth()];
+
+        System.out.println("#####       RESULT - " + resultsCount + "       #####");
 
         for (CrosswordVariable v : stack) {
             int col = v.getjBegin();
