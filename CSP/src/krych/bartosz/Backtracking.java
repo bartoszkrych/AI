@@ -63,7 +63,7 @@ public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V ex
             return false;
         }
 
-        //special for sudoku
+        //special for sudoku but sudoku dont working
         if (variables.get(n).getValue() != null) {
             return execute(n + 1);
         }
