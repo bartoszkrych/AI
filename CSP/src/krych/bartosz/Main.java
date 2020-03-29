@@ -4,8 +4,6 @@ import krych.bartosz.crossword.CrossVarDescHeuristic;
 import krych.bartosz.crossword.Crossword;
 import krych.bartosz.crossword.CrosswordConstraint;
 import krych.bartosz.sudoku.Sudoku;
-import krych.bartosz.sudoku.SudokuConstraint;
-import krych.bartosz.sudoku.SudokuVarNaivHeuristic;
 import krych.bartosz.sudoku.SudokuVariable;
 
 import java.io.File;
@@ -16,16 +14,19 @@ import java.util.Scanner;
 
 public class Main {
 
+    /**
+     * Niestety gdy wprowadziłęm generyczność, mam problemy z prawidłowym działaniem Sudoku i nie mam pomysły co mógłbym naprawić
+     * siedzialem nad tym dosc dlugo
+     * Jeśli mógłby Pan mi pomóc i w feedbacku napisać czego zabrakło?
+     * W cointrantach nie znalazłem błędów. Pomijam wartości !=null w rekurencji . w osobnych metodach również to robiłem
+     */
+
     public static void main(String[] args) {
         List<Sudoku> s = getSudokuFromFile();
 //        select a sudoku to testing
-
-        // Niestety gdy wprowadziłęm generyczność, mam problemy z prawidłowym działaniem Sudoku i nie mam pomysły co mógłbym naprawić
-        // Jeśli mógłby Pan mi pomóc i w feedbacku napisać czego zabrakło?
-        // W cointrantach nie znalazłem błędów. Pomijam wartości !=null. w osobnych metodach również to robiłem
-        s.get(1).printBoard();
-        Backtracking backtrackingSudoku = new Backtracking(s.get(1), new SudokuConstraint(), new SudokuVarNaivHeuristic());
-        backtrackingSudoku.start();
+//        Backtracking backtrackingSudoku = new Backtracking(s.get(1), new SudokuConstraint(), new SudokuVarNaivHeuristic());
+//        backtrackingSudoku.start();
+//        s.get(1).printBoard();
 
         // or all sudokus
         /*for(Sudoku sudoku : s)
@@ -109,7 +110,6 @@ public class Main {
                     }
                 }
                 sudokus.add(new Sudoku(board, readString[1]));
-
             }
 
         } catch (IOException e) {

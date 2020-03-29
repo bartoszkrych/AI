@@ -5,9 +5,17 @@ import krych.bartosz.abstra.Problem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sudoku implements Problem {
+/**
+ * Nie zdazylem posprzatac:
+ * przekazuje do kontruktora tablice zmiennych
+ * a powinienem liste, ponieważ głównie na niej operuje w Backtracking
+ * ale można zalozyc ze potrzebowalem tutaj (w klasie Sudoku) tablice, zeby wyswietlic tablice
+ * w koncu Sudoku to tablica nie list ;-)
+ */
+public class Sudoku implements Problem<SudokuVariable> {
     SudokuVariable[][] board;
     String level;
+
 
     public Sudoku(SudokuVariable[][] board, String level) {
         this.board = board;
