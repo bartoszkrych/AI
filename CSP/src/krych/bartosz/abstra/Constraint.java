@@ -1,4 +1,7 @@
 package krych.bartosz.abstra;
 
-public interface Constraint {
+import java.util.List;
+
+public interface Constraint<T, V extends Variable<T>> {
+    boolean isGood(List<V> variables, V variable, T value);
 }

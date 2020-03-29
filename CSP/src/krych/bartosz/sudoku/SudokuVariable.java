@@ -21,7 +21,7 @@ public class SudokuVariable implements Variable<Integer> {
     }
 
     public SudokuVariable(int i, int j) {
-        this.value = 0;
+        this.value = null;
         this.i = i;
         this.j = j;
         for (int k = 1; k <= DEF_LEN_SUDOKU; k++) domain.add(k);

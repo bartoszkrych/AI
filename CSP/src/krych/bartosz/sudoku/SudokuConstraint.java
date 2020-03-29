@@ -2,42 +2,55 @@ package krych.bartosz.sudoku;
 
 import krych.bartosz.abstra.Constraint;
 
-public class SudokuConstraint implements Constraint {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-    public boolean existInRow(int[][] sudoku, int i, int val) {
-        for (int j = 0; j < sudoku[i].length; j++) {
-            if (sudoku[i][j] == val) {
+public class SudokuConstraint implements Constraint<Integer, SudokuVariable> {
+
+    public boolean existInLine(List<SudokuVariable> variables, Integer val) {
+        for (SudokuVariable v : variables) {
+            if (v.getValue() != null && v.getValue().equals(val)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean existInCol(int[][] sudoku, int j, int val) {
-        for (int[] ints : sudoku) {
-            if (ints[j] == val) {
+    public boolean existInBlock(List<SudokuVariable> variables, SudokuVariable variable, int val) {
+        int iBlock = (variable.getI() / 3) * 3;
+        int jBlock = (variable.getJ() / 3) * 3;
+
+        List<SudokuVariable> list = variables.stream()
+                .filter(x -> x.getI() >= iBlock && x.getI() < iBlock + 3)
+                .filter(x -> x.getJ() >= jBlock && x.getJ() < jBlock + 3)
+                .collect(Collectors.toList());
+
+        for (SudokuVariable v : list) {
+            if (v.getValue() != null && v.getValue().equals(val)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean existInBlock(int[][] sudoku, int i, int j, int val) {
-        int sudokuBlock = (int) Math.sqrt(sudoku.length);
-        int iBlock = sudokuBlock * (i / sudokuBlock);
-        int jBlock = sudokuBlock * (j / sudokuBlock);
+    @Override
+    public boolean isGood(List<SudokuVariable> variables, SudokuVariable variable, Integer value) {
 
-        for (i = iBlock; i < iBlock + sudokuBlock; i++) {
-            for (j = jBlock; j < jBlock + sudokuBlock; j++) {
-                if (sudoku[i][j] == val) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        List<SudokuVariable> col = variables.stream().filter(x -> x.getJ() == variable.getJ()).collect(Collectors.toList());
+        List<SudokuVariable> row = variables.stream().filter(x -> x.getI() == variable.getI()).collect(Collectors.toList());
+
+        return !existInLine(col, value) && !existInLine(row, value) && !existInBlock(variables, variable, value);
     }
 
-    public boolean isGood(int[][] sudoku, int i, int j, int val) {
-        return !existInRow(sudoku, i, val) && !existInCol(sudoku, j, val) && !existInBlock(sudoku, i, j, val);
+
+    private List<SudokuVariable> notNull(List<SudokuVariable> variables) {
+        List<SudokuVariable> list = new ArrayList<>();
+
+        for (SudokuVariable v : variables) {
+            if (v.getValue() == null) v.setValue(0);
+            list.add(v);
+        }
+        return list;
     }
 }

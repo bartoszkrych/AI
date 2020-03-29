@@ -1,13 +1,11 @@
 package krych.bartosz;
 
 import krych.bartosz.abstra.Constraint;
+import krych.bartosz.abstra.Heuristic;
 import krych.bartosz.abstra.Problem;
+import krych.bartosz.abstra.Variable;
 import krych.bartosz.crossword.Crossword;
-import krych.bartosz.crossword.CrosswordConstraint;
 import krych.bartosz.crossword.CrosswordVariable;
-import krych.bartosz.sudoku.Sudoku;
-import krych.bartosz.sudoku.SudokuConstraint;
-import krych.bartosz.sudoku.SudokuVariable;
 
 import java.util.ArrayDeque;
 import java.util.List;
@@ -15,13 +13,15 @@ import java.util.concurrent.TimeUnit;
 
 import static krych.bartosz.crossword.Orientation.VERTICAL;
 
-public class Backtracking {
-    private Problem problem;
-    private Constraint c;
+public class Backtracking<P extends Problem, C extends Constraint<T, V>, V extends Variable<T>, T, H extends Heuristic<V, T>> {
+    private P problem;
+    private C constraint;
+    private H heuristic;
+    private ArrayDeque<V> dequeVar = new ArrayDeque<>();
+    private List<V> variables;
+
+
     private int resultsCount = 0;
-    private ArrayDeque<SudokuVariable> sudokuVariableStack = new ArrayDeque<>();
-    private ArrayDeque<CrosswordVariable> dequeCrossVar = new ArrayDeque<>();
-    private List<CrosswordVariable> crosswordVariables;
     private int reversionFirst;
     private int leavesFirst;
     private long timeFirst;
@@ -30,14 +30,10 @@ public class Backtracking {
     private long startTime;
 
 
-    public Backtracking(Sudoku sudoku) {
-        this.problem = sudoku;
-        this.c = new SudokuConstraint();
-    }
-
-    public Backtracking(Crossword crossword) {
-        this.problem = crossword;
-        this.c = new CrosswordConstraint();
+    public Backtracking(P problem, C constraint, H heuristic) {
+        this.problem = problem;
+        this.constraint = constraint;
+        this.heuristic = heuristic;
     }
 
     public void start() {
@@ -46,90 +42,46 @@ public class Backtracking {
         timeFirst = 0;
         reversion = 0;
         leaves = 0;
+        variables = heuristic.sort(problem.getVariables());
+
         startTime = System.nanoTime();
-        if (problem instanceof Sudoku) {
-            int[][] board = ((Sudoku) problem).getInt2D();
-            execute(board, 0);
-        } else {
-            crosswordVariables = VariableHeuristic.sortDesc(problem.getVariables());
-            execute(0);
-        }
+        execute(0);
         System.out.println("results: " + resultsCount + "\nMethod executed      ->      reversions: " + reversion + ",  leaves: " + leaves + ", time:" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + "ms");
         if (resultsCount > 0)
             System.out.println("First result         ->      reversions: " + reversionFirst + ",  leaves: " + leavesFirst + ", time:" + TimeUnit.NANOSECONDS.toMillis(timeFirst) + "ms");
         System.out.println();
     }
 
-    private boolean execute(int[][] result, int position) {
-        if (position == 9 * 9) {
-            resultsCount++;
-            if (resultsCount == 1) {
-                timeFirst = System.nanoTime() - startTime;
-                reversionFirst = reversion;
-                leavesFirst = leaves;
-            }
-            printResult(result);
-            return false;
-        }
-        int i = position / 9;
-        int j = position % 9;
-
-        if (((Sudoku) problem).getVariable(i, j).getValue() != 0) {
-            return execute(result, position + 1);
-        }
-        sudokuVariableStack.push(((Sudoku) problem).getVariable(i, j));
-
-        assert sudokuVariableStack.peek() != null;
-        for (Integer val : sudokuVariableStack.peek().getDomain()) {
-            leaves++;
-            if (((SudokuConstraint) c).isGood(result, i, j, val)) {
-                assert sudokuVariableStack.peek() != null;
-                sudokuVariableStack.peek().setValue(val);
-                result[i][j] = val;
-                if (execute(result, position + 1)) {
-                    return true;
-                } else {
-                    assert sudokuVariableStack.peek() != null;
-                    sudokuVariableStack.peek().setValue(0);
-                    result[i][j] = 0;
-                }
-            }
-        }
-        reversion++;
-        sudokuVariableStack.pop();
-        result[i][j] = 0;
-        return false;
-    }
-
     private boolean execute(int n) {
-        if (n == crosswordVariables.size()) {
+        if (n == variables.size()) {
             resultsCount++;
             if (resultsCount == 1) {
                 timeFirst = System.nanoTime() - startTime;
                 reversionFirst = reversion;
                 leavesFirst = leaves;
             }
-            printResult(dequeCrossVar);
+//            printResult(dequeVar);
             return false;
         }
-        dequeCrossVar.push(crosswordVariables.get(n));
 
-        assert dequeCrossVar.peek() != null;
-        for (String k : dequeCrossVar.peek().getDomain()) {
+        if (variables.get(n).getValue() != null) {
+            return execute(n + 1);
+        }
+
+        for (T k : variables.get(n).getDomain()) {
             leaves++;
-            if (((CrosswordConstraint) c).isGood(dequeCrossVar, k)) {
-                assert dequeCrossVar.peek() != null;
-                dequeCrossVar.peek().setValue(k);
+            if (constraint.isGood(variables, variables.get(n), k)) {
+                variables.get(n).setValue(k);
                 if (execute(n + 1)) {
                     return true;
                 } else {
-                    assert dequeCrossVar.peek() != null;
-                    dequeCrossVar.peek().setValue(null);
+                    variables.get(n).setValue(null);
                 }
             }
         }
+//        print();
         reversion++;
-        dequeCrossVar.pop();
+        variables.get(n).setValue(null);
         return false;
     }
 
@@ -146,12 +98,12 @@ public class Backtracking {
         System.out.println("\n");
     }
 
-    private void printResult(ArrayDeque<CrosswordVariable> stack) {
+    private void printResult(List<CrosswordVariable> list) {
         char[][] result = new char[((Crossword) problem).getHeight()][((Crossword) problem).getWidth()];
 
         System.out.println("#####       RESULT - " + resultsCount + "       #####");
 
-        for (CrosswordVariable v : stack) {
+        for (CrosswordVariable v : list) {
             int col = v.getjBegin();
             int row = v.getiBegin();
             int len = v.getLength();

@@ -33,3 +33,5 @@ Z
 *src/krych/bartosz/crossword/Crossword.java,6\6\66abc68c49984229a47916a594fcb9af4e5fac33
 d
 4src/krych/bartosz/crossword/CrosswordConstraint.java,5\c\5cbb2ed6fe133bc37f6bcf7d74bd148774d8ad1c
+X
+(src/krych/bartosz/VariableHeuristic.java,b\4\b4a32e9449b1982f6e9d32f453e59b8e4ce2d79f

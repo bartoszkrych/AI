@@ -2,20 +2,19 @@ package krych.bartosz.crossword;
 
 import krych.bartosz.abstra.Constraint;
 
-import java.util.ArrayDeque;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CrosswordConstraint implements Constraint {
+public class CrosswordConstraint implements Constraint<String, CrosswordVariable> {
 
-    private boolean contains(ArrayDeque<CrosswordVariable> crosswordVariableList, String value) {
-        List<String> strings = crosswordVariableList.stream().map(CrosswordVariable::getValue).collect(Collectors.toList());
+    private boolean contains(List<CrosswordVariable> variables, CrosswordVariable variable, String value) {
+        List<String> strings = variables.stream().map(CrosswordVariable::getValue).collect(Collectors.toList());
         return strings.contains(value);
     }
 
-    private boolean isWrongIntersection(ArrayDeque<CrosswordVariable> crosswordVariables, String value) {
-        List<CrosswordVariable> list = crosswordVariables.stream().filter(x -> x.getValue() != null).collect(Collectors.toList());
-        CrosswordVariable toCheck = crosswordVariables.peek();
+    private boolean isWrongIntersection(List<CrosswordVariable> variables, CrosswordVariable variable, String value) {
+        List<CrosswordVariable> list = variables.stream().filter(x -> x.getValue() != null).collect(Collectors.toList());
+        CrosswordVariable toCheck = variable;
         assert toCheck != null;
         int iCheck = toCheck.getiBegin();
         int jCheck = toCheck.getjBegin();
@@ -51,7 +50,8 @@ public class CrosswordConstraint implements Constraint {
         return false;
     }
 
-    public boolean isGood(ArrayDeque<CrosswordVariable> crosswordVariableList, String value) {
-        return !contains(crosswordVariableList, value) && !isWrongIntersection(crosswordVariableList, value);
+    @Override
+    public boolean isGood(List<CrosswordVariable> variables, CrosswordVariable variable, String value) {
+        return !contains(variables, variable, value) && !isWrongIntersection(variables, variable, value);
     }
 }

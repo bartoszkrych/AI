@@ -2,6 +2,7 @@ package krych.bartosz;
 
 import krych.bartosz.crossword.Crossword;
 import krych.bartosz.sudoku.Sudoku;
+import krych.bartosz.sudoku.SudokuConstraint;
 import krych.bartosz.sudoku.SudokuVariable;
 
 import java.io.File;
@@ -13,11 +14,11 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-//        List<Sudoku> s = getSudokuFromFile();
+        List<Sudoku> s = getSudokuFromFile();
 //        select a sudoku to testing
-//        s.get(0).printBoard();
-//        Backtracking backtrackingSudoku = new Backtracking(s.get(0));
-//        backtrackingSudoku.start();
+        s.get(1).printBoard();
+        Backtracking backtrackingSudoku = new Backtracking(s.get(1), new SudokuConstraint());
+        backtrackingSudoku.start();
 
         // or all sudokus
         /*for(Sudoku sudoku : s)
@@ -29,15 +30,15 @@ public class Main {
         // select a file to testing
 //        Crossword crossword = getCrosswordFromFile(1);
 //        crossword.printBoard();
-//        new Backtracking(crossword).start();
+//        new Backtracking(crossword, new CrosswordConstraint()).start();
 
 
         // or all files
-        for (int i = 0; i <= 4; i++) {
-            Crossword crossword = getCrosswordFromFile(i);
-            crossword.printBoard();
-            new Backtracking(crossword).start();
-        }
+//        for (int i = 0; i <= 4; i++) {
+//            Crossword crossword = getCrosswordFromFile(i);
+//            crossword.printBoard();
+//            new Backtracking(crossword, new CrosswordConstraint()).start();
+//        }
     }
 
     private static Crossword getCrosswordFromFile(int fileNumber) {
