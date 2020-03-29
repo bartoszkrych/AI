@@ -7,21 +7,19 @@ import krych.bartosz.abstra.Variable;
 import krych.bartosz.crossword.CrosswordVariable;
 import krych.bartosz.sudoku.SudokuVariable;
 
-import java.util.ArrayDeque;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static krych.bartosz.crossword.Orientation.VERTICAL;
 
-public class Backtracking<P extends Problem, C extends Constraint<T, V>, V extends Variable<T>, T, H extends Heuristic<V>> {
+public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V extends Variable<T>, T, H extends Heuristic<V>> {
     private P problem;
     private C constraint;
     private H heuristic;
-    private ArrayDeque<V> dequeVar = new ArrayDeque<>();
     private List<V> variables;
 
 
-    private int resultsCount = 0;
+    private int resultsCount;
     private int reversionFirst;
     private int leavesFirst;
     private long timeFirst;
@@ -37,6 +35,7 @@ public class Backtracking<P extends Problem, C extends Constraint<T, V>, V exten
     }
 
     public void start() {
+        resultsCount = 0;
         reversionFirst = 0;
         leavesFirst = 0;
         timeFirst = 0;
@@ -86,11 +85,11 @@ public class Backtracking<P extends Problem, C extends Constraint<T, V>, V exten
     }
 
     private void printResult(List<V> list) {
+        System.out.println("#####       RESULT - " + resultsCount + "       #####");
         if (list.get(0) instanceof CrosswordVariable) {
             char[][] result = new char[problem.getHeight()][problem.getWidth()];
             List<CrosswordVariable> listA = (List<CrosswordVariable>) list;
 
-            System.out.println("#####       RESULT - " + resultsCount + "       #####");
             for (CrosswordVariable v : listA) {
                 int col = v.getjBegin();
                 int row = v.getiBegin();
