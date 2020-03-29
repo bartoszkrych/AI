@@ -51,4 +51,14 @@ public class Sudoku implements Problem {
         }
         return variables;
     }
+
+    @Override
+    public int getHeight() {
+        return 9;
+    }
+
+    @Override
+    public int getWidth() {
+        return 9;
+    }
 }

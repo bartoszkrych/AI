@@ -1,8 +1,11 @@
 package krych.bartosz;
 
+import krych.bartosz.crossword.CrossVarDescHeuristic;
 import krych.bartosz.crossword.Crossword;
+import krych.bartosz.crossword.CrosswordConstraint;
 import krych.bartosz.sudoku.Sudoku;
 import krych.bartosz.sudoku.SudokuConstraint;
+import krych.bartosz.sudoku.SudokuVarNaivHeuristic;
 import krych.bartosz.sudoku.SudokuVariable;
 
 import java.io.File;
@@ -16,15 +19,19 @@ public class Main {
     public static void main(String[] args) {
         List<Sudoku> s = getSudokuFromFile();
 //        select a sudoku to testing
+
+        // Niestety gdy wprowadziłęm generyczność, mam problemy z prawidłowym działaniem Sudoku i nie mam pomysły co mógłbym naprawić
+        // Jeśli mógłby Pan mi pomóc i w feedbacku napisać czego zabrakło?
+        // W cointrantach nie znalazłem błędów. Pomijam wartości !=null. w osobnych metodach również to robiłem
         s.get(1).printBoard();
-        Backtracking backtrackingSudoku = new Backtracking(s.get(1), new SudokuConstraint());
+        Backtracking backtrackingSudoku = new Backtracking(s.get(1), new SudokuConstraint(), new SudokuVarNaivHeuristic());
         backtrackingSudoku.start();
 
         // or all sudokus
         /*for(Sudoku sudoku : s)
         {
            sudoku.printBoard();
-           new Backtracking(sudoku).start();
+           new Backtracking(sudoku, new SudokuConstraint(), new SudokuVarNaivHeuristic().start();
         }*/
 
         // select a file to testing
@@ -34,11 +41,11 @@ public class Main {
 
 
         // or all files
-//        for (int i = 0; i <= 4; i++) {
-//            Crossword crossword = getCrosswordFromFile(i);
-//            crossword.printBoard();
-//            new Backtracking(crossword, new CrosswordConstraint()).start();
-//        }
+        for (int i = 0; i <= 4; i++) {
+            Crossword crossword = getCrosswordFromFile(i);
+            crossword.printBoard();
+            new Backtracking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
+        }
     }
 
     private static Crossword getCrosswordFromFile(int fileNumber) {

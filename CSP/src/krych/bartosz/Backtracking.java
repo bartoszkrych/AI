@@ -4,8 +4,8 @@ import krych.bartosz.abstra.Constraint;
 import krych.bartosz.abstra.Heuristic;
 import krych.bartosz.abstra.Problem;
 import krych.bartosz.abstra.Variable;
-import krych.bartosz.crossword.Crossword;
 import krych.bartosz.crossword.CrosswordVariable;
+import krych.bartosz.sudoku.SudokuVariable;
 
 import java.util.ArrayDeque;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import static krych.bartosz.crossword.Orientation.VERTICAL;
 
-public class Backtracking<P extends Problem, C extends Constraint<T, V>, V extends Variable<T>, T, H extends Heuristic<V, T>> {
+public class Backtracking<P extends Problem, C extends Constraint<T, V>, V extends Variable<T>, T, H extends Heuristic<V>> {
     private P problem;
     private C constraint;
     private H heuristic;
@@ -60,10 +60,11 @@ public class Backtracking<P extends Problem, C extends Constraint<T, V>, V exten
                 reversionFirst = reversion;
                 leavesFirst = leaves;
             }
-//            printResult(dequeVar);
+            printResult(variables);
             return false;
         }
 
+        //special for sudoku
         if (variables.get(n).getValue() != null) {
             return execute(n + 1);
         }
@@ -79,54 +80,55 @@ public class Backtracking<P extends Problem, C extends Constraint<T, V>, V exten
                 }
             }
         }
-//        print();
         reversion++;
         variables.get(n).setValue(null);
         return false;
     }
 
-    private void printResult(int[][] tab) {
-        System.out.println("#####       RESULT - " + resultsCount + "       #####");
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(tab[i][j] + " ");
-                if (j == 2 || j == 5) System.out.print("| ");
+    private void printResult(List<V> list) {
+        if (list.get(0) instanceof CrosswordVariable) {
+            char[][] result = new char[problem.getHeight()][problem.getWidth()];
+            List<CrosswordVariable> listA = (List<CrosswordVariable>) list;
+
+            System.out.println("#####       RESULT - " + resultsCount + "       #####");
+            for (CrosswordVariable v : listA) {
+                int col = v.getjBegin();
+                int row = v.getiBegin();
+                int len = v.getLength();
+
+                if (v.getOrientation() == VERTICAL) {
+                    for (int i = 0; i < len; i++)
+                        result[i + row][col] = v.getValue().charAt(i);
+                } else {
+                    for (int i = 0; i < len; i++)
+                        result[row][i + col] = v.getValue().charAt(i);
+                }
             }
-            if (i == 2 || i == 5) System.out.print("\n---------------------");
-            System.out.println();
+
+            for (char[] chars : result) {
+                for (int j = 0; j < result[0].length; j++) {
+                    if (chars[j] == 0) System.out.print("# ");
+                    else System.out.print(chars[j] + " ");
+                }
+                System.out.println();
+            }
+
+            System.out.println("\n");
+        } else {
+            List<SudokuVariable> listA = (List<SudokuVariable>) list;
+            int i = 0;
+            for (SudokuVariable v : listA) {
+                Integer val = v.getValue();
+                System.out.print(val == null ? 0 : val);
+                System.out.print(" ");
+                if (v.getJ() == 2 || v.getJ() == 5) System.out.print("| ");
+                if (v.getI() == 2 || v.getI() == 5) System.out.print("\n---------------------");
+                if (v.getJ() == 8) System.out.println();
+            }
+
         }
-        System.out.println("\n");
     }
 
-    private void printResult(List<CrosswordVariable> list) {
-        char[][] result = new char[((Crossword) problem).getHeight()][((Crossword) problem).getWidth()];
-
-        System.out.println("#####       RESULT - " + resultsCount + "       #####");
-
-        for (CrosswordVariable v : list) {
-            int col = v.getjBegin();
-            int row = v.getiBegin();
-            int len = v.getLength();
-
-            if (v.getOrientation() == VERTICAL) {
-                for (int i = 0; i < len; i++)
-                    result[i + row][col] = v.getValue().charAt(i);
-            } else {
-                for (int i = 0; i < len; i++)
-                    result[row][i + col] = v.getValue().charAt(i);
-            }
-        }
-
-        for (char[] chars : result) {
-            for (int j = 0; j < result[0].length; j++) {
-                if (chars[j] == 0) System.out.print("# ");
-                else System.out.print(chars[j] + " ");
-            }
-            System.out.println();
-        }
-
-        System.out.println("\n");
-    }
 
 }
 

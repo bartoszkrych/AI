@@ -6,4 +6,8 @@ public interface Problem<V> {
     void printBoard();
 
     List<V> getVariables();
+
+    int getHeight();
+
+    int getWidth();
 }

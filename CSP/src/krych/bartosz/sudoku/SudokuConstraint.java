@@ -36,7 +36,6 @@ public class SudokuConstraint implements Constraint<Integer, SudokuVariable> {
 
     @Override
     public boolean isGood(List<SudokuVariable> variables, SudokuVariable variable, Integer value) {
-
         List<SudokuVariable> col = variables.stream().filter(x -> x.getJ() == variable.getJ()).collect(Collectors.toList());
         List<SudokuVariable> row = variables.stream().filter(x -> x.getI() == variable.getI()).collect(Collectors.toList());
 
