@@ -1,7 +1,9 @@
 
-Fsquid:S1148;"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ÞöçÂ‘.
-nsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.( •’‰ÿÿÿÿÿ8šóêÂ‘.
-isquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ÔÌÉ«8ð‘òÜ‘.
-isquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(€Ö¦÷8¤õ‚â‘.
-Fsquid:S1148H"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ÞöçÂ‘.
-Fsquid:S1148l"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ÁÌ„â‘.
+Fsquid:S1148t"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ÁÌ„â‘.
+Fsquid:S1148D"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ÞöçÂ‘.
+Fsquid:S1148Q"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ÞöçÂ‘.
+Dsquid:S1481"&Remove this unused "s" local variable.(À™ýÚ8±¬Ž¾’.
+nsquid:CommentedOutCodeLine "<This block of commented-out lines of code should be removed.( •’‰ÿÿÿÿÿ8šóêÂ‘.
+isquid:CommentedOutCodeLine'"<This block of commented-out lines of code should be removed.(ÔÌÉ«8ç³¼’.
+Ssquid:S1854"5Remove this useless assignment to local variable "s".(À™ýÚ8±¬Ž¾’.
+nsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(•áÜÜýÿÿÿÿ8Ï·¾’.
