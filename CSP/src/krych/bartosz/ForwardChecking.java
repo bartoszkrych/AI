@@ -7,7 +7,6 @@ import krych.bartosz.abstra.Variable;
 import krych.bartosz.crossword.CrosswordVariable;
 import krych.bartosz.sudoku.SudokuVariable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -65,14 +64,12 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
         }
 
         //special for sudoku but sudoku dont working
-        if (variables.get(n).getValue() != null) {
-            return execute(n + 1);
-        }
+//        if (variables.get(n).getValue() != null) {
+//            return execute(n + 1);
+//        }
         for (T k : variables.get(n).getDomain()) {
-            List<V> toCheckList = new ArrayList<>(variables);
-            toCheckList.get(n).setValue(k);
             leaves++;
-            if (filterDomains(toCheckList)) {
+            if (filterDomains(k, n)) {
                 variables.get(n).setValue(k);
                 if (execute(n + 1))
                     return true;
@@ -85,12 +82,15 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
         return false;
     }
 
-    private boolean filterDomains(List<V> list) {
-        List<V> varIsNull = list.stream().filter(x -> x.getValue() == null).collect(Collectors.toList());
-
+    private boolean filterDomains(T value, int n) {
+        int countValues = variables.stream().filter(x -> x.getValue() != null && x.getValue().equals(value)).collect(Collectors.toList()).size();
+        if (countValues > 0) return false;
+        variables.get(n).setValue(value);
+        List<V> varIsNull = variables.stream().filter(x -> x.getValue() == null).collect(Collectors.toList());
         for (V v : varIsNull) {
-            v.getDomain().removeIf(t -> !constraint.isGood(list, v, t));
-            if (v.getDomain().isEmpty()) return false;
+            List<T> domain = v.getCopyDomain();
+            domain.removeIf(t -> !constraint.isGood(variables, v, t));
+            if (domain.isEmpty()) return false;
         }
 
         return true;

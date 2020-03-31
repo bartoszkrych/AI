@@ -8,4 +8,6 @@ public interface Variable<V> {
     void setValue(V val);
 
     List<V> getDomain();
+
+    List<V> getCopyDomain();
 }

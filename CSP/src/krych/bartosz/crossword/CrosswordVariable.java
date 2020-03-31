@@ -2,6 +2,7 @@ package krych.bartosz.crossword;
 
 import krych.bartosz.abstra.Variable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CrosswordVariable implements Variable<String> {
@@ -22,6 +23,16 @@ public class CrosswordVariable implements Variable<String> {
 
     public List<String> getDomain() {
         return domain;
+    }
+
+    @Override
+    public List<String> getCopyDomain() {
+        List<String> copyDomain = new ArrayList<>();
+
+        for (String s : domain) {
+            copyDomain.add(new String(s));
+        }
+        return copyDomain;
     }
 
     public int getiBegin() {
