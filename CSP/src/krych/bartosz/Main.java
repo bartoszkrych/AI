@@ -36,7 +36,7 @@ public class Main {
         }*/
 
 //         select a file to testing
-        Crossword crossword = getCrosswordFromFile(4);
+        Crossword crossword = getCrosswordFromFile(3);
 //        crossword.printBoard();
 //        new Backtracking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
         new ForwardChecking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();

@@ -63,10 +63,6 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
             return false;
         }
 
-        //special for sudoku but sudoku dont working
-//        if (variables.get(n).getValue() != null) {
-//            return execute(n + 1);
-//        }
         for (T k : variables.get(n).getDomain()) {
             leaves++;
             if (filterDomains(k, n)) {
@@ -88,9 +84,13 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
         variables.get(n).setValue(value);
         List<V> varIsNull = variables.stream().filter(x -> x.getValue() == null).collect(Collectors.toList());
         for (V v : varIsNull) {
-            List<T> domain = v.getCopyDomain();
-            domain.removeIf(t -> !constraint.isGood(variables, v, t));
-            if (domain.isEmpty()) return false;
+            int counter = 0;
+            for (T t : v.getDomain()) {
+                if (!constraint.isGood(variables, v, t)) {
+                    counter++;
+                } else break;
+            }
+            if (v.getDomain().size() == counter) return false;
         }
 
         return true;
