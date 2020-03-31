@@ -22,7 +22,7 @@ public class Main {
      */
 
     public static void main(String[] args) {
-        List<Sudoku> s = getSudokuFromFile();
+//        List<Sudoku> s = getSudokuFromFile();
 //        select a sudoku to testing
 //        Backtracking backtrackingSudoku = new Backtracking(s.get(1), new SudokuConstraint(), new SudokuVarNaivHeuristic());
 //        backtrackingSudoku.start();
@@ -36,7 +36,7 @@ public class Main {
         }*/
 
 //         select a file to testing
-        Crossword crossword = getCrosswordFromFile(0);
+        Crossword crossword = getCrosswordFromFile(1);
 //        crossword.printBoard();
 //        new Backtracking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
         new ForwardChecking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
