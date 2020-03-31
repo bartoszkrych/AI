@@ -7,6 +7,7 @@ import krych.bartosz.abstra.Variable;
 import krych.bartosz.crossword.CrosswordVariable;
 import krych.bartosz.sudoku.SudokuVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -18,7 +19,7 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
     private C constraint;
     private H heuristic;
     private List<V> variables;
-
+    private List<List<Boolean>> boolList;
 
     private int resultsCount;
     private int reversionFirst;
@@ -43,7 +44,7 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
         reversion = 0;
         leaves = 0;
         variables = heuristic.sort(problem.getVariables());
-
+        initBoolList();
         startTime = System.nanoTime();
         execute(0);
         System.out.println("results: " + resultsCount + "\nMethod executed      ->      reversions: " + reversion + ",  leaves: " + leaves + ", time:" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + "ms");
@@ -68,13 +69,9 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
         if (variables.get(n).getValue() != null) {
             return execute(n + 1);
         }
-
         for (T k : variables.get(n).getDomain()) {
             leaves++;
-            List<V> toCheckList = List.copyOf(variables);
-            toCheckList.get(n).setValue(k);
-
-            if (filterDomains(toCheckList)) {
+            if (filterDomains(n, k)) {
                 variables.get(n).setValue(k);
                 if (execute(n + 1))
                     return true;
@@ -87,17 +84,33 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
         return false;
     }
 
-    private boolean filterDomains(List<V> list) {
-        List<V> varIsNull = list.stream().filter(x -> x.getValue() == null).collect(Collectors.toList());
-        for (V v : varIsNull) {
-            int counter = 0;
-            for (T t : v.getDomain()) {
-                if (!constraint.isGood(list, v, t)) counter++;
+    private boolean filterDomains(int idx, T k) {
+        List<V> toCheckList = List.copyOf(variables);
+        toCheckList.get(idx).setValue(k);
+        List<V> varIsNull = toCheckList.stream().filter(x -> x.getValue() == null).collect(Collectors.toList());
+        for (int i = 0; i < varIsNull.size(); i++) {
+            for (int j = 0; j < varIsNull.get(i).getDomain().size(); j++) {
+                if (boolList.get(idx + i + 1).get(j) && !constraint.isGood(toCheckList, varIsNull.get(i), varIsNull.get(i).getDomain().get(j))) {
+                    boolList.get(idx + i + 1).set(j, false);
+                } else {
+                    break;
+                }
             }
-            if (counter == v.getDomain().size()) return false;
+            if (!boolList.get(idx + i + 1).contains(Boolean.TRUE)) return false;
         }
 
         return true;
+    }
+
+    private void initBoolList() {
+        boolList = new ArrayList<>();
+        for (V v : variables) {
+            List<Boolean> array = new ArrayList<>();
+            for (T ignored : v.getDomain()) {
+                array.add(Boolean.TRUE);
+            }
+            boolList.add(array);
+        }
     }
 
     private void printResult(List<V> list) {
