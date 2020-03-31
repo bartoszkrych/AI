@@ -39,3 +39,5 @@ d
 4src/krych/bartosz/sudoku/SudokuVarNaivHeuristic.java,5\7\579eb4a8a777f36b4990a90c793fb295be7e34d9
 W
 'src/krych/bartosz/abstra/Heuristic.java,6\2\62bcf3e93b9c1ed290d7770c7c57259c8053faa3
+V
+&src/krych/bartosz/ForwardChecking.java,2\5\2507372147f10de018411ddbe33400423dc7e6e9

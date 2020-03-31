@@ -35,18 +35,19 @@ public class Main {
            new Backtracking(sudoku, new SudokuConstraint(), new SudokuVarNaivHeuristic().start();
         }*/
 
-        // select a file to testing
-//        Crossword crossword = getCrosswordFromFile(1);
+//         select a file to testing
+        Crossword crossword = getCrosswordFromFile(0);
 //        crossword.printBoard();
-//        new Backtracking(crossword, new CrosswordConstraint()).start();
+//        new Backtracking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
+        new ForwardChecking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
 
 
         // or all files
-        for (int i = 0; i <= 4; i++) {
-            Crossword crossword = getCrosswordFromFile(i);
-            crossword.printBoard();
-            new Backtracking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
-        }
+//        for (int i = 0; i <= 4; i++) {
+//            Crossword crossword = getCrosswordFromFile(i);
+//            crossword.printBoard();
+//            new Backtracking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
+//        }
     }
 
     private static Crossword getCrosswordFromFile(int fileNumber) {
