@@ -20,11 +20,11 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
     private List<List<Boolean>> boolList;
 
     private int resultsCount;
-    private int reversionFirst;
-    private int leavesFirst;
+    private int reversionsFirst;
+    private int nodesFirst;
     private long timeFirst;
-    private int reversion;
-    private int leaves;
+    private int reversions;
+    private int nodes;
     private long startTime;
 
     public ForwardChecking(P problem, C constraint, H varHeuristic, D domHeuristic) {
@@ -38,9 +38,9 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
         initValues();
         startTime = System.nanoTime();
         execute(0);
-        System.out.println("results: " + resultsCount + "\nMethod executed      ->      reversions: " + reversion + ",  leaves: " + leaves + ", time:" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + "ms");
+        System.out.println("results: " + resultsCount + "\nMethod executed      ->      reversions: " + reversions + ",  nodes: " + nodes + ", time:" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + "ms");
         if (resultsCount > 0)
-            System.out.println("First result         ->      reversions: " + reversionFirst + ",  leaves: " + leavesFirst + ", time:" + TimeUnit.NANOSECONDS.toMillis(timeFirst) + "ms");
+            System.out.println("First result         ->      reversions: " + reversionsFirst + ",  nodes: " + nodesFirst + ", time:" + TimeUnit.NANOSECONDS.toMillis(timeFirst) + "ms");
         System.out.println();
     }
 
@@ -49,19 +49,19 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
             resultsCount++;
             if (resultsCount == 1) {
                 timeFirst = System.nanoTime() - startTime;
-                reversionFirst = reversion;
-                leavesFirst = leaves;
+                reversionsFirst = reversions;
+                nodesFirst = nodes;
             }
 //            printResult(variables);
             return false;
         }
 
         for (T k : variables.get(n).getDomain()) {
-            leaves++;
+            nodes++;
             if (filterDomains(k, n) && execute(n + 1)) return true;
             resetBoolList(n + 1);
         }
-        reversion++;
+        reversions++;
         variables.get(n).setValue(null);
         return false;
     }
@@ -84,11 +84,11 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
 
     private void initValues() {
         resultsCount = 0;
-        reversionFirst = 0;
-        leavesFirst = 0;
+        reversionsFirst = 0;
+        nodesFirst = 0;
         timeFirst = 0;
-        reversion = 0;
-        leaves = 0;
+        reversions = 0;
+        nodes = 0;
         variables = varHeuristic.sort(problem.getVariables());
         domHeuristic.sort(variables);
         initBoolList();

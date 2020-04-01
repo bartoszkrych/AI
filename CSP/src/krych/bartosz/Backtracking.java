@@ -20,11 +20,11 @@ public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V ex
 
 
     private int resultsCount;
-    private int reversionFirst;
-    private int leavesFirst;
+    private int reversionsFirst;
+    private int nodesFirst;
     private long timeFirst;
-    private int reversion;
-    private int leaves;
+    private int reversions;
+    private int nodes;
     private long startTime;
 
 
@@ -36,18 +36,18 @@ public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V ex
 
     public void start() {
         resultsCount = 0;
-        reversionFirst = 0;
-        leavesFirst = 0;
+        reversionsFirst = 0;
+        nodesFirst = 0;
         timeFirst = 0;
-        reversion = 0;
-        leaves = 0;
+        reversions = 0;
+        nodes = 0;
         variables = heuristic.sort(problem.getVariables());
 
         startTime = System.nanoTime();
         execute(0);
-        System.out.println("results: " + resultsCount + "\nMethod executed      ->      reversions: " + reversion + ",  leaves: " + leaves + ", time:" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + "ms");
+        System.out.println("results: " + resultsCount + "\nMethod executed      ->      reversions: " + reversions + ",  nodes: " + nodes + ", time:" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + "ms");
         if (resultsCount > 0)
-            System.out.println("First result         ->      reversions: " + reversionFirst + ",  leaves: " + leavesFirst + ", time:" + TimeUnit.NANOSECONDS.toMillis(timeFirst) + "ms");
+            System.out.println("First result         ->      reversions: " + reversionsFirst + ",  nodes: " + nodesFirst + ", time:" + TimeUnit.NANOSECONDS.toMillis(timeFirst) + "ms");
         System.out.println();
     }
 
@@ -56,8 +56,8 @@ public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V ex
             resultsCount++;
             if (resultsCount == 1) {
                 timeFirst = System.nanoTime() - startTime;
-                reversionFirst = reversion;
-                leavesFirst = leaves;
+                reversionsFirst = reversions;
+                nodesFirst = nodes;
             }
 //            printResult(variables);
             return false;
@@ -69,7 +69,7 @@ public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V ex
         }
 
         for (T k : variables.get(n).getDomain()) {
-            leaves++;
+            nodes++;
             if (constraint.isGood(variables, variables.get(n), k)) {
                 variables.get(n).setValue(k);
                 if (execute(n + 1)) {
@@ -79,7 +79,7 @@ public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V ex
                 }
             }
         }
-        reversion++;
+        reversions++;
         variables.get(n).setValue(null);
         return false;
     }
