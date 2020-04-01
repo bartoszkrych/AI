@@ -34,8 +34,13 @@ public class Main {
         // or all files
         for (int i = 0; i <= 4; i++) {
             Crossword crossword = getCrosswordFromFile(i);
+            System.out.println("\n        #############################################");
+            System.out.println("        ##########       CROSSWORD " + i + "       ##########");
+            System.out.println("        #############################################\n");
 //            crossword.printBoard();
+            System.out.println("    BACKTRACINKG\n");
             new Backtracking(crossword, new CrosswordConstraint(), new CrossDescVarLenVarHeuristic()).start();
+            System.out.println("    FORWARDCHECKING\n");
             new ForwardChecking(crossword, new CrosswordConstraint(), new CrossSeqVarHeuristic(), new CrossShufDomHeuristic()).start();
         }
     }
