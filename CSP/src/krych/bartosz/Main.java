@@ -2,9 +2,9 @@ package krych.bartosz;
 
 import krych.bartosz.crossword.Crossword;
 import krych.bartosz.crossword.CrosswordConstraint;
-import krych.bartosz.crossword.heuristic.CrossDescVarLenVarHeuristic;
-import krych.bartosz.crossword.heuristic.CrossSeqVarHeuristic;
-import krych.bartosz.crossword.heuristic.CrossShufDomHeuristic;
+import krych.bartosz.crossword.heuristic.domain.CrossShufDomHeuristic;
+import krych.bartosz.crossword.heuristic.variable.CrossDescVarLenVarHeuristic;
+import krych.bartosz.crossword.heuristic.variable.CrossSeqVarHeuristic;
 import krych.bartosz.sudoku.Sudoku;
 import krych.bartosz.sudoku.SudokuVariable;
 

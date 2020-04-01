@@ -1,4 +1,4 @@
-package krych.bartosz.crossword.heuristic;
+package krych.bartosz.crossword.heuristic.domain;
 
 import krych.bartosz.abstra.DomHeuristic;
 import krych.bartosz.crossword.CrosswordVariable;
