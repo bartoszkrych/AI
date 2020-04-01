@@ -5,7 +5,7 @@ import krych.bartosz.abstra.Heuristic;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CrossVarDescHeuristic implements Heuristic<CrosswordVariable> {
+public class CrossDescVarHeuristic implements Heuristic<CrosswordVariable> {
 
     @Override
     public List<CrosswordVariable> sort(List<CrosswordVariable> list) {
