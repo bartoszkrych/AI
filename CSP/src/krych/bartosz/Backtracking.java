@@ -1,8 +1,8 @@
 package krych.bartosz;
 
 import krych.bartosz.abstra.Constraint;
-import krych.bartosz.abstra.Heuristic;
 import krych.bartosz.abstra.Problem;
+import krych.bartosz.abstra.VarHeuristic;
 import krych.bartosz.abstra.Variable;
 import krych.bartosz.crossword.CrosswordVariable;
 import krych.bartosz.sudoku.SudokuVariable;
@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import static krych.bartosz.crossword.Orientation.VERTICAL;
 
-public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V extends Variable<T>, T, H extends Heuristic<V>> {
+public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V extends Variable<T>, T, H extends VarHeuristic<V>> {
     private P problem;
     private C constraint;
     private H heuristic;

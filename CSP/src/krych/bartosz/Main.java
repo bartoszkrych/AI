@@ -1,8 +1,8 @@
 package krych.bartosz;
 
-import krych.bartosz.crossword.CrossVarDescHeuristic;
 import krych.bartosz.crossword.Crossword;
 import krych.bartosz.crossword.CrosswordConstraint;
+import krych.bartosz.crossword.heuristic.CrossNaiveVarVarHeuristic;
 import krych.bartosz.sudoku.Sudoku;
 import krych.bartosz.sudoku.SudokuVariable;
 
@@ -22,24 +22,11 @@ public class Main {
      */
 
     public static void main(String[] args) {
-//        List<Sudoku> s = getSudokuFromFile();
-//        select a sudoku to testing
-//        Backtracking backtrackingSudoku = new Backtracking(s.get(1), new SudokuConstraint(), new SudokuVarNaivHeuristic());
-//        backtrackingSudoku.start();
-//        s.get(1).printBoard();
-
-        // or all sudokus
-        /*for(Sudoku sudoku : s)
-        {
-           sudoku.printBoard();
-           new Backtracking(sudoku, new SudokuConstraint(), new SudokuVarNaivHeuristic().start();
-        }*/
-
 //         select a file to testing
         Crossword crossword = getCrosswordFromFile(3);
 //        crossword.printBoard();
 //        new Backtracking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
-        new ForwardChecking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
+        new ForwardChecking(crossword, new CrosswordConstraint(), new CrossNaiveVarVarHeuristic()).start();
 
 
         // or all files

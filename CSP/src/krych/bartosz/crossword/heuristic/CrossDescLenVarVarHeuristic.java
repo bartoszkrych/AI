@@ -1,11 +1,12 @@
-package krych.bartosz.crossword;
+package krych.bartosz.crossword.heuristic;
 
-import krych.bartosz.abstra.Heuristic;
+import krych.bartosz.abstra.VarHeuristic;
+import krych.bartosz.crossword.CrosswordVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CrossDescLenVarHeuristic implements Heuristic<CrosswordVariable> {
+public class CrossDescLenVarVarHeuristic implements VarHeuristic<CrosswordVariable> {
 
     @Override
     public List<CrosswordVariable> sort(List<CrosswordVariable> list) {
