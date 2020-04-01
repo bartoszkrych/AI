@@ -3,6 +3,7 @@ package krych.bartosz;
 import krych.bartosz.crossword.Crossword;
 import krych.bartosz.crossword.CrosswordConstraint;
 import krych.bartosz.crossword.heuristic.CrossNaiveVarVarHeuristic;
+import krych.bartosz.crossword.heuristic.CrossShufDomHeuristic;
 import krych.bartosz.sudoku.Sudoku;
 import krych.bartosz.sudoku.SudokuVariable;
 
@@ -23,18 +24,18 @@ public class Main {
 
     public static void main(String[] args) {
 //         select a file to testing
-        Crossword crossword = getCrosswordFromFile(3);
+//        Crossword crossword = getCrosswordFromFile(0);
 //        crossword.printBoard();
 //        new Backtracking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
-        new ForwardChecking(crossword, new CrosswordConstraint(), new CrossNaiveVarVarHeuristic()).start();
+//        new ForwardChecking(crossword, new CrosswordConstraint(), new CrossNaiveVarVarHeuristic(), new CrossShufDomHeuristic()).start();
 
 
         // or all files
-//        for (int i = 0; i <= 4; i++) {
-//            Crossword crossword = getCrosswordFromFile(i);
-//            crossword.printBoard();
-//            new Backtracking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
-//        }
+        for (int i = 0; i <= 4; i++) {
+            Crossword crossword = getCrosswordFromFile(i);
+            crossword.printBoard();
+            new ForwardChecking(crossword, new CrosswordConstraint(), new CrossNaiveVarVarHeuristic(), new CrossShufDomHeuristic()).start();
+        }
     }
 
     private static Crossword getCrosswordFromFile(int fileNumber) {

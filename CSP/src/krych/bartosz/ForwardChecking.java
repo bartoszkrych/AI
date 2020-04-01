@@ -1,9 +1,6 @@
 package krych.bartosz;
 
-import krych.bartosz.abstra.Constraint;
-import krych.bartosz.abstra.Problem;
-import krych.bartosz.abstra.VarHeuristic;
-import krych.bartosz.abstra.Variable;
+import krych.bartosz.abstra.*;
 import krych.bartosz.crossword.CrosswordVariable;
 import krych.bartosz.sudoku.SudokuVariable;
 
@@ -14,10 +11,11 @@ import java.util.stream.Collectors;
 
 import static krych.bartosz.crossword.Orientation.VERTICAL;
 
-public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V extends Variable<T>, T, H extends VarHeuristic<V>> {
+public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V extends Variable<T>, T, H extends VarHeuristic<V>, D extends DomHeuristic<V>> {
     private P problem;
     private C constraint;
-    private H heuristic;
+    private H varHeuristic;
+    private D domHeuristic;
     private List<V> variables;
     private List<List<Boolean>> boolList;
 
@@ -29,10 +27,11 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
     private int leaves;
     private long startTime;
 
-    public ForwardChecking(P problem, C constraint, H heuristic) {
+    public ForwardChecking(P problem, C constraint, H varHeuristic, D domHeuristic) {
         this.problem = problem;
         this.constraint = constraint;
-        this.heuristic = heuristic;
+        this.varHeuristic = varHeuristic;
+        this.domHeuristic = domHeuristic;
     }
 
     public void start() {
@@ -87,8 +86,6 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
             for (int j = 0; j < varIsNull.get(i).getDomain().size(); j++) {
                 if (boolList.get(n + i + 1).get(j) && !constraint.isGood(variables, varIsNull.get(i), varIsNull.get(i).getDomain().get(j))) {
                     boolList.get(n + i + 1).set(j, false);
-                } else {
-                    break;
                 }
             }
             if (!boolList.get(n + i + 1).contains(Boolean.TRUE)) return false;
@@ -103,7 +100,8 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
         timeFirst = 0;
         reversion = 0;
         leaves = 0;
-        variables = heuristic.sort(problem.getVariables());
+        variables = varHeuristic.sort(problem.getVariables());
+        domHeuristic.sort(variables);
         initBoolList();
     }
 
