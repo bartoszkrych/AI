@@ -59,7 +59,7 @@ public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V ex
                 reversionFirst = reversion;
                 leavesFirst = leaves;
             }
-            printResult(variables);
+//            printResult(variables);
             return false;
         }
 

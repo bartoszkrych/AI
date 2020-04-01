@@ -52,7 +52,7 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
                 reversionFirst = reversion;
                 leavesFirst = leaves;
             }
-            printResult(variables);
+//            printResult(variables);
             return false;
         }
 

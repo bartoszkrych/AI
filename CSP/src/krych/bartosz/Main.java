@@ -2,7 +2,8 @@ package krych.bartosz;
 
 import krych.bartosz.crossword.Crossword;
 import krych.bartosz.crossword.CrosswordConstraint;
-import krych.bartosz.crossword.heuristic.CrossNaiveVarVarHeuristic;
+import krych.bartosz.crossword.heuristic.CrossDescVarLenVarHeuristic;
+import krych.bartosz.crossword.heuristic.CrossSeqVarHeuristic;
 import krych.bartosz.crossword.heuristic.CrossShufDomHeuristic;
 import krych.bartosz.sudoku.Sudoku;
 import krych.bartosz.sudoku.SudokuVariable;
@@ -27,14 +28,15 @@ public class Main {
 //        Crossword crossword = getCrosswordFromFile(0);
 //        crossword.printBoard();
 //        new Backtracking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
-//        new ForwardChecking(crossword, new CrosswordConstraint(), new CrossNaiveVarVarHeuristic(), new CrossShufDomHeuristic()).start();
+//        new ForwardChecking(crossword, new CrosswordConstraint(), new CrossSeqVarHeuristic(), new CrossShufDomHeuristic()).start();
 
 
         // or all files
         for (int i = 0; i <= 4; i++) {
             Crossword crossword = getCrosswordFromFile(i);
-            crossword.printBoard();
-            new ForwardChecking(crossword, new CrosswordConstraint(), new CrossNaiveVarVarHeuristic(), new CrossShufDomHeuristic()).start();
+//            crossword.printBoard();
+            new Backtracking(crossword, new CrosswordConstraint(), new CrossDescVarLenVarHeuristic()).start();
+            new ForwardChecking(crossword, new CrosswordConstraint(), new CrossSeqVarHeuristic(), new CrossShufDomHeuristic()).start();
         }
     }
 
