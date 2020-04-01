@@ -58,23 +58,12 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
 
         for (T k : variables.get(n).getDomain()) {
             leaves++;
-            if (filterDomains(k, n)) {
-                if (execute(n + 1))
-                    return true;
-            }
+            if (filterDomains(k, n) && execute(n + 1)) return true;
             resetBoolList(n + 1);
         }
         reversion++;
         variables.get(n).setValue(null);
         return false;
-    }
-
-    private void resetBoolList(int idx) {
-        for (int i = idx; i < boolList.size(); i++) {
-            for (int j = 0; j < boolList.get(i).size(); j++) {
-                boolList.get(i).set(j, true);
-            }
-        }
     }
 
     private boolean filterDomains(T value, int n) {
@@ -113,6 +102,14 @@ public class ForwardChecking<P extends Problem<V>, C extends Constraint<T, V>, V
                 array.add(Boolean.TRUE);
             }
             boolList.add(array);
+        }
+    }
+
+    private void resetBoolList(int idx) {
+        for (int i = idx; i < boolList.size(); i++) {
+            for (int j = 0; j < boolList.get(i).size(); j++) {
+                if (!boolList.get(i).get(j)) boolList.get(i).set(j, true);
+            }
         }
     }
 
