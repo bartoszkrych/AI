@@ -1,10 +1,11 @@
 package krych.bartosz;
 
+import krych.bartosz.abstra.DomHeuristic;
+import krych.bartosz.abstra.VarHeuristic;
 import krych.bartosz.crossword.Crossword;
 import krych.bartosz.crossword.CrosswordConstraint;
 import krych.bartosz.crossword.heuristic.domain.CrossShufDomHeuristic;
 import krych.bartosz.crossword.heuristic.variable.CrossDescVarLenVarHeuristic;
-import krych.bartosz.crossword.heuristic.variable.CrossSeqVarHeuristic;
 import krych.bartosz.sudoku.Sudoku;
 import krych.bartosz.sudoku.SudokuVariable;
 
@@ -16,13 +17,6 @@ import java.util.Scanner;
 
 public class Main {
 
-    /**
-     * Niestety gdy wprowadziłęm generyczność, mam problemy z prawidłowym działaniem Sudoku i nie mam pomysły co mógłbym naprawić
-     * siedzialem nad tym dosc dlugo
-     * Jeśli mógłby Pan mi pomóc i w feedbacku napisać czego zabrakło?
-     * W cointrantach nie znalazłem błędów. Pomijam wartości !=null w rekurencji . w osobnych metodach również to robiłem
-     */
-
     public static void main(String[] args) {
 //         select a file to testing
 //        Crossword crossword = getCrosswordFromFile(0);
@@ -31,6 +25,9 @@ public class Main {
 //        new ForwardChecking(crossword, new CrosswordConstraint(), new CrossSeqVarHeuristic(), new CrossShufDomHeuristic()).start();
 
 
+        VarHeuristic varHeuristic = new CrossDescVarLenVarHeuristic();
+        DomHeuristic domHeuristic = new CrossShufDomHeuristic();
+
         // or all files
         for (int i = 0; i <= 4; i++) {
             Crossword crossword = getCrosswordFromFile(i);
@@ -38,10 +35,10 @@ public class Main {
             System.out.println("        ##########       CROSSWORD " + i + "       ##########");
             System.out.println("        #############################################\n");
 //            crossword.printBoard();
-            System.out.println("    BACKTRACINKG\n");
-            new Backtracking(crossword, new CrosswordConstraint(), new CrossDescVarLenVarHeuristic()).start();
+            System.out.println("    BACKTRACKING\n");
+            new Backtracking(crossword, new CrosswordConstraint(), varHeuristic, domHeuristic).start();
             System.out.println("    FORWARDCHECKING\n");
-            new ForwardChecking(crossword, new CrosswordConstraint(), new CrossSeqVarHeuristic(), new CrossShufDomHeuristic()).start();
+            new ForwardChecking(crossword, new CrosswordConstraint(), varHeuristic, domHeuristic).start();
         }
     }
 
