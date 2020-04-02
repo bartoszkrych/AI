@@ -1,9 +1,6 @@
 package krych.bartosz;
 
-import krych.bartosz.abstra.Constraint;
-import krych.bartosz.abstra.Problem;
-import krych.bartosz.abstra.VarHeuristic;
-import krych.bartosz.abstra.Variable;
+import krych.bartosz.abstra.*;
 import krych.bartosz.crossword.CrosswordVariable;
 import krych.bartosz.sudoku.SudokuVariable;
 
@@ -12,10 +9,11 @@ import java.util.concurrent.TimeUnit;
 
 import static krych.bartosz.crossword.Orientation.VERTICAL;
 
-public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V extends Variable<T>, T, H extends VarHeuristic<V>> {
+public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V extends Variable<T>, T, H extends VarHeuristic<V>, D extends DomHeuristic<V>> {
     private P problem;
     private C constraint;
-    private H heuristic;
+    private H varHeuristic;
+    private D domHeuristic;
     private List<V> variables;
 
 
@@ -27,22 +25,15 @@ public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V ex
     private int nodes;
     private long startTime;
 
-
-    public Backtracking(P problem, C constraint, H heuristic) {
+    public Backtracking(P problem, C constraint, H varHeuristic, D domHeuristic) {
         this.problem = problem;
         this.constraint = constraint;
-        this.heuristic = heuristic;
+        this.varHeuristic = varHeuristic;
+        this.domHeuristic = domHeuristic;
     }
 
     public void start() {
-        resultsCount = 0;
-        reversionsFirst = 0;
-        nodesFirst = 0;
-        timeFirst = 0;
-        reversions = 0;
-        nodes = 0;
-        variables = heuristic.sort(problem.getVariables());
-
+        initValues();
         startTime = System.nanoTime();
         execute(0);
         System.out.println("results: " + resultsCount + "\nMethod executed      ->      reversions: " + reversions + ",  nodes: " + nodes + ", time:" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + "ms");
@@ -72,16 +63,24 @@ public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V ex
             nodes++;
             if (constraint.isGood(variables, variables.get(n), k)) {
                 variables.get(n).setValue(k);
-                if (execute(n + 1)) {
+                if (execute(n + 1))
                     return true;
-                } else {
-                    variables.get(n).setValue(null);
-                }
             }
         }
         reversions++;
         variables.get(n).setValue(null);
         return false;
+    }
+
+    private void initValues() {
+        resultsCount = 0;
+        reversionsFirst = 0;
+        nodesFirst = 0;
+        timeFirst = 0;
+        reversions = 0;
+        nodes = 0;
+        variables = varHeuristic.sort(problem.getVariables());
+        domHeuristic.sort(variables);
     }
 
     private void printResult(List<V> list) {

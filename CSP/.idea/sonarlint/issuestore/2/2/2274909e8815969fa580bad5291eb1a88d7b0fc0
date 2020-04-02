@@ -1,7 +1,8 @@
 
-gsquid:UnusedPrivateMethodK"6Remove this unused private "getSudokuFromFile" method.(©öª×ýÿÿÿÿ8é§ð’“.
-Fsquid:S1148h"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ÁÌ„â‘.
-Fsquid:S11488"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ÞöçÂ‘.
-Fsquid:S1148E"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ÞöçÂ‘.
-isquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(œ±¾Š8ïôøŒ“.
-isquid:CommentedOutCodeLine!"<This block of commented-out lines of code should be removed.(Ê…Ç¡8Å¦øŒ“.
+“squid:UselessImportCheck"cRemove this unused import 'krych.bartosz.crossword.heuristic.variable.CrossDescVarLenVarHeuristic'.(¬¶ˆšþÿÿÿÿ8¸Àã³“.
+Fsquid:S1148M"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ÞöçÂ‘.
+gsquid:UnusedPrivateMethodS"6Remove this unused private "getSudokuFromFile" method.(©öª×ýÿÿÿÿ8é§ð’“.
+hsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(±Õ¨D8ÀÂ‘®“.
+isquid:CommentedOutCodeLine("<This block of commented-out lines of code should be removed.(œ±¾Š8ûÄ¯“.
+Fsquid:S1148p"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ÁÌ„â‘.
+Fsquid:S1148@"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ÞöçÂ‘.
