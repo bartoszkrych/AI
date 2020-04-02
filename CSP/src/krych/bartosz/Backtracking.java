@@ -16,7 +16,6 @@ public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V ex
     private D domHeuristic;
     private List<V> variables;
 
-
     private int resultsCount;
     private int reversionsFirst;
     private int nodesFirst;

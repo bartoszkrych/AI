@@ -19,10 +19,10 @@ public class Main {
 
     public static void main(String[] args) {
 //         select a file to testing
-//        Crossword crossword = getCrosswordFromFile(0);
-//        crossword.printBoard();
-//        new Backtracking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
-//        new ForwardChecking(crossword, new CrosswordConstraint(), new CrossSeqVarHeuristic(), new CrossShufDomHeuristic()).start();
+/*        Crossword crossword = getCrosswordFromFile(0);
+        crossword.printBoard();
+        new Backtracking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
+        new ForwardChecking(crossword, new CrosswordConstraint(), new CrossSeqVarHeuristic(), new CrossShufDomHeuristic()).start();*/
 
 
         VarHeuristic varHeuristic = new CrossDescVarLenVarHeuristic();
