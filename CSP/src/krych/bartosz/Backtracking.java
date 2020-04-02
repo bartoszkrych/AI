@@ -4,6 +4,7 @@ import krych.bartosz.abstra.*;
 import krych.bartosz.crossword.CrosswordVariable;
 import krych.bartosz.sudoku.SudokuVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -23,22 +24,50 @@ public class Backtracking<P extends Problem<V>, C extends Constraint<T, V>, V ex
     private int reversions;
     private int nodes;
     private long startTime;
+    private DataSaver dataSaver;
 
-    public Backtracking(P problem, C constraint, H varHeuristic, D domHeuristic) {
+    public Backtracking(P problem, C constraint, H varHeuristic, D domHeuristic, DataSaver dataSaver) {
         this.problem = problem;
         this.constraint = constraint;
         this.varHeuristic = varHeuristic;
         this.domHeuristic = domHeuristic;
+        this.dataSaver = dataSaver;
+        this.dataSaver.setCspType("back");
     }
 
     public void start() {
-        initValues();
-        startTime = System.nanoTime();
-        execute(0);
-        System.out.println("results: " + resultsCount + "\nMethod executed      ->      reversions: " + reversions + ",  nodes: " + nodes + ", time:" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + "ms");
-        if (resultsCount > 0)
+        List<String[]> dataLines = new ArrayList<>();
+        List<Integer> firNodes = new ArrayList<>();
+        List<Integer> firRevs = new ArrayList<>();
+        List<Long> firTime = new ArrayList<>();
+        List<Integer> nods = new ArrayList<>();
+        List<Integer> revs = new ArrayList<>();
+        List<Long> times = new ArrayList<>();
+        dataLines.add(new String[]{"firTime", "firNodes", "firRevs", "time", "nodes", "revs"});
+        for (int i = 0; i < 10; i++) {
+            initValues();
+            startTime = System.nanoTime();
+            execute(0);
+            Long endTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
+            System.out.println("results: " + resultsCount + "\nMethod executed      ->      reversions: " + reversions + ",  nodes: " + nodes + ", time:" + endTime + "ms");
+//            if (resultsCount > 0)
             System.out.println("First result         ->      reversions: " + reversionsFirst + ",  nodes: " + nodesFirst + ", time:" + TimeUnit.NANOSECONDS.toMillis(timeFirst) + "ms");
-        System.out.println();
+            System.out.println();
+            firNodes.add(nodesFirst);
+            firRevs.add(reversionsFirst);
+            firTime.add(TimeUnit.NANOSECONDS.toMillis(timeFirst));
+            nods.add(nodes);
+            revs.add(reversions);
+            times.add(endTime);
+        }
+
+        dataLines.add(new String[]{String.valueOf(firTime.stream().mapToLong(Long::longValue).average().orElse(-1)),
+                String.valueOf(firNodes.stream().mapToInt(Integer::intValue).average().orElse(-1)),
+                String.valueOf(firRevs.stream().mapToInt(Integer::intValue).average().orElse(-1)),
+                String.valueOf(times.stream().mapToLong(Long::longValue).average().orElse(-1)),
+                String.valueOf(nods.stream().mapToInt(Integer::intValue).average().orElse(-1)),
+                String.valueOf(revs.stream().mapToInt(Integer::intValue).average().orElse(-1))});
+        dataSaver.saveToFile(dataLines);
     }
 
     private boolean execute(int n) {

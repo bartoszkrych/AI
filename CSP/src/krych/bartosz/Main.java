@@ -4,8 +4,8 @@ import krych.bartosz.abstra.DomHeuristic;
 import krych.bartosz.abstra.VarHeuristic;
 import krych.bartosz.crossword.Crossword;
 import krych.bartosz.crossword.CrosswordConstraint;
-import krych.bartosz.crossword.heuristic.domain.CrossShufDomHeuristic;
-import krych.bartosz.crossword.heuristic.variable.CrossDescVarLenVarHeuristic;
+import krych.bartosz.crossword.heuristic.domain.CrossSeqDomHeuristic;
+import krych.bartosz.crossword.heuristic.variable.CrossSeqVarHeuristic;
 import krych.bartosz.sudoku.Sudoku;
 import krych.bartosz.sudoku.SudokuVariable;
 
@@ -19,14 +19,15 @@ public class Main {
 
     public static void main(String[] args) {
 //         select a file to testing
-/*        Crossword crossword = getCrosswordFromFile(0);
-        crossword.printBoard();
-        new Backtracking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
-        new ForwardChecking(crossword, new CrosswordConstraint(), new CrossSeqVarHeuristic(), new CrossShufDomHeuristic()).start();*/
+//        Crossword crossword = getCrosswordFromFile(0);
+//        crossword.printBoard();
+//        new Backtracking(crossword, new CrosswordConstraint(), new CrossVarDescHeuristic()).start();
+//        new ForwardChecking(crossword, new CrosswordConstraint(), new CrossSeqVarHeuristic(), new CrossShufDomHeuristic()).start();
 
 
-        VarHeuristic varHeuristic = new CrossDescVarLenVarHeuristic();
-        DomHeuristic domHeuristic = new CrossShufDomHeuristic();
+        VarHeuristic varHeuristic = new CrossSeqVarHeuristic();
+        DomHeuristic domHeuristic = new CrossSeqDomHeuristic();
+        String folderName = "comparision";
 
         // or all files
         for (int i = 0; i <= 4; i++) {
@@ -36,9 +37,9 @@ public class Main {
             System.out.println("        #############################################\n");
 //            crossword.printBoard();
             System.out.println("    BACKTRACKING\n");
-            new Backtracking(crossword, new CrosswordConstraint(), varHeuristic, domHeuristic).start();
+            new Backtracking(crossword, new CrosswordConstraint(), varHeuristic, domHeuristic, new DataSaver(folderName, "jolka" + i)).start();
             System.out.println("    FORWARDCHECKING\n");
-            new ForwardChecking(crossword, new CrosswordConstraint(), varHeuristic, domHeuristic).start();
+            new ForwardChecking(crossword, new CrosswordConstraint(), varHeuristic, domHeuristic, new DataSaver(folderName, "jolka" + i)).start();
         }
     }
 
