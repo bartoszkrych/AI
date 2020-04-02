@@ -11,7 +11,7 @@ public class DataSaver {
     private String cspType;
     private String folderName;
 
-    public DataSaver(String fileName, String folderName) {
+    public DataSaver(String folderName, String fileName) {
         this.fileName = fileName;
         this.folderName = folderName;
     }
