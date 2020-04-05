@@ -4,8 +4,8 @@ import krych.bartosz.abstra.DomHeuristic;
 import krych.bartosz.abstra.VarHeuristic;
 import krych.bartosz.crossword.Crossword;
 import krych.bartosz.crossword.CrosswordConstraint;
-import krych.bartosz.crossword.heuristic.domain.CrossSeqDomHeuristic;
-import krych.bartosz.crossword.heuristic.variable.CrossSeqVarHeuristic;
+import krych.bartosz.crossword.heuristic.domain.CrossAlphDomHeuristic;
+import krych.bartosz.crossword.heuristic.variable.CrossDescVarLenVarHeuristic;
 import krych.bartosz.sudoku.Sudoku;
 import krych.bartosz.sudoku.SudokuVariable;
 
@@ -25,9 +25,9 @@ public class Main {
 //        new ForwardChecking(crossword, new CrosswordConstraint(), new CrossSeqVarHeuristic(), new CrossShufDomHeuristic()).start();
 
 
-        VarHeuristic varHeuristic = new CrossSeqVarHeuristic();
-        DomHeuristic domHeuristic = new CrossSeqDomHeuristic();
-        String folderName = "comparision";
+        VarHeuristic varHeuristic = new CrossDescVarLenVarHeuristic();
+        DomHeuristic domHeuristic = new CrossAlphDomHeuristic();
+        String folderName = "DescVarLenVar_AlphDom";
 
         // or all files
         for (int i = 0; i <= 4; i++) {

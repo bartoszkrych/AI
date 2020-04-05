@@ -45,9 +45,4 @@ public class SudokuVariable implements Variable<Integer> {
     public List<Integer> getDomain() {
         return domain;
     }
-
-    @Override
-    public List<Integer> getCopyDomain() {
-        return null;
-    }
 }

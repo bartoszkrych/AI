@@ -49,3 +49,7 @@ v
 Fsrc/krych/bartosz/crossword/heuristic/domain/CrossSeqDomHeuristic.java,3\3\33d03718985d8765cbca8677d87816d47a4ffe45
 w
 Gsrc/krych/bartosz/crossword/heuristic/domain/CrossShufDomHeuristic.java,8\9\897ff0da44b773a011f0d1ae1dac16bf64837557
+P
+ src/krych/bartosz/DataSaver.java,f\3\f31115d783321064ee3e805fb8f6b97ab8353cfe
+w
+Gsrc/krych/bartosz/crossword/heuristic/domain/CrossAlphDomHeuristic.java,6\0\60f3ca1dc4bdafac3bcdba7dc8a2db3874620b8f
