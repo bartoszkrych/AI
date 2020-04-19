@@ -37,4 +37,50 @@ public class Board {
             }
         }
     }
+
+    public void nextMove(int col, int player) {
+        int row = getEmptyRow(col);
+        if (row == -1) {
+            System.err.println("Full column: " + (col + 1) + " !!");
+            return;
+        }
+        lastMove = new Move(row, col);
+        lastPlayer = player;
+        boardGame.get(row).set(col, player);
+        turn++;
+    }
+
+    public void backMove(int row, int col, int player) {
+        boardGame.get(row).set(col, Consts.EMPTY);
+        if (player == Consts.P_1) {
+            lastPlayer = Consts.P_2;
+        } else if (player == Consts.P_2) {
+            lastPlayer = Consts.P_1;
+        }
+        if (turn > 1) turn--;
+    }
+
+    public List<Board> generateNodes(int player) {
+        List<Board> nodes = new ArrayList<>();
+        for (int i = 0; i < GameParams.cols; i++) {
+            if (!isFullCol(i)) {
+                Board node = new Board(this);
+                node.nextMove(i, player);
+                nodes.add(node);
+            }
+        }
+        return nodes;
+    }
+
+    private Integer getEmptyRow(int col) {
+        int lastRow = -1;
+        for (int i = 0; i < GameParams.rows; i++) {
+            if (boardGame.get(i).get(col).equals(Consts.EMPTY)) lastRow = i;
+        }
+        return lastRow;
+    }
+
+    public boolean isFullCol(int col) {
+        return !boardGame.get(0).get(col).equals(Consts.EMPTY);
+    }
 }
