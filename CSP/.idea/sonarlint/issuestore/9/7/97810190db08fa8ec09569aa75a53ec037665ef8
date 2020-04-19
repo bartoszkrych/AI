@@ -1,0 +1,7 @@
+
+¤squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(þÒÏ±øÿÿÿÿ8Ž˜Ðœ‘.
+ssquid:S11498"PReplace the synchronized class "Stack" by an unsynchronized one such as "Deque".(ƒ†£Ýøÿÿÿÿ8Ž˜Ðœ‘.
+ysquid:S00120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¦ÅýÝ8·ÍØœ‘.
+psquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(¶ˆ§²8Ì«®›‘.
+nsquid:S1149"PReplace the synchronized class "Stack" by an unsynchronized one such as "Deque".(¶ˆ§²8¶í¦™‘.
+ssquid:S1149"PReplace the synchronized class "Stack" by an unsynchronized one such as "Deque".(ÂÂŽœúÿÿÿÿ8€…Ø˜‘.
