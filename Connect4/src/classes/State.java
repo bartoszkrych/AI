@@ -182,10 +182,6 @@ public class State {
         return board;
     }
 
-    public Integer getTurn() {
-        return turn;
-    }
-
     public Integer getLastPlayer() {
         return lastPlayer;
     }
