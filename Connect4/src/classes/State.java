@@ -76,6 +76,10 @@ public class State {
         return nodes;
     }
 
+    public int calcFitness() {
+        return 0;
+    }
+
     public boolean isWin() {
         if (checkHor() || checkVer() || checkDescDiag() || checkAscDiag())
             return true;
@@ -188,5 +192,9 @@ public class State {
 
     public void setLastPlayer(Integer lastPlayer) {
         this.lastPlayer = lastPlayer;
+    }
+
+    public Move getLastMove() {
+        return lastMove;
     }
 }
