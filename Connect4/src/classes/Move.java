@@ -1,7 +1,15 @@
 package classes;
 
 public class Move {
-    private int x;
-    private int y;
-    private int val;
+    private Integer col;
+    private Integer row;
+    private Integer val;
+
+    public Move(Integer row, Integer col) {
+        this.col = col;
+        this.row = row;
+    }
+
+    public Move() {
+    }
 }

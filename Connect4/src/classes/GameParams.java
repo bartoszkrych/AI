@@ -5,6 +5,9 @@ public class GameParams {
     public static int maxDepth1 = 4;
     public static int maxDepth2 = 4;
 
+    public static int cols = 7;
+    public static int rows = 6;
+
 
     public static final String getColorNameByNumber(int number) {
         switch (number) {
