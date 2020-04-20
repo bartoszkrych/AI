@@ -1,9 +1,11 @@
 import classes.Consts;
+import classes.MinMax;
+import classes.Move;
 import classes.State;
+import interfaces.GameAlgorithm;
 
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -11,6 +13,8 @@ public class Main {
     public static void main(String[] args) {
         int col;
         State game = new State();
+        int maxDepth = 5;
+        GameAlgorithm ai = new MinMax(maxDepth, Consts.P_2);
 
         game.setLastPlayer(Consts.P_2);
 
@@ -42,9 +46,12 @@ public class Main {
                     break;
                 case 1:
                     System.out.println("Player 2 moves.");
-                    Random r = new Random();
-                    int randomNum = r.nextInt(7);
-                    game.nextMove(randomNum, Consts.P_2);
+//                    Random r = new Random();
+//                    int randomNum = r.nextInt(7);
+//                    game.nextMove(randomNum, Consts.P_2);
+
+                    Move aiMove = ai.findMove(game);
+                    game.nextMove(aiMove.getCol(), Consts.P_2);
                     break;
                 default:
                     break;
