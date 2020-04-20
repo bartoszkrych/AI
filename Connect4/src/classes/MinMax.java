@@ -45,7 +45,7 @@ public class MinMax implements GameAlgorithm {
         List<State> children = new ArrayList(state.generateNodes(Consts.P_2));
         Move minMove = new Move(Integer.MAX_VALUE);
         for (State child : children) {
-            Move move = max(child, depth + 1);
+            Move move = max(child, curDepth+ 1);
             if (move.getVal() <= minMove.getVal()) minMaxHelper(minMove, child, move);
         }
         return minMove;
