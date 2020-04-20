@@ -35,10 +35,11 @@ public class State {
         winner = state.winner;
         this.board = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
-            board.add(new ArrayList<>());
+            List<Integer> row = new ArrayList<>();
             for (int j = 0; j < cols; j++) {
-                board.get(i).set(j, state.board.get(i).get(j));
+                row.add(state.board.get(i).get(j));
             }
+            board.add(row);
         }
     }
 
@@ -77,6 +78,8 @@ public class State {
     }
 
     public int calcFitness() {
+        if (isWin() && lastPlayer.equals(Consts.P_1)) return 1000;
+        if (isWin() && lastPlayer.equals(Consts.P_2)) return -1000;
         return 0;
     }
 
