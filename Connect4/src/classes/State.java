@@ -7,13 +7,9 @@ public class State {
     private Integer lastPlayer;
     private Move lastMove;
     private List<List<Integer>> board;
-    private boolean gameover = false;
-    private Integer turn = 1;
     private Integer winner;
     private int rows = Consts.ROWS;
     private int cols = Consts.COLS;
-
-    private boolean overflowSome = false;
 
     public State() {
         this.lastPlayer = Consts.EMPTY;
@@ -51,17 +47,6 @@ public class State {
         lastMove = new Move(row, col);
         lastPlayer = player;
         board.get(row).set(col, player);
-        turn++;
-    }
-
-    public void backMove(int row, int col, int player) {
-        board.get(row).set(col, Consts.EMPTY);
-        if (player == Consts.P_1) {
-            lastPlayer = Consts.P_2;
-        } else if (player == Consts.P_2) {
-            lastPlayer = Consts.P_1;
-        }
-        if (turn > 1) turn--;
     }
 
     public List<State> generateNodes(int player) {
