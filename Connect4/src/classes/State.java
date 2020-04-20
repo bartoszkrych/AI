@@ -84,7 +84,7 @@ public class State {
     }
 
     public boolean isWin() {
-        if (checkHor() || checkVer() || checkDescDiag() || checkAscDiag())
+        if (checkerWin())
             return true;
         winner = Consts.EMPTY;
         return false;
@@ -96,7 +96,7 @@ public class State {
         return !board.get(0).contains(Consts.EMPTY);
     }
 
-    private boolean checkHor() {
+    private boolean checkerWin() {
         for (int i = 0; i < rows; i++) {
             List<Integer> row = board.get(i);
             for (int j = 0; j < cols; j++) {
@@ -109,14 +109,6 @@ public class State {
                         return true;
                     }
                 }
-            }
-        }
-        return false;
-    }
-
-    private boolean checkVer() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
                 if (canMove(i - 3, j)) {
                     if (board.get(i).get(j).equals(board.get(i - 1).get(j))
                             && board.get(i).get(j).equals(board.get(i - 2).get(j))
@@ -126,14 +118,6 @@ public class State {
                         return true;
                     }
                 }
-            }
-        }
-        return false;
-    }
-
-    private boolean checkDescDiag() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
                 if (canMove(i + 3, j + 3)) {
                     if (board.get(i).get(j).equals(board.get(i + 1).get(j + 1))
                             && board.get(i).get(j).equals(board.get(i + 2).get(j + 2))
@@ -143,14 +127,6 @@ public class State {
                         return true;
                     }
                 }
-            }
-        }
-        return false;
-    }
-
-    private boolean checkAscDiag() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
                 if (canMove(i - 3, j + 3)) {
                     if (board.get(i).get(j).equals(board.get(i - 1).get(j + 1))
                             && board.get(i).get(j).equals(board.get(i - 2).get(j + 2))
@@ -164,6 +140,75 @@ public class State {
         }
         return false;
     }
+
+//    private boolean checkHor() {
+//        for (int i = 0; i < rows; i++) {
+//            List<Integer> row = board.get(i);
+//            for (int j = 0; j < cols; j++) {
+//                if (canMove(i, j + 3)) {
+//                    if (row.get(j).equals(row.get(j + 1))
+//                            && row.get(j).equals(row.get(j + 2))
+//                            && row.get(j).equals(row.get(j + 3))
+//                            && !row.get(j).equals(Consts.EMPTY)) {
+//                        winner = row.get(j);
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
+//        return false;
+//    }
+//
+//    private boolean checkVer() {
+//        for (int i = 0; i < rows; i++) {
+//            for (int j = 0; j < cols; j++) {
+//                if (canMove(i - 3, j)) {
+//                    if (board.get(i).get(j).equals(board.get(i - 1).get(j))
+//                            && board.get(i).get(j).equals(board.get(i - 2).get(j))
+//                            && board.get(i).get(j).equals(board.get(i - 3).get(j))
+//                            && !board.get(i).get(j).equals(Consts.EMPTY)) {
+//                        winner = board.get(i).get(j);
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
+//        return false;
+//    }
+//
+//    private boolean checkDescDiag() {
+//        for (int i = 0; i < rows; i++) {
+//            for (int j = 0; j < cols; j++) {
+//                if (canMove(i + 3, j + 3)) {
+//                    if (board.get(i).get(j).equals(board.get(i + 1).get(j + 1))
+//                            && board.get(i).get(j).equals(board.get(i + 2).get(j + 2))
+//                            && board.get(i).get(j).equals(board.get(i + 3).get(j + 3))
+//                            && !board.get(i).get(j).equals(Consts.EMPTY)) {
+//                        winner = board.get(i).get(j);
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
+//        return false;
+//    }
+//
+//    private boolean checkAscDiag() {
+//        for (int i = 0; i < rows; i++) {
+//            for (int j = 0; j < cols; j++) {
+//                if (canMove(i - 3, j + 3)) {
+//                    if (board.get(i).get(j).equals(board.get(i - 1).get(j + 1))
+//                            && board.get(i).get(j).equals(board.get(i - 2).get(j + 2))
+//                            && board.get(i).get(j).equals(board.get(i - 3).get(j + 3))
+//                            && !board.get(i).get(j).equals(Consts.EMPTY)) {
+//                        winner = board.get(i).get(j);
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     private Integer getEmptyRow(int col) {
         int lastRow = -1;
