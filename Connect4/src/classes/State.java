@@ -109,30 +109,31 @@ public class State {
                         return true;
                     }
                 }
+                Integer toCheck = board.get(i).get(j);
                 if (canMove(i - 3, j)) {
-                    if (board.get(i).get(j).equals(board.get(i - 1).get(j))
-                            && board.get(i).get(j).equals(board.get(i - 2).get(j))
-                            && board.get(i).get(j).equals(board.get(i - 3).get(j))
-                            && !board.get(i).get(j).equals(Consts.EMPTY)) {
-                        winner = board.get(i).get(j);
+                    if (toCheck.equals(board.get(i - 1).get(j))
+                            && toCheck.equals(board.get(i - 2).get(j))
+                            && toCheck.equals(board.get(i - 3).get(j))
+                            && !toCheck.equals(Consts.EMPTY)) {
+                        winner = toCheck;
                         return true;
                     }
                 }
                 if (canMove(i + 3, j + 3)) {
-                    if (board.get(i).get(j).equals(board.get(i + 1).get(j + 1))
-                            && board.get(i).get(j).equals(board.get(i + 2).get(j + 2))
-                            && board.get(i).get(j).equals(board.get(i + 3).get(j + 3))
-                            && !board.get(i).get(j).equals(Consts.EMPTY)) {
-                        winner = board.get(i).get(j);
+                    if (toCheck.equals(board.get(i + 1).get(j + 1))
+                            && toCheck.equals(board.get(i + 2).get(j + 2))
+                            && toCheck.equals(board.get(i + 3).get(j + 3))
+                            && !toCheck.equals(Consts.EMPTY)) {
+                        winner = toCheck;
                         return true;
                     }
                 }
                 if (canMove(i - 3, j + 3)) {
-                    if (board.get(i).get(j).equals(board.get(i - 1).get(j + 1))
-                            && board.get(i).get(j).equals(board.get(i - 2).get(j + 2))
-                            && board.get(i).get(j).equals(board.get(i - 3).get(j + 3))
-                            && !board.get(i).get(j).equals(Consts.EMPTY)) {
-                        winner = board.get(i).get(j);
+                    if (toCheck.equals(board.get(i - 1).get(j + 1))
+                            && toCheck.equals(board.get(i - 2).get(j + 2))
+                            && toCheck.equals(board.get(i - 3).get(j + 3))
+                            && !toCheck.equals(Consts.EMPTY)) {
+                        winner = toCheck;
                         return true;
                     }
                 }
