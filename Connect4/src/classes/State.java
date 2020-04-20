@@ -10,8 +10,8 @@ public class State {
     private boolean gameover = false;
     private Integer turn = 1;
     private Integer winner;
-    private int rows = GameParams.rows;
-    private int cols = GameParams.cols;
+    private int rows = Consts.ROWS;
+    private int cols = Consts.COLS;
 
     private boolean overflowSome = false;
 
@@ -23,7 +23,6 @@ public class State {
             List<Integer> row = new ArrayList<>();
             for (int j = 0; j < cols; j++) {
                 row.add(Consts.EMPTY);
-//                board.get(i).set(j, Consts.EMPTY);
             }
             board.add(row);
         }
