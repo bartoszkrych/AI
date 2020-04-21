@@ -3,7 +3,7 @@ package classes;
 public class Move {
     private Integer col;
     private Integer row;
-    private Integer val;
+    private Integer fitness;
 
     public Move(Integer row, Integer col) {
         this.col = col;
@@ -13,14 +13,14 @@ public class Move {
     public Move() {
     }
 
-    public Move(Integer val) {
-        this.val = val;
+    public Move(Integer fitness) {
+        this.fitness = fitness;
     }
 
-    public Move(Integer row, Integer col, Integer val) {
+    public Move(Integer row, Integer col, Integer fitness) {
         this.col = col;
         this.row = row;
-        this.val = val;
+        this.fitness = fitness;
     }
 
     public Integer getCol() {
@@ -39,11 +39,11 @@ public class Move {
         this.row = row;
     }
 
-    public Integer getVal() {
-        return val;
+    public Integer getFitness() {
+        return fitness;
     }
 
-    public void setVal(Integer val) {
-        this.val = val;
+    public void setFitness(Integer fitness) {
+        this.fitness = fitness;
     }
 }
