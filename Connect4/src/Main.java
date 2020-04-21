@@ -4,7 +4,6 @@ import classes.Move;
 import classes.State;
 import interfaces.GameAlgorithm;
 
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
         int col;
         State game = new State();
-        int maxDepth = 5;
+        int maxDepth = 6;
         GameAlgorithm ai = new MinMax(maxDepth, Consts.P_2);
 
         game.setLastPlayer(Consts.P_2);
@@ -24,28 +23,22 @@ public class Main {
         Scanner in = new Scanner(System.in);
 
         while (!game.isEnd()) {
-            System.out.println("\n*****************************");
             switch (game.getLastPlayer()) {
                 case 2:
-                    System.out.print("Player 1 moves.");
                     try {
                         do {
-                            System.out.print("\nGive column (1-7): ");
+                            System.out.print("\nSelect column: ");
                             col = in.nextInt();
                         } while (game.isFullCol(col - 1));
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        System.err.println("\nValid numbers are 1, 2, 3, 4, 5, 6 or 7.\n");
-                        break;
-                    } catch (InputMismatchException e) {
-                        System.err.println("\nInput an integer number.");
-                        System.err.println("Valid numbers are 1, 2, 3, 4, 5, 6 or 7.\n");
+                    } catch (Exception e) {
+                        System.err.println("Only [1,7].\n");
                         break;
                     }
                     game.nextMove(col - 1, Consts.P_1);
                     System.out.println();
                     break;
                 case 1:
-                    System.out.println("Player 2 moves.");
+                    System.out.println("Round for AI...");
 //                    Random r = new Random();
 //                    int randomNum = r.nextInt(7);
 //                    game.nextMove(randomNum, Consts.P_2);
@@ -68,7 +61,6 @@ public class Main {
         } else {
             System.out.println("It's a draw!");
         }
-        System.out.println("End Game.");
     }
 
 
