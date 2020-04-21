@@ -62,9 +62,24 @@ public class State {
     }
 
     public int calcFitness() {
-        if (isWin() && lastPlayer.equals(Consts.P_1)) return 1000;
-        if (isWin() && lastPlayer.equals(Consts.P_2)) return -1000;
-        return 0;
+//        if (isWin() && lastPlayer.equals(Consts.P_1)) return 1000;
+//        if (isWin() && lastPlayer.equals(Consts.P_2)) return -1000;
+//        return 0;
+
+        int fitP1 = 0;
+        int fitP2 = 0;
+
+        if (isWin()) {
+            if (getWinner().equals(Consts.P_1)) {
+                fitP1 = 100;
+            } else if (getWinner().equals(Consts.P_2)) {
+                fitP2 = 100;
+            }
+        }
+
+        fitP1 += fitThreeInLine(Consts.P_1) * 10;
+        fitP2 += fitThreeInLine(Consts.P_2) * 10;
+        return fitP1 - fitP2;
     }
 
     public boolean isWin() {
@@ -126,6 +141,50 @@ public class State {
         return false;
     }
 
+    public int fitThreeInLine(int playerSymbol) {
+
+        int times = 0;
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                Integer toCheck = board.get(i).get(j);
+                if (canMove(i, j + 2)) {
+                    if (toCheck.equals(board.get(i).get(j + 1))
+                            && toCheck.equals(board.get(i).get(j + 2))
+                            && toCheck == playerSymbol) {
+                        times++;
+                    }
+                }
+
+                if (canMove(i - 2, j)) {
+                    if (toCheck.equals(board.get(i - 1).get(j))
+                            && toCheck.equals(board.get(i - 2).get(j))
+                            && toCheck == playerSymbol) {
+                        times++;
+                    }
+                }
+
+                if (canMove(i + 2, j + 2)) {
+                    if (toCheck.equals(board.get(i + 1).get(j + 1))
+                            && toCheck.equals(board.get(i + 2).get(j + 2))
+                            && (toCheck == playerSymbol)) {
+                        times++;
+                    }
+                }
+                if (canMove(i - 2, j + 2)) {
+                    if (toCheck.equals(board.get(i - 1).get(j + 1))
+                            && toCheck.equals(board.get(i - 2).get(j + 2))
+                            && toCheck == playerSymbol) {
+                        times++;
+                    }
+                }
+            }
+        }
+        return times;
+
+    }
+
+
 //    private boolean checkHor() {
 //        for (int i = 0; i < rows; i++) {
 //            List<Integer> row = board.get(i);
@@ -148,11 +207,11 @@ public class State {
 //        for (int i = 0; i < rows; i++) {
 //            for (int j = 0; j < cols; j++) {
 //                if (canMove(i - 3, j)) {
-//                    if (board.get(i).get(j).equals(board.get(i - 1).get(j))
-//                            && board.get(i).get(j).equals(board.get(i - 2).get(j))
-//                            && board.get(i).get(j).equals(board.get(i - 3).get(j))
-//                            && !board.get(i).get(j).equals(Consts.EMPTY)) {
-//                        winner = board.get(i).get(j);
+//                    if (toCheck.equals(board.get(i - 1).get(j))
+//                            && toCheck.equals(board.get(i - 2).get(j))
+//                            && toCheck.equals(board.get(i - 3).get(j))
+//                            && !toCheck.equals(Consts.EMPTY)) {
+//                        winner = toCheck;
 //                        return true;
 //                    }
 //                }
@@ -165,11 +224,11 @@ public class State {
 //        for (int i = 0; i < rows; i++) {
 //            for (int j = 0; j < cols; j++) {
 //                if (canMove(i + 3, j + 3)) {
-//                    if (board.get(i).get(j).equals(board.get(i + 1).get(j + 1))
-//                            && board.get(i).get(j).equals(board.get(i + 2).get(j + 2))
-//                            && board.get(i).get(j).equals(board.get(i + 3).get(j + 3))
-//                            && !board.get(i).get(j).equals(Consts.EMPTY)) {
-//                        winner = board.get(i).get(j);
+//                    if (toCheck.equals(board.get(i + 1).get(j + 1))
+//                            && toCheck.equals(board.get(i + 2).get(j + 2))
+//                            && toCheck.equals(board.get(i + 3).get(j + 3))
+//                            && !toCheck.equals(Consts.EMPTY)) {
+//                        winner = toCheck;
 //                        return true;
 //                    }
 //                }
@@ -182,11 +241,11 @@ public class State {
 //        for (int i = 0; i < rows; i++) {
 //            for (int j = 0; j < cols; j++) {
 //                if (canMove(i - 3, j + 3)) {
-//                    if (board.get(i).get(j).equals(board.get(i - 1).get(j + 1))
-//                            && board.get(i).get(j).equals(board.get(i - 2).get(j + 2))
-//                            && board.get(i).get(j).equals(board.get(i - 3).get(j + 3))
-//                            && !board.get(i).get(j).equals(Consts.EMPTY)) {
-//                        winner = board.get(i).get(j);
+//                    if (toCheck.equals(board.get(i - 1).get(j + 1))
+//                            && toCheck.equals(board.get(i - 2).get(j + 2))
+//                            && toCheck.equals(board.get(i - 3).get(j + 3))
+//                            && !toCheck.equals(Consts.EMPTY)) {
+//                        winner = toCheck;
 //                        return true;
 //                    }
 //                }
