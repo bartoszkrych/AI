@@ -33,7 +33,7 @@ public class MinMax implements GameAlgorithm {
         Move maxMove = new Move(Integer.MIN_VALUE);
         for (State child : children) {
             Move move = min(child, curDepth + 1);
-            if (move.getVal() >= maxMove.getVal()) minMaxHelper(maxMove, child, move);
+            if (move.getFitness() >= maxMove.getFitness()) minMaxHelper(maxMove, child, move);
         }
         return maxMove;
     }
@@ -46,22 +46,22 @@ public class MinMax implements GameAlgorithm {
         Move minMove = new Move(Integer.MAX_VALUE);
         for (State child : children) {
             Move move = max(child, curDepth+ 1);
-            if (move.getVal() <= minMove.getVal()) minMaxHelper(minMove, child, move);
+            if (move.getFitness() <= minMove.getFitness()) minMaxHelper(minMove, child, move);
         }
         return minMove;
     }
 
     private void minMaxHelper(Move minMove, State child, Move move) {
-        if ((move.getVal().equals(minMove.getVal()))) {
+        if ((move.getFitness().equals(minMove.getFitness()))) {
             if (r.nextInt(2) == 0) {
                 minMove.setRow(child.getLastMove().getRow());
                 minMove.setCol(child.getLastMove().getCol());
-                minMove.setVal(move.getVal());
+                minMove.setFitness(move.getFitness());
             }
         } else {
             minMove.setRow(child.getLastMove().getRow());
             minMove.setCol(child.getLastMove().getCol());
-            minMove.setVal(move.getVal());
+            minMove.setFitness(move.getFitness());
         }
     }
 }
