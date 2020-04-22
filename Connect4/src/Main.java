@@ -1,7 +1,4 @@
-import classes.Consts;
-import classes.MinMax;
-import classes.Move;
-import classes.State;
+import classes.*;
 import interfaces.GameAlgorithm;
 
 import java.util.List;
@@ -13,7 +10,7 @@ public class Main {
         int col;
         State game = new State();
         int maxDepth = 6;
-        GameAlgorithm ai = new MinMax(maxDepth, Consts.P_2);
+        GameAlgorithm ai = new MinMax(maxDepth, Consts.P_2, new FitFunThreeInRow());
 
         game.setLastPlayer(Consts.P_2);
 

@@ -1,8 +1,8 @@
 package classes;
 
+import interfaces.FitnessFunction;
 import interfaces.GameAlgorithm;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -10,11 +10,13 @@ public class MinMax implements GameAlgorithm {
 
     private int depth;
     private int player;
+    private FitnessFunction fitFun;
     private Random r = new Random();
 
-    public MinMax(int depth, int player) {
+    public MinMax(int depth, int player, FitnessFunction fitFun) {
         this.depth = depth;
         this.player = player;
+        this.fitFun = fitFun;
     }
 
     @Override
@@ -27,26 +29,26 @@ public class MinMax implements GameAlgorithm {
 
     public Move max(State state, int curDepth) {
         if ((state.isEnd()) || (curDepth == depth)) {
-            return new Move(state.getLastMove().getRow(), state.getLastMove().getCol(), state.calcFitness());
+            return new Move(state.getLastMove().getRow(), state.getLastMove().getCol(), fitFun.calcFitness(state));
         }
-        List<State> children = new ArrayList(state.generateNodes(Consts.P_1));
+        List<State> nodes = state.generateNodes(Consts.P_1);
         Move maxMove = new Move(Integer.MIN_VALUE);
-        for (State child : children) {
-            Move move = min(child, curDepth + 1);
-            if (move.getFitness() >= maxMove.getFitness()) minMaxHelper(maxMove, child, move);
+        for (State node : nodes) {
+            Move move = min(node, curDepth + 1);
+            if (move.getFitness() >= maxMove.getFitness()) minMaxHelper(maxMove, node, move);
         }
         return maxMove;
     }
 
     public Move min(State state, int curDepth) {
         if ((state.isEnd()) || (curDepth == depth)) {
-            return new Move(state.getLastMove().getRow(), state.getLastMove().getCol(), state.calcFitness());
+            return new Move(state.getLastMove().getRow(), state.getLastMove().getCol(), fitFun.calcFitness(state));
         }
-        List<State> children = new ArrayList(state.generateNodes(Consts.P_2));
+        List<State> nodes = state.generateNodes(Consts.P_2);
         Move minMove = new Move(Integer.MAX_VALUE);
-        for (State child : children) {
-            Move move = max(child, curDepth+ 1);
-            if (move.getFitness() <= minMove.getFitness()) minMaxHelper(minMove, child, move);
+        for (State node : nodes) {
+            Move move = max(node, curDepth + 1);
+            if (move.getFitness() <= minMove.getFitness()) minMaxHelper(minMove, node, move);
         }
         return minMove;
     }
