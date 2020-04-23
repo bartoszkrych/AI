@@ -1,6 +1,6 @@
-package interfaces;
+package krych.bartosz.interfaces;
 
-import classes.State;
+import krych.bartosz.classes.State;
 
 public interface FitnessFunction {
     Integer calcFitness(State state);

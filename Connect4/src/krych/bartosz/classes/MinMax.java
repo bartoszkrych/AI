@@ -1,7 +1,7 @@
-package classes;
+package krych.bartosz.classes;
 
-import interfaces.FitnessFunction;
-import interfaces.GameAlgorithm;
+import krych.bartosz.interfaces.FitnessFunction;
+import krych.bartosz.interfaces.GameAlgorithm;
 
 import java.util.List;
 import java.util.Random;

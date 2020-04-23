@@ -1,6 +1,6 @@
-package classes;
+package krych.bartosz.classes;
 
-import interfaces.FitnessFunction;
+import krych.bartosz.interfaces.FitnessFunction;
 
 import java.util.List;
 

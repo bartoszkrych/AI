@@ -1,4 +1,4 @@
-package classes;
+package krych.bartosz.classes;
 
 public class Move {
     private Integer col;

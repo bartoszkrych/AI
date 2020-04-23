@@ -1,5 +1,7 @@
-import classes.*;
-import interfaces.GameAlgorithm;
+package krych.bartosz;
+
+import krych.bartosz.classes.*;
+import krych.bartosz.interfaces.GameAlgorithm;
 
 import java.util.List;
 import java.util.Scanner;
