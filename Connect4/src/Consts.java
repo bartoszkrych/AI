@@ -1,5 +1,3 @@
-package classes;
-
 public class Consts {
     public static final Integer P_1 = 1;
     public static final Integer P_2 = 2;
