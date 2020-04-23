@@ -34,36 +34,32 @@ public class FitFunThreeInLine implements FitnessFunction {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 Integer toCheck = board.get(i).get(j);
-                if (state.canMove(i, j + 2)) {
-                    if (toCheck.equals(board.get(i).get(j + 1))
-                            && toCheck.equals(board.get(i).get(j + 2))
-                            && toCheck == playerSymbol) {
-                        counter++;
-                    }
+                if (state.canMove(i, j + 2) && toCheck.equals(board.get(i).get(j + 1))
+                        && toCheck.equals(board.get(i).get(j + 2))
+                        && toCheck == playerSymbol) {
+                    counter++;
                 }
 
-                if (state.canMove(i - 2, j)) {
-                    if (toCheck.equals(board.get(i - 1).get(j))
-                            && toCheck.equals(board.get(i - 2).get(j))
-                            && toCheck == playerSymbol) {
-                        counter++;
-                    }
+
+                if (state.canMove(i - 2, j) && toCheck.equals(board.get(i - 1).get(j))
+                        && toCheck.equals(board.get(i - 2).get(j))
+                        && toCheck == playerSymbol) {
+                    counter++;
                 }
 
-                if (state.canMove(i + 2, j + 2)) {
-                    if (toCheck.equals(board.get(i + 1).get(j + 1))
-                            && toCheck.equals(board.get(i + 2).get(j + 2))
-                            && (toCheck == playerSymbol)) {
-                        counter++;
-                    }
+
+                if (state.canMove(i + 2, j + 2) && toCheck.equals(board.get(i + 1).get(j + 1))
+                        && toCheck.equals(board.get(i + 2).get(j + 2))
+                        && (toCheck == playerSymbol)) {
+                    counter++;
                 }
-                if (state.canMove(i - 2, j + 2)) {
-                    if (toCheck.equals(board.get(i - 1).get(j + 1))
-                            && toCheck.equals(board.get(i - 2).get(j + 2))
-                            && toCheck == playerSymbol) {
-                        counter++;
-                    }
+
+                if (state.canMove(i - 2, j + 2) && toCheck.equals(board.get(i - 1).get(j + 1))
+                        && toCheck.equals(board.get(i - 2).get(j + 2))
+                        && toCheck == playerSymbol) {
+                    counter++;
                 }
+
             }
         }
         return counter;
