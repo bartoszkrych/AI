@@ -7,7 +7,6 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        int col;
         State game = new State();
         int maxDepth = 6;
         GameAlgorithm ai = new MinMax(maxDepth, Consts.P_2, new FitFunThreeInLine());
@@ -16,11 +15,15 @@ public class Main {
 
         printBoard(game.getBoard());
 
-        System.out.println();
         Scanner in = new Scanner(System.in);
-
+        int col;
         while (!game.isEnd()) {
             switch (game.getLastPlayer()) {
+                case 1:
+                    System.out.println("Round for AI...");
+                    Move aiMove = ai.findMove(game);
+                    game.nextMove(aiMove.getCol(), Consts.P_2);
+                    break;
                 case 2:
                     try {
                         do {
@@ -33,15 +36,6 @@ public class Main {
                     }
                     game.nextMove(col - 1, Consts.P_1);
                     System.out.println();
-                    break;
-                case 1:
-                    System.out.println("Round for AI...");
-//                    Random r = new Random();
-//                    int randomNum = r.nextInt(7);
-//                    game.nextMove(randomNum, Consts.P_2);
-
-                    Move aiMove = ai.findMove(game);
-                    game.nextMove(aiMove.getCol(), Consts.P_2);
                     break;
                 default:
                     break;
