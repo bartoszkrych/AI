@@ -4,17 +4,15 @@ import interfaces.FitnessFunction;
 
 import java.util.List;
 
-public class FitFunThreeInRow implements FitnessFunction {
+public class FitFunThreeInLine implements FitnessFunction {
 
     private int rows = Consts.ROWS;
     private int cols = Consts.COLS;
 
     @Override
     public Integer calcFitness(State state) {
-
         int fitP1 = 0;
         int fitP2 = 0;
-
         if (state.isWin()) {
             if (state.getWinner().equals(Consts.P_1)) {
                 fitP1 = 100;
@@ -23,13 +21,13 @@ public class FitFunThreeInRow implements FitnessFunction {
             }
         }
 
-        fitP1 += fitThreeInLine(state, Consts.P_1) * 10;
-        fitP2 += fitThreeInLine(state, Consts.P_2) * 10;
+        fitP1 += counterThreeInLine(state, Consts.P_1) * 10;
+        fitP2 += counterThreeInLine(state, Consts.P_2) * 10;
         return fitP1 - fitP2;
     }
 
 
-    public int fitThreeInLine(State state, int playerSymbol) {
+    public int counterThreeInLine(State state, int playerSymbol) {
         List<List<Integer>> board = state.getBoard();
         int counter = 0;
 

@@ -10,7 +10,7 @@ public class Main {
         int col;
         State game = new State();
         int maxDepth = 6;
-        GameAlgorithm ai = new MinMax(maxDepth, Consts.P_2, new FitFunThreeInRow());
+        GameAlgorithm ai = new MinMax(maxDepth, Consts.P_2, new FitFunThreeInLine());
 
         game.setLastPlayer(Consts.P_2);
 
