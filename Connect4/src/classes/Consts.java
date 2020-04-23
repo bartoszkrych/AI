@@ -9,6 +9,4 @@ public class Consts {
     public static int COLS = 7;
     public static int ROWS = 6;
 
-    public static final int HvsAi = 1;
-
 }
