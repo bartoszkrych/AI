@@ -64,7 +64,7 @@ public class Main {
                 } else if (board.get(i).get(j).equals(Consts.P_2)) {
                     System.out.print("| 2 ");
                 } else {
-                    System.out.print("| - ");
+                    System.out.print("|   ");
                 }
             }
             System.out.print("|\n");
