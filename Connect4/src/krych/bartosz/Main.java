@@ -3,6 +3,7 @@ package krych.bartosz;
 import krych.bartosz.classes.Consts;
 import krych.bartosz.classes.Move;
 import krych.bartosz.classes.State;
+import krych.bartosz.classes.algorithms.AlphaBeta;
 import krych.bartosz.classes.algorithms.MinMax;
 import krych.bartosz.classes.functions.ThreeInLineEstFun;
 import krych.bartosz.interfaces.GameAlgorithm;
@@ -15,7 +16,8 @@ public class Main {
     public static void main(String[] args) {
         State game = new State();
         int maxDepth = 6;
-        GameAlgorithm ai = new MinMax(maxDepth, Consts.P_2, new ThreeInLineEstFun());
+        GameAlgorithm aiMM = new MinMax(maxDepth, Consts.P_1, new ThreeInLineEstFun());
+        GameAlgorithm aiAB = new AlphaBeta(maxDepth, Consts.P_2, new ThreeInLineEstFun());
 
         game.setLastPlayer(Consts.P_2);
 
@@ -27,21 +29,25 @@ public class Main {
             switch (game.getLastPlayer()) {
                 case 1:
                     System.out.println("Round for AI...");
-                    Move aiMove = ai.findMove(game);
-                    game.nextMove(aiMove.getCol(), Consts.P_2);
+                    Move aiMove1 = aiAB.findMove(game);
+                    game.nextMove(aiMove1.getCol(), Consts.P_2);
                     break;
                 case 2:
-                    try {
-                        do {
-                            System.out.print("\nSelect column: ");
-                            col = in.nextInt();
-                        } while (game.isFullCol(col - 1));
-                    } catch (Exception e) {
-                        System.err.println("Only [1,7].\n");
-                        break;
-                    }
-                    game.nextMove(col - 1, Consts.P_1);
-                    System.out.println();
+//                    try {
+//                        do {
+//                            System.out.print("\nSelect column: ");
+//                            col = in.nextInt();
+//                        } while (game.isFullCol(col - 1));
+//                    } catch (Exception e) {
+//                        System.err.println("Only [1,7].\n");
+//                        break;
+//                    }
+//                    game.nextMove(col - 1, Consts.P_1);
+//                    System.out.println();
+
+                    System.out.println("Round for AI...");
+                    Move aiMove2 = aiMM.findMove(game);
+                    game.nextMove(aiMove2.getCol(), Consts.P_1);
                     break;
                 default:
                     break;
