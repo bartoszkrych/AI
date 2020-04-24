@@ -53,16 +53,16 @@ public class MinMax implements GameAlgorithm {
         return minMove;
     }
 
-    private void minMaxHelper(Move minMove, State child, Move move) {
+    private void minMaxHelper(Move minMove, State node, Move move) {
         if ((move.getFitness().equals(minMove.getFitness()))) {
-            if (r.nextInt(2) == 0) {
-                minMove.setRow(child.getLastMove().getRow());
-                minMove.setCol(child.getLastMove().getCol());
+            if (r.nextDouble() <= 0.33) {
+                minMove.setRow(node.getLastMove().getRow());
+                minMove.setCol(node.getLastMove().getCol());
                 minMove.setFitness(move.getFitness());
             }
         } else {
-            minMove.setRow(child.getLastMove().getRow());
-            minMove.setCol(child.getLastMove().getCol());
+            minMove.setRow(node.getLastMove().getRow());
+            minMove.setCol(node.getLastMove().getCol());
             minMove.setFitness(move.getFitness());
         }
     }

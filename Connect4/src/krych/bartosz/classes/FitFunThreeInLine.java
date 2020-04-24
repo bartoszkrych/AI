@@ -27,7 +27,7 @@ public class FitFunThreeInLine implements FitnessFunction {
     }
 
 
-    public int counterThreeInLine(State state, int playerSymbol) {
+    public int counterThreeInLine(State state, int playerToCheck) {
         List<List<Integer>> board = state.getBoard();
         int counter = 0;
 
@@ -36,33 +36,26 @@ public class FitFunThreeInLine implements FitnessFunction {
                 Integer toCheck = board.get(i).get(j);
                 if (state.canMove(i, j + 2) && toCheck.equals(board.get(i).get(j + 1))
                         && toCheck.equals(board.get(i).get(j + 2))
-                        && toCheck == playerSymbol) {
+                        && toCheck == playerToCheck) {
                     counter++;
                 }
-
-
                 if (state.canMove(i - 2, j) && toCheck.equals(board.get(i - 1).get(j))
                         && toCheck.equals(board.get(i - 2).get(j))
-                        && toCheck == playerSymbol) {
+                        && toCheck == playerToCheck) {
                     counter++;
                 }
-
-
                 if (state.canMove(i + 2, j + 2) && toCheck.equals(board.get(i + 1).get(j + 1))
                         && toCheck.equals(board.get(i + 2).get(j + 2))
-                        && (toCheck == playerSymbol)) {
+                        && (toCheck == playerToCheck)) {
                     counter++;
                 }
-
                 if (state.canMove(i - 2, j + 2) && toCheck.equals(board.get(i - 1).get(j + 1))
                         && toCheck.equals(board.get(i - 2).get(j + 2))
-                        && toCheck == playerSymbol) {
+                        && toCheck == playerToCheck) {
                     counter++;
                 }
-
             }
         }
         return counter;
-
     }
 }
