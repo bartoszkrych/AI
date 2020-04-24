@@ -1,8 +1,10 @@
-package krych.bartosz.classes;
+package krych.bartosz.classes.functions;
 
-import krych.bartosz.interfaces.FitnessFunction;
+import krych.bartosz.classes.Consts;
+import krych.bartosz.classes.State;
+import krych.bartosz.interfaces.EstimateFunction;
 
-public class FitFunJustWinner implements FitnessFunction {
+public class EstFunJustWinner implements EstimateFunction {
     @Override
     public Integer makeEstimate(State state) {
         if (state.isWin() && state.getLastPlayer().equals(Consts.P_1)) return 1000;

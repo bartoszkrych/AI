@@ -2,6 +2,6 @@ package krych.bartosz.interfaces;
 
 import krych.bartosz.classes.State;
 
-public interface FitnessFunction {
+public interface EstimateFunction {
     Integer makeEstimate(State state);
 }

@@ -1,10 +1,12 @@
-package krych.bartosz.classes;
+package krych.bartosz.classes.functions;
 
-import krych.bartosz.interfaces.FitnessFunction;
+import krych.bartosz.classes.Consts;
+import krych.bartosz.classes.State;
+import krych.bartosz.interfaces.EstimateFunction;
 
 import java.util.List;
 
-public class FitFunThreeInLine implements FitnessFunction {
+public class EstFunThreeInLine implements EstimateFunction {
 
     private int rows = Consts.ROWS;
     private int cols = Consts.COLS;
