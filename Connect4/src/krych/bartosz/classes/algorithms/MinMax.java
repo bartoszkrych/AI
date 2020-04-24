@@ -38,7 +38,7 @@ public class MinMax implements GameAlgorithm {
         Move maxMove = new Move(Integer.MIN_VALUE);
         for (State node : nodes) {
             Move move = min(node, curDepth + 1);
-            if (move.getEstimate() > maxMove.getEstimate()) maxMove = move;
+            if (move.getEstimate() > maxMove.getEstimate()) minMaxHelper(maxMove, node, move);
         }
         return maxMove;
     }

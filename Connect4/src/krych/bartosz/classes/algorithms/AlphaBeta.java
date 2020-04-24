@@ -37,7 +37,7 @@ public class AlphaBeta implements GameAlgorithm {
         Move maxMove = new Move(Integer.MIN_VALUE);
         for (State node : nodes) {
             Move move = min(node, curDepth + 1, alpha, beta);
-            if (move.getEstimate() >= alpha) {
+            if (move.getEstimate() > alpha) {
                 minMaxHelper(maxMove, node, move);
                 alpha = move.getEstimate();
             }
@@ -54,7 +54,7 @@ public class AlphaBeta implements GameAlgorithm {
         Move minMove = new Move(Integer.MAX_VALUE);
         for (State node : nodes) {
             Move move = max(node, curDepth + 1, alpha, beta);
-            if (move.getEstimate() <= beta) {
+            if (move.getEstimate() < beta) {
                 minMaxHelper(minMove, node, move);
                 beta = move.getEstimate();
             }
