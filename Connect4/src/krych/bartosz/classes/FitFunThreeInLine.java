@@ -10,7 +10,7 @@ public class FitFunThreeInLine implements FitnessFunction {
     private int cols = Consts.COLS;
 
     @Override
-    public Integer calcFitness(State state) {
+    public Integer makeEstimate(State state) {
         int fitP1 = 0;
         int fitP2 = 0;
         if (state.isWin()) {
@@ -20,7 +20,6 @@ public class FitFunThreeInLine implements FitnessFunction {
                 fitP2 = 100;
             }
         }
-
         fitP1 += counterThreeInLine(state, Consts.P_1) * 10;
         fitP2 += counterThreeInLine(state, Consts.P_2) * 10;
         return fitP1 - fitP2;

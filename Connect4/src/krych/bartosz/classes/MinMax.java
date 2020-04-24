@@ -29,41 +29,33 @@ public class MinMax implements GameAlgorithm {
 
     public Move max(State state, int curDepth) {
         if ((state.isEnd()) || (curDepth == depth)) {
-            return new Move(state.getLastMove().getRow(), state.getLastMove().getCol(), fitFun.calcFitness(state));
+            return new Move(state.getLastMove().getRow(), state.getLastMove().getCol(), fitFun.makeEstimate(state));
         }
         List<State> nodes = state.generateNodes(Consts.P_1);
         Move maxMove = new Move(Integer.MIN_VALUE);
         for (State node : nodes) {
             Move move = min(node, curDepth + 1);
-            if (move.getFitness() >= maxMove.getFitness()) minMaxHelper(maxMove, node, move);
+            if (move.getEstimate() > maxMove.getEstimate()) maxMove = move;
         }
         return maxMove;
     }
 
     public Move min(State state, int curDepth) {
         if ((state.isEnd()) || (curDepth == depth)) {
-            return new Move(state.getLastMove().getRow(), state.getLastMove().getCol(), fitFun.calcFitness(state));
+            return new Move(state.getLastMove().getRow(), state.getLastMove().getCol(), fitFun.makeEstimate(state));
         }
         List<State> nodes = state.generateNodes(Consts.P_2);
         Move minMove = new Move(Integer.MAX_VALUE);
         for (State node : nodes) {
             Move move = max(node, curDepth + 1);
-            if (move.getFitness() <= minMove.getFitness()) minMaxHelper(minMove, node, move);
+            if (move.getEstimate() < minMove.getEstimate()) minMaxHelper(minMove, node, move);
         }
         return minMove;
     }
 
-    private void minMaxHelper(Move minMove, State node, Move move) {
-        if ((move.getFitness().equals(minMove.getFitness()))) {
-            if (r.nextDouble() <= 0.33) {
-                minMove.setRow(node.getLastMove().getRow());
-                minMove.setCol(node.getLastMove().getCol());
-                minMove.setFitness(move.getFitness());
-            }
-        } else {
-            minMove.setRow(node.getLastMove().getRow());
-            minMove.setCol(node.getLastMove().getCol());
-            minMove.setFitness(move.getFitness());
-        }
+    private void minMaxHelper(Move minMaxMove, State node, Move move) {
+        minMaxMove.setRow(node.getLastMove().getRow());
+        minMaxMove.setCol(node.getLastMove().getCol());
+        minMaxMove.setEstimate(move.getEstimate());
     }
 }

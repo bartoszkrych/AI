@@ -3,7 +3,7 @@ package krych.bartosz.classes;
 public class Move {
     private Integer col;
     private Integer row;
-    private Integer fitness;
+    private Integer estimate;
 
     public Move(Integer row, Integer col) {
         this.col = col;
@@ -13,14 +13,14 @@ public class Move {
     public Move() {
     }
 
-    public Move(Integer fitness) {
-        this.fitness = fitness;
+    public Move(Integer estimate) {
+        this.estimate = estimate;
     }
 
-    public Move(Integer row, Integer col, Integer fitness) {
+    public Move(Integer row, Integer col, Integer estimate) {
         this.col = col;
         this.row = row;
-        this.fitness = fitness;
+        this.estimate = estimate;
     }
 
     public Integer getCol() {
@@ -39,11 +39,20 @@ public class Move {
         this.row = row;
     }
 
-    public Integer getFitness() {
-        return fitness;
+    public Integer getEstimate() {
+        return estimate;
     }
 
-    public void setFitness(Integer fitness) {
-        this.fitness = fitness;
+    public void setEstimate(Integer estimate) {
+        this.estimate = estimate;
+    }
+
+    @Override
+    public String toString() {
+        return "Move{" +
+                "col=" + col +
+                ", row=" + row +
+                ", fitness=" + estimate +
+                '}';
     }
 }
