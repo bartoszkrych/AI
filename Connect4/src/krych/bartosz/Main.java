@@ -4,7 +4,7 @@ import krych.bartosz.classes.Consts;
 import krych.bartosz.classes.Move;
 import krych.bartosz.classes.State;
 import krych.bartosz.classes.algorithms.MinMax;
-import krych.bartosz.classes.functions.EstFunThreeInLine;
+import krych.bartosz.classes.functions.ThreeInLineEstFun;
 import krych.bartosz.interfaces.GameAlgorithm;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         State game = new State();
         int maxDepth = 6;
-        GameAlgorithm ai = new MinMax(maxDepth, Consts.P_2, new EstFunThreeInLine());
+        GameAlgorithm ai = new MinMax(maxDepth, Consts.P_2, new ThreeInLineEstFun());
 
         game.setLastPlayer(Consts.P_2);
 

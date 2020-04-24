@@ -6,7 +6,7 @@ import krych.bartosz.interfaces.EstimateFunction;
 
 import java.util.List;
 
-public class EstFunThreeInLine implements EstimateFunction {
+public class ThreeInLineEstFun implements EstimateFunction {
 
     private int rows = Consts.ROWS;
     private int cols = Consts.COLS;
