@@ -12,14 +12,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class GameGUI {
-    static final int DEFAULT_WIDTH = 600;
-    static final int DEFAULT_HEIGHT = 500;
+    private static final int DEFAULT_WIDTH = 600;
+    private static final int DEFAULT_HEIGHT = 520;
+    static int maxDepth = 4;
 
     static JFrame mainWindow;
     static JPanel panelMain;
     static JPanel panelNumbers;
     static JLayeredPane boardPane;
-    static JLabel pieceLabel = null;
+    static JLabel pieceLabel;
 
     static JMenuBar menuBar;
     static JMenu fileMenu;
@@ -28,17 +29,18 @@ public class GameGUI {
     static JMenuItem exitItem;
     static JButton[] buttons;
 
-    static State state;
-    static GameAlgorithm ai;
-    static boolean firstGame = true;
+    private static State state;
+    private static GameAlgorithm ai;
+    private static boolean firstGame;
 
-    public static int maxDepth = 4;
 
     public GameGUI() {
         buttons = new JButton[Consts.COLS];
         for (int i = 0; i < Consts.COLS; i++) {
             buttons[i] = new JButton(i + 1 + "");
         }
+        pieceLabel = null;
+        firstGame = true;
     }
 
     public static void gameOver() {
@@ -136,7 +138,9 @@ public class GameGUI {
         }
         boardPane = setBoardOnGUI();
         panelMain = new JPanel();
-
+        JLabel label = new JLabel();
+        label.setText("Select a column:");
+        panelMain.add(label, BorderLayout.NORTH);
         panelMain.add(panelNumbers, BorderLayout.NORTH);
         panelMain.add(boardPane, BorderLayout.CENTER);
 
@@ -175,10 +179,9 @@ public class GameGUI {
     public static JLayeredPane setBoardOnGUI() {
         boardPane = new JLayeredPane();
         boardPane.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
-        boardPane.setBorder(BorderFactory.createTitledBorder("Connect-4"));
         ImageIcon imageState = new ImageIcon("res/images/Board.png");
         JLabel imageStateLabel = new JLabel(imageState);
-        imageStateLabel.setBounds(20, 20, imageState.getIconWidth(), imageState.getIconHeight());
+        imageStateLabel.setBounds(0, 0, imageState.getIconWidth(), imageState.getIconHeight());
         boardPane.add(imageStateLabel, 0, 1);
         return boardPane;
     }

@@ -2,77 +2,23 @@ package krych.bartosz.gui;
 
 
 import javax.swing.*;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.PlainDocument;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
 public class Settings extends JFrame {
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 235333L;
 
     private final JLabel maxDepth1Label;
-
-    private final JComboBox<Integer> max_depth1_drop_down;
+    SpinnerNumberModel model;
 
     private final JButton apply;
     private final JButton cancel;
 
     private final EventHandler handler;
 
-    public static int width = 400;
-    public static int height = 320;
-
-    private IntTextField intFiled;
-
-    class IntTextField extends JTextField {
-        public IntTextField(int defval, int size) {
-            super("" + defval, size);
-        }
-
-        protected Document createDefaultModel() {
-            return new IntTextDocument();
-        }
-
-        public boolean isValid() {
-            try {
-                Integer.parseInt(getText());
-                return true;
-            } catch (NumberFormatException e) {
-                return false;
-            }
-        }
-
-        public int getValue() {
-            try {
-                return Integer.parseInt(getText());
-            } catch (NumberFormatException e) {
-                return 0;
-            }
-        }
-
-        class IntTextDocument extends PlainDocument {
-            public void insertString(int offs, String str, AttributeSet a)
-                    throws BadLocationException {
-                if (str == null)
-                    return;
-                String oldString = getText(0, getLength());
-                String newString = oldString.substring(0, offs) + str
-                        + oldString.substring(offs);
-                try {
-                    Integer.parseInt(newString + "0");
-                    super.insertString(offs, str, a);
-                } catch (NumberFormatException e) {
-                }
-            }
-        }
-    }
+    public static int width = 300;
+    public static int height = 150;
 
     public Settings() {
         super("Settings");
@@ -85,28 +31,17 @@ public class Settings extends JFrame {
 
         handler = new EventHandler();
 
-        maxDepth1Label = new JLabel("AI1 depth: ");
+        maxDepth1Label = new JLabel("AI depth: ");
 
         add(maxDepth1Label);
 
-        max_depth1_drop_down = new JComboBox<>();
-        max_depth1_drop_down.addItem(1);
-        max_depth1_drop_down.addItem(2);
-        max_depth1_drop_down.addItem(3);
-        max_depth1_drop_down.addItem(4);
-        max_depth1_drop_down.addItem(5);
-        max_depth1_drop_down.addItem(6);
+        model = new SpinnerNumberModel(GameGUI.maxDepth, 1, 20, 1);
+        JSpinner spinner = new JSpinner(model);
+        spinner.setBounds(155, 15, 50, 20);
+        ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField().setEditable(false);
+        add(spinner);
 
-        max_depth1_drop_down.setSelectedIndex(GameGUI.maxDepth - 1);
-
-        add(max_depth1_drop_down);
-
-        intFiled = new IntTextField(12, 3);
-//        add(intFiled);
-
-        maxDepth1Label.setBounds(25, 85, 175, 20);
-
-        max_depth1_drop_down.setBounds(195, 85, 160, 20);
+        maxDepth1Label.setBounds(25, 15, 175, 20);
 
         apply = new JButton("Apply");
         cancel = new JButton("Cancel");
@@ -114,9 +49,9 @@ public class Settings extends JFrame {
         add(cancel);
 
         int distance = 10;
-        apply.setBounds((width / 2) - 110 - (distance / 2), 230, 100, 30);
+        apply.setBounds((width / 2) - 110 - (distance / 2), 70, 100, 30);
         apply.addActionListener(handler);
-        cancel.setBounds((width / 2) - 10 + (distance / 2), 230, 100, 30);
+        cancel.setBounds((width / 2) - 10 + (distance / 2), 70, 100, 30);
         cancel.addActionListener(handler);
     }
 
@@ -130,10 +65,10 @@ public class Settings extends JFrame {
                 dispose();
             } else if (ev.getSource() == apply) {
                 try {
-                    GameGUI.maxDepth = (int) max_depth1_drop_down.getSelectedItem();
+                    GameGUI.maxDepth = (int) model.getValue();
 
                     JOptionPane.showMessageDialog(null,
-                            "START NEW GAME!",
+                            "Start new game to apply changes.",
                             "", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                 } catch (Exception e) {
