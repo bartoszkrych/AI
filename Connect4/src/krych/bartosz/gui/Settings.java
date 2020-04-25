@@ -85,8 +85,6 @@ public class Settings extends JFrame {
 
         handler = new EventHandler();
 
-        int maxDepth1 = GameParams.maxDepth1 - 1;
-
         maxDepth1Label = new JLabel("AI1 depth: ");
 
         add(maxDepth1Label);
@@ -99,7 +97,7 @@ public class Settings extends JFrame {
         max_depth1_drop_down.addItem(5);
         max_depth1_drop_down.addItem(6);
 
-        max_depth1_drop_down.setSelectedIndex(maxDepth1);
+        max_depth1_drop_down.setSelectedIndex(GameGUI.maxDepth - 1);
 
         add(max_depth1_drop_down);
 
@@ -132,11 +130,7 @@ public class Settings extends JFrame {
                 dispose();
             } else if (ev.getSource() == apply) {
                 try {
-
-                    int maxDepth1 = (int) max_depth1_drop_down.getSelectedItem();
-
-                    // Change game parameters based on settings.
-                    GameParams.maxDepth1 = maxDepth1;
+                    GameGUI.maxDepth = (int) max_depth1_drop_down.getSelectedItem();
 
                     JOptionPane.showMessageDialog(null,
                             "START NEW GAME!",
@@ -145,13 +139,8 @@ public class Settings extends JFrame {
                 } catch (Exception e) {
                     System.err.println("ERROR : " + e.getMessage());
                 }
-
-            }  // else if.
-
-        }  // action performed.
-
-    }  // inner class.
-
-
-}  // class end.
+            }
+        }
+    }
+}
 

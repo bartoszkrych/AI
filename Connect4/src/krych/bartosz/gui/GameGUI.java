@@ -1,7 +1,6 @@
 package krych.bartosz.gui;
 
 import krych.bartosz.classes.Consts;
-import krych.bartosz.classes.Move;
 import krych.bartosz.classes.State;
 import krych.bartosz.classes.algorithms.MinMax;
 import krych.bartosz.classes.functions.ThreeInLineEstFun;
@@ -13,16 +12,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class GameGUI {
-    static final int DEFAULT_WIDTH = 570;
-    static final int DEFAULT_HEIGHT = 525;
+    static final int DEFAULT_WIDTH = 600;
+    static final int DEFAULT_HEIGHT = 500;
 
-    static JFrame frameMainWindow;
+    static JFrame mainWindow;
     static JPanel panelMain;
-    static JPanel panelStateNumbers;
-    static JLayeredPane layeredGameState;
-    public static JLabel pieceLabel = null;
+    static JPanel panelNumbers;
+    static JLayeredPane boardPane;
+    static JLabel pieceLabel = null;
 
-    // Menu bars and items
     static JMenuBar menuBar;
     static JMenu fileMenu;
     static JMenuItem newGameItem;
@@ -34,6 +32,8 @@ public class GameGUI {
     static GameAlgorithm ai;
     static boolean firstGame = true;
 
+    public static int maxDepth = 4;
+
     public GameGUI() {
         buttons = new JButton[Consts.COLS];
         for (int i = 0; i < Consts.COLS; i++) {
@@ -41,48 +41,110 @@ public class GameGUI {
         }
     }
 
-    private static void checkToDisable(int col) {
-        Integer player = state.getBoard().get(0).get(col);
-        if (!player.equals(Consts.EMPTY)) buttons[col].setEnabled(false);
+    public static void gameOver() {
+        String message;
+        setEnableButtons(false);
+        if (state.getWinner().equals(Consts.P_1)) {
+            message = "YOU WIN! Start a new game?";
+        } else if (state.getWinner().equals(Consts.P_2)) {
+            message = "AI wins :( Start a new game?";
+        } else {
+            message = "Draw. Start a new game?";
+        }
+        int choice = JOptionPane.showConfirmDialog(null,
+                message,
+                "THE END", JOptionPane.YES_NO_OPTION);
+
+        if (choice == JOptionPane.YES_OPTION) {
+            createNewGame();
+        }
     }
 
-    public static Component createContentComponents() {
-        // Create a panel to set up the State buttons.
-        panelStateNumbers = new JPanel();
-        panelStateNumbers.setLayout(new GridLayout(1, Consts.COLS, 6, 4));
+    public static void createNewGame() {
+        //FOR GAME
+        state = new State();
+        state.setLastPlayer(Consts.P_2);
+        ai = new MinMax(maxDepth, Consts.P_2, new ThreeInLineEstFun());
+        setEnableButtons(true);
+
+        // WINDOW
+        if (mainWindow != null) mainWindow.dispose();
+        mainWindow = new JFrame("Connect-4");
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        mainWindow.setLocation(
+                (int) (dimension.getWidth() - mainWindow.getWidth() - DEFAULT_WIDTH) / 2
+                , (int) (dimension.getHeight() - mainWindow.getHeight() - DEFAULT_HEIGHT) / 2);
+        Component compMainWindowContents = createComponentsOnGUI();
+        mainWindow.getContentPane().add(compMainWindowContents, BorderLayout.CENTER);
+
+        mainWindow.setFocusable(true);
+        mainWindow.pack();
+        setBarOnGUI();
+    }
+
+    public static boolean makeMoveOnGUI() {
+        int row = state.getLastMove().getRow();
+        int col = state.getLastMove().getCol();
+        int currentPlayer = state.getLastPlayer();
+
+        Integer player = state.getBoard().get(0).get(col);
+        if (!player.equals(Consts.EMPTY)) buttons[col].setEnabled(false);
+
+        if (currentPlayer == Consts.P_1) {
+            putPieceOnGUI("RED", row, col);
+        } else if (currentPlayer == Consts.P_2) {
+            putPieceOnGUI("BLACK", row, col);
+        }
+        if (state.isEnd()) {
+            gameOver();
+        }
+        return false;
+    }
+
+    public static void putPieceOnGUI(String colorString, int row, int col) {
+        int xOffset = 75 * col;
+        int yOffset = 75 * row;
+        ImageIcon checkerIcon = new ImageIcon("res/images/" + colorString + ".png");
+        pieceLabel = new JLabel(checkerIcon);
+        pieceLabel.setBounds(27 + xOffset, 27 + yOffset, checkerIcon.getIconWidth(), checkerIcon.getIconHeight());
+        boardPane.add(pieceLabel, 0, 0);
+        mainWindow.paint(mainWindow.getGraphics());
+    }
+
+    public static Component createComponentsOnGUI() {
+        panelNumbers = new JPanel();
+        panelNumbers.setLayout(new GridLayout(1, Consts.COLS, 6, 4));
 
         if (firstGame) {
             for (int i = 0; i < buttons.length; i++) {
                 JButton button = buttons[i];
                 int column = i;
-
                 button.addActionListener(e -> {
-                    nextMove(column);
+                    state.nextMove(column, Consts.P_1);
                     boolean isGameOver = makeMoveOnGUI();
-                    checkToDisable(column);
-                    if (!isGameOver)
-                        aiMove(ai);
-                    frameMainWindow.requestFocusInWindow();
+                    if (!isGameOver) {
+                        state.nextMove(ai.findMove(state).getCol(), ai.getPlayer());
+                        makeMoveOnGUI();
+                    }
+                    mainWindow.requestFocusInWindow();
                 });
             }
             firstGame = false;
         }
         for (JButton button : buttons) {
-            panelStateNumbers.add(button);
+            panelNumbers.add(button);
         }
-        layeredGameState = createLayeredState();
+        boardPane = setBoardOnGUI();
         panelMain = new JPanel();
 
-        panelMain.add(panelStateNumbers, BorderLayout.NORTH);
-        panelMain.add(layeredGameState, BorderLayout.CENTER);
+        panelMain.add(panelNumbers, BorderLayout.NORTH);
+        panelMain.add(boardPane, BorderLayout.CENTER);
 
-        frameMainWindow.setResizable(false);
+        mainWindow.setResizable(false);
         return panelMain;
     }
 
-    private static void AddMenus() {
-
-        // Add the menu bar.
+    private static void setBarOnGUI() {
         menuBar = new JMenuBar();
 
         fileMenu = new JMenu("File");
@@ -96,125 +158,34 @@ public class GameGUI {
             settings.setVisible(true);
         });
         exitItem.addActionListener(e -> System.exit(0));
-
         fileMenu.add(newGameItem);
         fileMenu.add(settingsItem);
         fileMenu.add(exitItem);
         menuBar.add(fileMenu);
-        frameMainWindow.setJMenuBar(menuBar);
-        frameMainWindow.setVisible(true);
-    }
-
-    public static void centerWindow(Window frame, int width, int height) {
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) (dimension.getWidth() - frame.getWidth() - width) / 2;
-        int y = (int) (dimension.getHeight() - frame.getHeight() - height) / 2;
-        frame.setLocation(x, y);
-    }
-
-    public static JLayeredPane createLayeredState() {
-        layeredGameState = new JLayeredPane();
-        layeredGameState.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
-        layeredGameState.setBorder(BorderFactory.createTitledBorder("Connect-4"));
-        ImageIcon imageState = new ImageIcon("res/images/Board.png");
-        JLabel imageStateLabel = new JLabel(imageState);
-        imageStateLabel.setBounds(20, 20, imageState.getIconWidth(), imageState.getIconHeight());
-        layeredGameState.add(imageStateLabel, 0, 1);
-        return layeredGameState;
-    }
-
-    public static void setAllButtonsEnabled(boolean b) {
-        for (JButton button : buttons) {
-            button.setEnabled(b);
-        }
-    }
-
-    public static boolean makeMoveOnGUI() {
-        int row = state.getLastMove().getRow();
-        int col = state.getLastMove().getCol();
-        int currentPlayer = state.getLastPlayer();
-        if (currentPlayer == Consts.P_1) {
-            putPiece("RED", row, col);
-        } else if (currentPlayer == Consts.P_2) {
-            putPiece("YELLOW", row, col);
-        }
-        boolean isGameOver = state.isEnd();
-        if (isGameOver) {
-            gameOver();
-        }
-        return isGameOver;
-    }
-
-    public static void putPiece(String colorString, int row, int col) {
-        int xOffset = 75 * col;
-        int yOffset = 75 * row;
-        ImageIcon checkerIcon = new ImageIcon("res/images/" + colorString + ".png");
-        pieceLabel = new JLabel(checkerIcon);
-        pieceLabel.setBounds(27 + xOffset, 27 + yOffset, checkerIcon.getIconWidth(), checkerIcon.getIconHeight());
-        layeredGameState.add(pieceLabel, 0, 0);
-        frameMainWindow.paint(frameMainWindow.getGraphics());
-    }
-
-    public static void createNewGame() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
-        state = new State();
-        state.setLastPlayer(Consts.P_2);
-        setAllButtonsEnabled(true);
-        frameMainWindow = new JFrame("Connect-4");
-        // make the main window appear on the center
-        centerWindow(frameMainWindow, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        Component compMainWindowContents = createContentComponents();
-        frameMainWindow.getContentPane().add(compMainWindowContents, BorderLayout.CENTER);
-
-        frameMainWindow.addWindowListener(new WindowAdapter() {
+        mainWindow.setJMenuBar(menuBar);
+        mainWindow.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
         });
-        frameMainWindow.setFocusable(true);
-
-        // show window
-        frameMainWindow.pack();
-        AddMenus();
-
-        ai = new MinMax(GameParams.maxDepth1, Consts.P_2, new ThreeInLineEstFun());
+        mainWindow.setVisible(true);
     }
 
-    public static void nextMove(int col) {
-        if (state.getLastPlayer().equals(Consts.P_2)) {
-            state.nextMove(col, Consts.P_1);
-        } else {
-            state.nextMove(col, Consts.P_2);
-        }
+    public static JLayeredPane setBoardOnGUI() {
+        boardPane = new JLayeredPane();
+        boardPane.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        boardPane.setBorder(BorderFactory.createTitledBorder("Connect-4"));
+        ImageIcon imageState = new ImageIcon("res/images/Board.png");
+        JLabel imageStateLabel = new JLabel(imageState);
+        imageStateLabel.setBounds(20, 20, imageState.getIconWidth(), imageState.getIconHeight());
+        boardPane.add(imageStateLabel, 0, 1);
+        return boardPane;
     }
 
-    public static void aiMove(GameAlgorithm ai) {
-        Move aiMove = ai.findMove(state);
-        state.nextMove(aiMove.getCol(), ai.getPlayer());
-        makeMoveOnGUI();
-    }
-
-    public static void gameOver() {
-        String message;
-        if (state.getWinner().equals(Consts.P_1)) {
-            message = "Player 1 wins! Start a new game?";
-        } else if (state.getWinner().equals(Consts.P_2)) {
-            message = "Player 2 wins! Start a new game?";
-        } else {
-            message = "It's a draw! Start a new game?";
-        }
-        int choice = JOptionPane.showConfirmDialog(null,
-                message,
-                "Game Over", JOptionPane.YES_NO_OPTION);
-
-        if (choice == JOptionPane.YES_OPTION) {
-            createNewGame();
-        } else {
-            setAllButtonsEnabled(false);
+    public static void setEnableButtons(boolean b) {
+        for (JButton button : buttons) {
+            button.setEnabled(b);
         }
     }
 }
