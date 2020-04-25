@@ -9,4 +9,8 @@ public class Consts {
     public static int COLS = 7;
     public static int ROWS = 6;
 
+
+    public static final int HumanVsAi = 1;
+    public static final int AiVsAi = 2;
+
 }

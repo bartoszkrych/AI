@@ -5,4 +5,6 @@ import krych.bartosz.classes.State;
 
 public interface GameAlgorithm {
     Move findMove(State state);
+
+    int getPlayer();
 }

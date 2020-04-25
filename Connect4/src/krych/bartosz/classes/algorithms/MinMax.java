@@ -61,4 +61,8 @@ public class MinMax implements GameAlgorithm {
         minMaxMove.setCol(node.getLastMove().getCol());
         minMaxMove.setEstimate(move.getEstimate());
     }
+
+    public int getPlayer() {
+        return player;
+    }
 }

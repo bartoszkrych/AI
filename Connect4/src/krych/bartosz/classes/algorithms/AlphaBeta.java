@@ -29,6 +29,11 @@ public class AlphaBeta implements GameAlgorithm {
         return min(new State(state), 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
+    @Override
+    public int getPlayer() {
+        return player;
+    }
+
     public Move max(State state, int curDepth, int alpha, int beta) {
         if ((state.isEnd()) || (curDepth == depth)) {
             return new Move(state.getLastMove().getRow(), state.getLastMove().getCol(), fitFun.makeEstimate(state));
