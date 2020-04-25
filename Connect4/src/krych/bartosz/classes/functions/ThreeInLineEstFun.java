@@ -35,26 +35,27 @@ public class ThreeInLineEstFun implements EstimateFunction {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 Integer toCheck = board.get(i).get(j);
-                if (state.canMove(i, j + 2) && toCheck.equals(board.get(i).get(j + 1))
-                        && toCheck.equals(board.get(i).get(j + 2))
-                        && toCheck == playerToCheck) {
+                if (playerToCheck != toCheck) continue;
+
+                if (state.canMove(i, j + 2)
+                        && toCheck.equals(board.get(i).get(j + 1))
+                        && toCheck.equals(board.get(i).get(j + 2)))
                     counter++;
-                }
-                if (state.canMove(i - 2, j) && toCheck.equals(board.get(i - 1).get(j))
-                        && toCheck.equals(board.get(i - 2).get(j))
-                        && toCheck == playerToCheck) {
+
+                if (state.canMove(i - 2, j)
+                        && toCheck.equals(board.get(i - 1).get(j))
+                        && toCheck.equals(board.get(i - 2).get(j)))
                     counter++;
-                }
-                if (state.canMove(i + 2, j + 2) && toCheck.equals(board.get(i + 1).get(j + 1))
-                        && toCheck.equals(board.get(i + 2).get(j + 2))
-                        && (toCheck == playerToCheck)) {
+
+                if (state.canMove(i + 2, j + 2)
+                        && toCheck.equals(board.get(i + 1).get(j + 1))
+                        && toCheck.equals(board.get(i + 2).get(j + 2)))
                     counter++;
-                }
-                if (state.canMove(i - 2, j + 2) && toCheck.equals(board.get(i - 1).get(j + 1))
-                        && toCheck.equals(board.get(i - 2).get(j + 2))
-                        && toCheck == playerToCheck) {
+
+                if (state.canMove(i - 2, j + 2)
+                        && toCheck.equals(board.get(i - 1).get(j + 1))
+                        && toCheck.equals(board.get(i - 2).get(j + 2)))
                     counter++;
-                }
             }
         }
         return counter;

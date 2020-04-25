@@ -77,35 +77,37 @@ public class State {
         for (int i = 0; i < rows; i++) {
             List<Integer> row = board.get(i);
             for (int j = 0; j < cols; j++) {
-                if (canMove(i, j + 3) && row.get(j).equals(row.get(j + 1))
+                Integer toCheck = board.get(i).get(j);
+                if (toCheck.equals(Consts.EMPTY)) continue;
+
+                if (canMove(i, j + 3)
+                        && row.get(j).equals(row.get(j + 1))
                         && row.get(j).equals(row.get(j + 2))
-                        && row.get(j).equals(row.get(j + 3))
-                        && !row.get(j).equals(Consts.EMPTY)) {
+                        && row.get(j).equals(row.get(j + 3))) {
                     winner = row.get(j);
                     return true;
                 }
 
-                Integer toCheck = board.get(i).get(j);
-                if (canMove(i - 3, j) && toCheck.equals(board.get(i - 1).get(j))
+                if (canMove(i - 3, j)
+                        && toCheck.equals(board.get(i - 1).get(j))
                         && toCheck.equals(board.get(i - 2).get(j))
-                        && toCheck.equals(board.get(i - 3).get(j))
-                        && !toCheck.equals(Consts.EMPTY)) {
+                        && toCheck.equals(board.get(i - 3).get(j))) {
                     winner = toCheck;
                     return true;
 
                 }
-                if (canMove(i + 3, j + 3) && toCheck.equals(board.get(i + 1).get(j + 1))
+                if (canMove(i + 3, j + 3)
+                        && toCheck.equals(board.get(i + 1).get(j + 1))
                         && toCheck.equals(board.get(i + 2).get(j + 2))
-                        && toCheck.equals(board.get(i + 3).get(j + 3))
-                        && !toCheck.equals(Consts.EMPTY)) {
+                        && toCheck.equals(board.get(i + 3).get(j + 3))) {
                     winner = toCheck;
                     return true;
                 }
 
-                if (canMove(i - 3, j + 3) && toCheck.equals(board.get(i - 1).get(j + 1))
+                if (canMove(i - 3, j + 3)
+                        && toCheck.equals(board.get(i - 1).get(j + 1))
                         && toCheck.equals(board.get(i - 2).get(j + 2))
-                        && toCheck.equals(board.get(i - 3).get(j + 3))
-                        && !toCheck.equals(Consts.EMPTY)) {
+                        && toCheck.equals(board.get(i - 3).get(j + 3))) {
                     winner = toCheck;
                     return true;
                 }
