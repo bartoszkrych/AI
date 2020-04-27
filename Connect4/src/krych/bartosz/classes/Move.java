@@ -23,6 +23,12 @@ public class Move {
         this.estimate = estimate;
     }
 
+    public Move(Move secMove) {
+        this.col = secMove.col;
+        this.row = secMove.row;
+        this.estimate = secMove.estimate;
+    }
+
     public Integer getCol() {
         return col;
     }
@@ -49,6 +55,11 @@ public class Move {
 
     public Move scoutChange() {
         this.estimate = -1 * estimate;
+        return this;
+    }
+
+    public Move scoutInc() {
+        this.estimate++;
         return this;
     }
 

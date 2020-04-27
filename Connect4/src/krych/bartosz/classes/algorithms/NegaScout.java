@@ -25,32 +25,32 @@ public class NegaScout implements GameAlgorithm {
         return negaScout(state, 0, new Move(Integer.MIN_VALUE), new Move(Integer.MAX_VALUE), player);
     }
 
-    private Move negaScout(State state, int curDepth, Move alpha, Move beta, int curPlayer) {
+    private Move negaScout(State state, int curDepth, Move alpha, Move beta, Integer curPlayer) {
         if ((state.isEnd()) || (curDepth == depth)) {
             return new Move(state.getLastMove().getRow(), state.getLastMove().getCol(), fitFun.makeEstimate(state));
         }
         int opponent;
-        if (curPlayer == Consts.P_1) opponent = Consts.P_2;
+        if (curPlayer.equals(Consts.P_1)) opponent = Consts.P_2;
         else opponent = Consts.P_1;
+
         List<State> nodes = state.generateNodes(curPlayer);
         for (int i = 0; i < nodes.size(); i++) {
             Move move;
             if (i == 0) {
                 move = negaScout(nodes.get(i), curDepth++, beta.scoutChange(), alpha.scoutChange(), opponent).scoutChange();
-                move.setEstimate(-1 * move.getEstimate());
-                minMaxHelper(move, nodes.get(i), move);
             } else {
                 move = negaScout(nodes.get(i), curDepth++, alpha.scoutChangeMinus(), alpha.scoutChange(), opponent).scoutChange();
-                move.setEstimate(-1 * move.getEstimate());
-                minMaxHelper(move, nodes.get(i), move);
                 if (alpha.getEstimate() < move.getEstimate() && move.getEstimate() < beta.getEstimate()) {
                     move = negaScout(nodes.get(i), curDepth++, beta.scoutChange(), move.scoutChange(), opponent).scoutChange();
-                    move.setEstimate(-1 * move.getEstimate());
-                    minMaxHelper(move, nodes.get(i), move);
                 }
             }
-            if (move.getEstimate() > alpha.getEstimate())
-                minMaxHelper(alpha, nodes.get(i), move);
+            if (move.getEstimate() > alpha.getEstimate()) {
+                Move node = nodes.get(i).getLastMove();
+                alpha = move;
+                alpha.setCol(node.getCol());
+                alpha.setRow(node.getRow());
+            }
+//                minMaxHelper(alpha, nodes.get(i), move);
             if (alpha.getEstimate() >= beta.getEstimate()) break;
         }
         return alpha;
