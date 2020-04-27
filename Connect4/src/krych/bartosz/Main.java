@@ -44,7 +44,6 @@ public class Main {
                     }
                     game.nextMove(col - 1, Consts.P_1);
                     System.out.println();
-
 //                    System.out.println("Round for AI...");
 //                    Move aiMove2 = aiAB.findMove(game);
 //                    game.nextMove(aiMove2.getCol(), Consts.P_1);

@@ -32,19 +32,19 @@ public class NegaScout implements GameAlgorithm {
         int opponent;
         if (curPlayer == Consts.P_1) opponent = Consts.P_2;
         else opponent = Consts.P_1;
-        List<State> nodes = state.generateNodes(opponent);
+        List<State> nodes = state.generateNodes(curPlayer);
         for (int i = 0; i < nodes.size(); i++) {
             Move move;
             if (i == 0) {
-                move = negaScout(nodes.get(i), curDepth++, beta.scoutChange(), alpha.scoutChange(), opponent);
+                move = negaScout(nodes.get(i), curDepth++, beta.scoutChange(), alpha.scoutChange(), opponent).scoutChange();
                 move.setEstimate(-1 * move.getEstimate());
                 minMaxHelper(move, nodes.get(i), move);
             } else {
-                move = negaScout(nodes.get(i), curDepth++, alpha.scoutChangeMinus(), alpha.scoutChange(), opponent);
+                move = negaScout(nodes.get(i), curDepth++, alpha.scoutChangeMinus(), alpha.scoutChange(), opponent).scoutChange();
                 move.setEstimate(-1 * move.getEstimate());
                 minMaxHelper(move, nodes.get(i), move);
                 if (alpha.getEstimate() < move.getEstimate() && move.getEstimate() < beta.getEstimate()) {
-                    move = negaScout(nodes.get(i), curDepth++, beta.scoutChange(), move.scoutChange(), opponent);
+                    move = negaScout(nodes.get(i), curDepth++, beta.scoutChange(), move.scoutChange(), opponent).scoutChange();
                     move.setEstimate(-1 * move.getEstimate());
                     minMaxHelper(move, nodes.get(i), move);
                 }
