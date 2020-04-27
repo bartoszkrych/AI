@@ -47,6 +47,16 @@ public class Move {
         this.estimate = estimate;
     }
 
+    public Move scoutChange() {
+        this.estimate = -1 * estimate;
+        return this;
+    }
+
+    public Move scoutChangeMinus() {
+        this.estimate = -1 * estimate - 1;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Move{" +
