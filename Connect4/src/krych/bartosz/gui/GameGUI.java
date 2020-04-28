@@ -153,7 +153,7 @@ public class GameGUI {
 
         fileMenu = new JMenu("File");
         newGameItem = new JMenuItem("New Game");
-        settingsItem = new JMenuItem("Settings");
+        settingsItem = new JMenuItem("AI depth");
         exitItem = new JMenuItem("Exit");
 
         newGameItem.addActionListener(e -> createNewGame());
