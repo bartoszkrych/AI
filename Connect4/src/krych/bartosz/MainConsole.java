@@ -6,7 +6,7 @@ import krych.bartosz.classes.algorithms.AlphaBeta;
 import krych.bartosz.classes.algorithms.MinMax;
 import krych.bartosz.classes.functions.ThreeInLineEstFun;
 
-public class Main {
+public class MainConsole {
 
     public static void main(String[] args) {
 
