@@ -50,7 +50,6 @@ public class NegaScout implements GameAlgorithm {
                 alpha.setCol(node.getCol());
                 alpha.setRow(node.getRow());
             }
-//                minMaxHelper(alpha, nodes.get(i), move);
             if (alpha.getEstimate() >= beta.getEstimate()) break;
         }
         return alpha;
