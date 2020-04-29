@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 public class GameGUI {
     private static final int DEFAULT_WIDTH = 600;
@@ -32,6 +33,7 @@ public class GameGUI {
     private static State state;
     private static GameAlgorithm ai;
     private static boolean firstGame;
+    private static java.util.List<Integer> isEnableButton;
 
 
     public GameGUI() {
@@ -66,6 +68,7 @@ public class GameGUI {
         //FOR GAME
         state = new State();
         state.setLastPlayer(Consts.P_2);
+        isEnableButton = new ArrayList<>();
         ai = new MinMax(maxDepth, Consts.P_2, new ThreeInLineEstFun());
         setEnableButtons(true);
 
@@ -90,7 +93,10 @@ public class GameGUI {
         int currentPlayer = state.getLastPlayer();
 
         Integer player = state.getBoard().get(0).get(col);
-        if (!player.equals(Consts.EMPTY)) buttons[col].setEnabled(false);
+        if (!player.equals(Consts.EMPTY)) {
+            buttons[col].setEnabled(false);
+            isEnableButton.add(col);
+        }
 
         if (currentPlayer == Consts.P_1) {
             putPieceOnGUI("RED", row, col);
@@ -125,8 +131,15 @@ public class GameGUI {
                     state.nextMove(column, Consts.P_1);
                     boolean isGameOver = makeMoveOnGUI();
                     if (!isGameOver) {
-                        state.nextMove(ai.findMove(state).getCol(), ai.getPlayer());
-                        makeMoveOnGUI();
+                        setEnableButtons(false);
+                        Thread thread = new Thread(() -> {
+                            state.nextMove(ai.findMove(state).getCol(), ai.getPlayer());
+                            makeMoveOnGUI();
+                            setEnableButtons(true);
+                        });
+                        thread.start();
+//                        state.nextMove(ai.findMove(state).getCol(), ai.getPlayer());
+//                        makeMoveOnGUI();
                     }
                     mainWindow.requestFocusInWindow();
                 });
@@ -181,14 +194,16 @@ public class GameGUI {
         boardPane.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
         ImageIcon imageState = new ImageIcon("res/images/Board.png");
         JLabel imageStateLabel = new JLabel(imageState);
-        imageStateLabel.setBounds(0, 0, imageState.getIconWidth(), imageState.getIconHeight());
+        imageStateLabel.setBounds(20, 20, imageState.getIconWidth(), imageState.getIconHeight());
         boardPane.add(imageStateLabel, 0, 1);
         return boardPane;
     }
 
     public static void setEnableButtons(boolean b) {
-        for (JButton button : buttons) {
-            button.setEnabled(b);
+        for (int i = 0; i < buttons.length; i++) {
+            if (b && isEnableButton.contains(i)) continue;
+
+            buttons[i].setEnabled(b);
         }
     }
 }
