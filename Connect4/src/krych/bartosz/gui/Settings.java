@@ -9,16 +9,21 @@ import java.awt.event.ActionListener;
 public class Settings extends JFrame {
     private static final long serialVersionUID = 235333L;
 
-    private final JLabel maxDepth1Label;
+    private final JLabel aiDepthLabel;
+    private final JLabel aiAlgLabel;
+    private final JLabel aiEstLabel;
     SpinnerNumberModel model;
 
     private final JButton apply;
     private final JButton cancel;
 
+    private final JComboBox<String> aiAlg;
+    private final JComboBox<String> aiEst;
+
     private final EventHandler handler;
 
     public static int width = 300;
-    public static int height = 150;
+    public static int height = 210;
 
     public Settings() {
         super("Settings");
@@ -31,9 +36,15 @@ public class Settings extends JFrame {
 
         handler = new EventHandler();
 
-        maxDepth1Label = new JLabel("AI depth: ");
+        int selectedAlg = GameGUI.algorithm;
+        int selectedEst = GameGUI.estimate;
+        aiDepthLabel = new JLabel("AI depth: ");
+        aiAlgLabel = new JLabel("Algorithm: ");
+        aiEstLabel = new JLabel("Estimate: ");
 
-        add(maxDepth1Label);
+        add(aiDepthLabel);
+        add(aiAlgLabel);
+        add(aiEstLabel);
 
         model = new SpinnerNumberModel(GameGUI.maxDepth, 1, 20, 1);
         JSpinner spinner = new JSpinner(model);
@@ -41,7 +52,26 @@ public class Settings extends JFrame {
         ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField().setEditable(false);
         add(spinner);
 
-        maxDepth1Label.setBounds(25, 15, 175, 20);
+        aiDepthLabel.setBounds(25, 15, 175, 20);
+        aiAlgLabel.setBounds(25, 45, 175, 20);
+        aiEstLabel.setBounds(25, 75, 175, 20);
+
+
+        aiAlg = new JComboBox<>();
+        aiAlg.addItem("MinMax");
+        aiAlg.addItem("AlphaBeta");
+        aiAlg.setSelectedIndex(selectedAlg);
+        add(aiAlg);
+        aiAlg.setBounds(155, 45, 100, 20);
+
+
+        aiEst = new JComboBox<>();
+        aiEst.addItem("Just winner");
+        aiEst.addItem("3 in line");
+        aiEst.setSelectedIndex(selectedEst);
+        add(aiEst);
+        aiEst.setBounds(155, 75, 100, 20);
+
 
         apply = new JButton("Apply");
         cancel = new JButton("Cancel");
@@ -49,9 +79,9 @@ public class Settings extends JFrame {
         add(cancel);
 
         int distance = 10;
-        apply.setBounds((width / 2) - 110 - (distance / 2), 70, 100, 30);
+        apply.setBounds((width / 2) - 110 - (distance / 2), 130, 100, 30);
         apply.addActionListener(handler);
-        cancel.setBounds((width / 2) - 10 + (distance / 2), 70, 100, 30);
+        cancel.setBounds((width / 2) - 10 + (distance / 2), 130, 100, 30);
         cancel.addActionListener(handler);
     }
 
@@ -66,6 +96,8 @@ public class Settings extends JFrame {
             } else if (ev.getSource() == apply) {
                 try {
                     GameGUI.maxDepth = (int) model.getValue();
+                    GameGUI.algorithm = aiAlg.getSelectedIndex();
+                    GameGUI.estimate = aiEst.getSelectedIndex();
 
                     JOptionPane.showMessageDialog(null,
                             "Start new game to apply changes.",

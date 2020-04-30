@@ -2,8 +2,11 @@ package krych.bartosz.gui;
 
 import krych.bartosz.classes.Consts;
 import krych.bartosz.classes.State;
+import krych.bartosz.classes.algorithms.AlphaBeta;
 import krych.bartosz.classes.algorithms.MinMax;
+import krych.bartosz.classes.functions.JustWinnerEstFun;
 import krych.bartosz.classes.functions.ThreeInLineEstFun;
+import krych.bartosz.interfaces.EstimateFunction;
 import krych.bartosz.interfaces.GameAlgorithm;
 
 import javax.swing.*;
@@ -16,6 +19,8 @@ public class GameGUI {
     private static final int DEFAULT_WIDTH = 600;
     private static final int DEFAULT_HEIGHT = 520;
     static int maxDepth = 4;
+    static int algorithm = 0;
+    static int estimate = 0;
 
     static JFrame mainWindow;
     static JPanel panelMain;
@@ -32,6 +37,7 @@ public class GameGUI {
 
     private static State state;
     private static GameAlgorithm ai;
+    private static EstimateFunction estFun;
     private static boolean firstGame;
     private static java.util.List<Integer> isEnableButton;
 
@@ -69,7 +75,12 @@ public class GameGUI {
         state = new State();
         state.setLastPlayer(Consts.P_2);
         isEnableButton = new ArrayList<>();
-        ai = new MinMax(maxDepth, Consts.P_2, new ThreeInLineEstFun());
+        if (estimate == Consts.JustWinner) estFun = new JustWinnerEstFun();
+        else if (estimate == Consts.ThreeInLine) estFun = new ThreeInLineEstFun();
+
+        if (algorithm == Consts.MinMax) ai = new MinMax(maxDepth, Consts.P_2, estFun);
+        else if (algorithm == Consts.AlphaBeta) ai = new AlphaBeta(maxDepth, Consts.P_2, estFun);
+
         setEnableButtons(true);
 
         // WINDOW
@@ -166,7 +177,7 @@ public class GameGUI {
 
         fileMenu = new JMenu("File");
         newGameItem = new JMenuItem("New Game");
-        settingsItem = new JMenuItem("AI depth");
+        settingsItem = new JMenuItem("AI settings");
         exitItem = new JMenuItem("Exit");
 
         newGameItem.addActionListener(e -> createNewGame());
