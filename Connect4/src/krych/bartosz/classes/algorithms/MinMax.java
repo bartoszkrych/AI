@@ -7,14 +7,12 @@ import krych.bartosz.interfaces.EstimateFunction;
 import krych.bartosz.interfaces.GameAlgorithm;
 
 import java.util.List;
-import java.util.Random;
 
 public class MinMax implements GameAlgorithm {
 
     private int depth;
     private int player;
     private EstimateFunction fitFun;
-    private Random r = new Random();
 
     public MinMax(int depth, int player, EstimateFunction fitFun) {
         this.depth = depth;
@@ -60,5 +58,9 @@ public class MinMax implements GameAlgorithm {
         minMaxMove.setRow(node.getLastMove().getRow());
         minMaxMove.setCol(node.getLastMove().getCol());
         minMaxMove.setEstimate(move.getEstimate());
+    }
+
+    public int getPlayer() {
+        return player;
     }
 }
