@@ -54,17 +54,12 @@ public class Move {
     }
 
     public Move scoutChange() {
-        this.estimate = -1 * estimate;
-        return this;
-    }
-
-    public Move scoutInc() {
-        this.estimate++;
+        this.estimate = -estimate;
         return this;
     }
 
     public Move scoutChangeMinus() {
-        this.estimate = -1 * estimate - 1;
+        this.estimate = -estimate - 1;
         return this;
     }
 

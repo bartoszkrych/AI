@@ -24,9 +24,9 @@ public class NegaScout implements GameAlgorithm {
     @Override
     public Move findMove(State state) {
         scoutMove = new Move();
-//        return negaScout(state, 0, new Move(Integer.MIN_VALUE), new Move(Integer.MAX_VALUE), player);
-        negaScout2(state, 0, Integer.MIN_VALUE, Integer.MAX_VALUE, player);
-        return scoutMove;
+        return negaScout(state, 0, new Move(Integer.MAX_VALUE), new Move(Integer.MIN_VALUE), player);
+//        negaScout2(state, 0, Integer.MIN_VALUE, Integer.MAX_VALUE, player);
+//        return scoutMove;
     }
 
     private Move negaScout(State state, int curDepth, Move alpha, Move beta, Integer curPlayer) {
@@ -97,7 +97,7 @@ public class NegaScout implements GameAlgorithm {
                 Move node = nodes.get(i).getLastMove();
                 scoutMove.setCol(node.getCol());
                 scoutMove.setRow(node.getRow());
-                scoutMove.setEstimate(alpha);
+                scoutMove.setEstimate(score);
             }
             // if α ≥ β then
             if (alpha >= beta) break;
