@@ -7,11 +7,10 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class GameConsole {
-    public void startAiVsAi(GameAlgorithm player1, GameAlgorithm player2, boolean isFirstRandom) {
+    public String[] startAiVsAi(GameAlgorithm player1, GameAlgorithm player2, boolean isFirstRandom) {
         State game = new State();
         int P1_moves = 0;
         int P2_moves = 0;
-        int result;
 
         game.setLastPlayer(Consts.P_2);
 
@@ -46,16 +45,21 @@ public class GameConsole {
         }
         in.close();
 
+        int winnerMove = -1;
+        String winnerName = "-";
         if (game.getWinner().equals(Consts.P_1)) {
             System.out.println("Player 1 wins!  After:   " + P1_moves + " moves");
-            result = P1_moves;
+            winnerMove = P1_moves;
+            winnerName = player1.getNameAlg();
         } else if (game.getWinner().equals(Consts.P_2)) {
             System.out.println("Player 2 wins!  After:   " + P2_moves + " moves");
-            result = P2_moves;
+            winnerMove = P2_moves;
+            winnerName = player2.getNameAlg();
         } else {
             System.out.println("It's a draw!");
         }
         System.out.println("With time:  " + endTime + "ms");
+        return new String[]{winnerName, String.valueOf(winnerMove), String.valueOf(endTime)};
     }
 
     public void startHumVsAi(GameAlgorithm player2) {
