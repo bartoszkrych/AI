@@ -27,6 +27,11 @@ public class ThreeInLineEstFun implements EstimateFunction {
         return fitP1 - fitP2;
     }
 
+    @Override
+    public String getNameEst() {
+        return "Three";
+    }
+
 
     public int counterThreeInLine(State state, int playerToCheck) {
         List<List<Integer>> board = state.getBoard();

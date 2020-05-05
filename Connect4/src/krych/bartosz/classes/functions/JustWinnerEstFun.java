@@ -11,4 +11,9 @@ public class JustWinnerEstFun implements EstimateFunction {
         if (state.isWin() && state.getLastPlayer().equals(Consts.P_2)) return -1000;
         return 0;
     }
+
+    @Override
+    public String getNameEst() {
+        return "Winner";
+    }
 }
