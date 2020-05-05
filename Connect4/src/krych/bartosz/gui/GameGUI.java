@@ -20,7 +20,11 @@ public class GameGUI {
     private static final int DEFAULT_HEIGHT = 520;
     static int maxDepth = 4;
     static int algorithm = 0;
-    static int estimate = 0;
+    static int estimate = 1;
+    static int maxDepth2 = 6;
+    static int algorithm2 = 1;
+    static int estimate2 = 1;
+    static int mode = 0;
 
     static JFrame mainWindow;
     static JPanel panelMain;
@@ -38,6 +42,8 @@ public class GameGUI {
     private static State state;
     private static GameAlgorithm ai;
     private static EstimateFunction estFun;
+    private static GameAlgorithm ai2;
+    private static EstimateFunction estFun2;
     private static boolean firstGame;
     private static java.util.List<Integer> isEnableButton;
 
@@ -55,9 +61,9 @@ public class GameGUI {
         String message;
         setEnableButtons(false);
         if (state.getWinner().equals(Consts.P_1)) {
-            message = "YOU WIN! Start a new game?";
+            message = "RED WIN! Start a new game?";
         } else if (state.getWinner().equals(Consts.P_2)) {
-            message = "AI wins :( Start a new game?";
+            message = "BLACK WIN! Start a new game?";
         } else {
             message = "Draw. Start a new game?";
         }
@@ -81,8 +87,6 @@ public class GameGUI {
         if (algorithm == Consts.MinMax) ai = new MinMax(maxDepth, Consts.P_2, estFun);
         else if (algorithm == Consts.AlphaBeta) ai = new AlphaBeta(maxDepth, Consts.P_2, estFun);
 
-        setEnableButtons(true);
-
         // WINDOW
         if (mainWindow != null) mainWindow.dispose();
         mainWindow = new JFrame("Connect-4");
@@ -96,6 +100,24 @@ public class GameGUI {
         mainWindow.setFocusable(true);
         mainWindow.pack();
         setBarOnGUI();
+
+        if (mode == Consts.AIvsAI) {
+            setEnableButtons(false);
+            if (estimate2 == Consts.JustWinner) estFun2 = new JustWinnerEstFun();
+            else if (estimate2 == Consts.ThreeInLine) estFun2 = new ThreeInLineEstFun();
+            if (algorithm2 == Consts.MinMax) ai2 = new MinMax(maxDepth2, Consts.P_1, estFun2);
+            else if (algorithm2 == Consts.AlphaBeta) ai2 = new AlphaBeta(maxDepth2, Consts.P_1, estFun2);
+
+            while (!state.isEnd()) {
+                aiMove(ai2);
+                if (!state.isEnd()) {
+                    aiMove(ai);
+                }
+            }
+        } else {
+            setEnableButtons(true);
+        }
+
     }
 
     public static boolean makeMoveOnGUI() {
@@ -130,6 +152,11 @@ public class GameGUI {
         mainWindow.paint(mainWindow.getGraphics());
     }
 
+    private static void aiMove(GameAlgorithm ai) {
+        state.nextMove(ai.findMove(state).getCol(), ai.getPlayer());
+        makeMoveOnGUI();
+    }
+
     public static Component createComponentsOnGUI() {
         panelNumbers = new JPanel();
         panelNumbers.setLayout(new GridLayout(1, Consts.COLS, 6, 4));
@@ -144,13 +171,10 @@ public class GameGUI {
                     if (!isGameOver) {
                         setEnableButtons(false);
                         Thread thread = new Thread(() -> {
-                            state.nextMove(ai.findMove(state).getCol(), ai.getPlayer());
-                            makeMoveOnGUI();
+                            aiMove(ai);
                             setEnableButtons(true);
                         });
                         thread.start();
-//                        state.nextMove(ai.findMove(state).getCol(), ai.getPlayer());
-//                        makeMoveOnGUI();
                     }
                     mainWindow.requestFocusInWindow();
                 });
