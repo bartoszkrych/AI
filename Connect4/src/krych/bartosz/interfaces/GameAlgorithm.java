@@ -7,4 +7,6 @@ public interface GameAlgorithm {
     Move findMove(State state);
 
     int getPlayer();
+
+    String getNameAlg();
 }

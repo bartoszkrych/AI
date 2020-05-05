@@ -63,4 +63,9 @@ public class MinMax implements GameAlgorithm {
     public int getPlayer() {
         return player;
     }
+
+    @Override
+    public String getNameAlg() {
+        return "MinMax";
+    }
 }

@@ -109,4 +109,9 @@ public class NegaScout implements GameAlgorithm {
     public int getPlayer() {
         return player;
     }
+
+    @Override
+    public String getNameAlg() {
+        return "NegaScout";
+    }
 }
