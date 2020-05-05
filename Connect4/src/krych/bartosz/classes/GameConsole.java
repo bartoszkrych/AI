@@ -7,14 +7,14 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class GameConsole {
-    public String[] startAiVsAi(GameAlgorithm player1, GameAlgorithm player2, boolean isFirstRandom) {
+    public Integer[] startAiVsAi(GameAlgorithm player1, GameAlgorithm player2, boolean isFirstRandom) {
         State game = new State();
         int P1_moves = 0;
         int P2_moves = 0;
 
         game.setLastPlayer(Consts.P_2);
 
-        printBoard(game.getBoard());
+//        printBoard(game.getBoard());
 
         Scanner in = new Scanner(System.in);
         long endTime = 0;
@@ -23,7 +23,7 @@ public class GameConsole {
             switch (game.getLastPlayer()) {
                 case 1:
                     P2_moves++;
-                    System.out.println("Round for AI...");
+//                    System.out.println("Round for AI...");
                     Move aiMove1 = player2.findMove(game);
                     game.nextMove(aiMove1.getCol(), Consts.P_2);
                     break;
@@ -33,33 +33,34 @@ public class GameConsole {
                         game.nextMove(new Random().nextInt(7), Consts.P_1);
                         break;
                     }
-                    System.out.println("Round for AI...");
+//                    System.out.println("Round for AI...");
                     Move aiMove2 = player1.findMove(game);
                     game.nextMove(aiMove2.getCol(), Consts.P_1);
                     break;
                 default:
                     break;
             }
-            endTime = System.currentTimeMillis() - startTime;
-            printBoard(game.getBoard());
+//            printBoard(game.getBoard());
         }
+        endTime = System.currentTimeMillis() - startTime;
         in.close();
 
-        int winnerMove = -1;
+        int winnerMove;
         String winnerName = "-";
         if (game.getWinner().equals(Consts.P_1)) {
-            System.out.println("Player 1 wins!  After:   " + P1_moves + " moves");
+            System.out.print("Winner:   P1  moves:  " + P1_moves + "   ");
             winnerMove = P1_moves;
             winnerName = player1.getNameAlg();
         } else if (game.getWinner().equals(Consts.P_2)) {
-            System.out.println("Player 2 wins!  After:   " + P2_moves + " moves");
+            System.out.print("Winner:   P2  moves:  " + P2_moves + "   ");
             winnerMove = P2_moves;
             winnerName = player2.getNameAlg();
         } else {
-            System.out.println("It's a draw!");
+            System.out.print("Winner:   --  moves:  " + P2_moves + "   ");
+            winnerMove = 21;
         }
-        System.out.println("With time:  " + endTime + "ms");
-        return new String[]{winnerName, String.valueOf(winnerMove), String.valueOf(endTime)};
+        System.out.println("Time:  " + endTime + "ms");
+        return new Integer[]{game.getWinner(), winnerMove, (int) endTime};
     }
 
     public void startHumVsAi(GameAlgorithm player2) {
