@@ -2,6 +2,7 @@ package krych.bartosz.classes;
 
 import krych.bartosz.interfaces.GameAlgorithm;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -11,6 +12,9 @@ public class GameConsole {
         State game = new State();
         int P1_moves = 0;
         int P2_moves = 0;
+        List<Long> p1_times = new ArrayList<>();
+        List<Long> p2_times = new ArrayList<>();
+
 
         game.setLastPlayer(Consts.P_2);
 
@@ -19,13 +23,16 @@ public class GameConsole {
         Scanner in = new Scanner(System.in);
         long endTime = 0;
         long startTime = System.currentTimeMillis();
+        long stoperMove;
         while (!game.isEnd()) {
             switch (game.getLastPlayer()) {
                 case 1:
                     P2_moves++;
 //                    System.out.println("Round for AI...");
-                    Move aiMove1 = player2.findMove(game);
-                    game.nextMove(aiMove1.getCol(), Consts.P_2);
+                    stoperMove = System.currentTimeMillis();
+                    Move aiMove2 = player2.findMove(game);
+                    p2_times.add(System.currentTimeMillis() - stoperMove);
+                    game.nextMove(aiMove2.getCol(), Consts.P_2);
                     break;
                 case 2:
                     P1_moves++;
@@ -34,8 +41,10 @@ public class GameConsole {
                         break;
                     }
 //                    System.out.println("Round for AI...");
-                    Move aiMove2 = player1.findMove(game);
-                    game.nextMove(aiMove2.getCol(), Consts.P_1);
+                    stoperMove = System.currentTimeMillis();
+                    Move aiMove1 = player1.findMove(game);
+                    p1_times.add(System.currentTimeMillis() - stoperMove);
+                    game.nextMove(aiMove1.getCol(), Consts.P_1);
                     break;
                 default:
                     break;
@@ -50,17 +59,17 @@ public class GameConsole {
         if (game.getWinner().equals(Consts.P_1)) {
             System.out.print("Winner:   P1  moves:  " + P1_moves + "   ");
             winnerMove = P1_moves;
-            winnerName = player1.getNameAlg();
         } else if (game.getWinner().equals(Consts.P_2)) {
             System.out.print("Winner:   P2  moves:  " + P2_moves + "   ");
             winnerMove = P2_moves;
-            winnerName = player2.getNameAlg();
         } else {
             System.out.print("Winner:   --  moves:  " + P2_moves + "   ");
-            winnerMove = 21;
+            winnerMove = P1_moves;
         }
         System.out.println("Time:  " + endTime + "ms");
-        return new Integer[]{game.getWinner(), winnerMove, (int) endTime};
+        return new Integer[]{game.getWinner(), winnerMove, (int) endTime,
+                (int) p1_times.stream().mapToInt(Long::intValue).average().orElse(0),
+                (int) p2_times.stream().mapToInt(Long::intValue).average().orElse(0)};
     }
 
     public void startHumVsAi(GameAlgorithm player2) {
