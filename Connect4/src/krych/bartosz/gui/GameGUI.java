@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class GameGUI {
     private static final int DEFAULT_WIDTH = 600;
     private static final int DEFAULT_HEIGHT = 520;
-    static int maxDepth = 4;
+    static int maxDepth = 7;
     static int algorithm = 0;
     static int estimate = 1;
     static int maxDepth2 = 6;

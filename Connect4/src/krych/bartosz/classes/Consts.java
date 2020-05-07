@@ -13,6 +13,7 @@ public class Consts {
 
     public static final int JustWinner = 0;
     public static final int ThreeInLine = 1;
+    public static final int TwoThreeInLine = 2;
 
     public static final int HumanVsAI = 0;
     public static final int AIvsAI = 1;
