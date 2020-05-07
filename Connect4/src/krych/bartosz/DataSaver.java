@@ -19,10 +19,10 @@ public class DataSaver {
         this.folderName = folderName;
     }
 
-    public void saveToFile(List<String[]> dataLines) {
+    public void saveToFile(List<String[]> dataLines, String ext) {
         existFolder(folderName);
-        File txtOutputFile = new File(folderName + "/" + fileName + ".txt");
-        try (PrintWriter pw = new PrintWriter(txtOutputFile)) {
+        File outputFile = new File(folderName + "/" + fileName + "." + ext);
+        try (PrintWriter pw = new PrintWriter(outputFile)) {
             dataLines.stream()
                     .map(s -> String.join(";", s))
                     .forEach(pw::println);
