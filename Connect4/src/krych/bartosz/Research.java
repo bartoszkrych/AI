@@ -50,8 +50,9 @@ public class Research {
         EstimateFunction ef1 = getEstimateFunction(est1);
         EstimateFunction ef2 = getEstimateFunction(est2);
 
-        fightTwoAlg(Consts.AlphaBeta, 3, ef1, ef2);
-        fightTwoAlg(3, Consts.AlphaBeta, ef1, ef2);
+        fightTwoAlg(Consts.AlphaBeta, Consts.MinMax, ef1, ef2);
+        if (est1 != est2)
+            fightTwoAlg(Consts.MinMax, Consts.AlphaBeta, ef1, ef2);
     }
 
 
