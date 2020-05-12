@@ -10,10 +10,11 @@ import java.util.List;
 
 public class NegaScout extends GameAlgorithm {
 
-    private int depth;
-    private int player;
-    private EstimateFunction fitFun;
+    private final int depth;
+    private final int player;
+    private final EstimateFunction fitFun;
     private Move scoutMove;
+    private final String nameAlg = "NegaScout";
 
     public NegaScout(int depth, int player, EstimateFunction fitFun) {
         this.depth = depth;
@@ -142,6 +143,6 @@ public class NegaScout extends GameAlgorithm {
     }
 
     public String getNameAlg() {
-        return "NegaScout";
+        return nameAlg;
     }
 }
