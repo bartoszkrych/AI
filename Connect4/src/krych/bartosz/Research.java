@@ -2,13 +2,13 @@ package krych.bartosz;
 
 import krych.bartosz.classes.GameConsole;
 import krych.bartosz.classes.algorithms.AlphaBeta;
+import krych.bartosz.classes.algorithms.GameAlgorithm;
 import krych.bartosz.classes.algorithms.MinMax;
 import krych.bartosz.classes.algorithms.NegaScout;
+import krych.bartosz.classes.functions.EstimateFunction;
 import krych.bartosz.classes.functions.JustWinnerEstFun;
 import krych.bartosz.classes.functions.ThreeInLineEstFun;
 import krych.bartosz.classes.functions.TwoThreeInLineEstFun;
-import krych.bartosz.interfaces.EstimateFunction;
-import krych.bartosz.interfaces.GameAlgorithm;
 
 import java.util.ArrayList;
 import java.util.List;

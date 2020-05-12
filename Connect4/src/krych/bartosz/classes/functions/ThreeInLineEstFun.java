@@ -2,7 +2,6 @@ package krych.bartosz.classes.functions;
 
 import krych.bartosz.Consts;
 import krych.bartosz.classes.State;
-import krych.bartosz.interfaces.EstimateFunction;
 
 public class ThreeInLineEstFun extends ThreeInLineMethod implements EstimateFunction {
 

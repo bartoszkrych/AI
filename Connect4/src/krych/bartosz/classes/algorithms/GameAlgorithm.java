@@ -1,4 +1,4 @@
-package krych.bartosz.interfaces;
+package krych.bartosz.classes.algorithms;
 
 import krych.bartosz.Consts;
 import krych.bartosz.classes.Move;

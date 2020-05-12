@@ -3,11 +3,11 @@ package krych.bartosz.gui;
 import krych.bartosz.Consts;
 import krych.bartosz.classes.State;
 import krych.bartosz.classes.algorithms.AlphaBeta;
+import krych.bartosz.classes.algorithms.GameAlgorithm;
 import krych.bartosz.classes.algorithms.MinMax;
+import krych.bartosz.classes.functions.EstimateFunction;
 import krych.bartosz.classes.functions.JustWinnerEstFun;
 import krych.bartosz.classes.functions.ThreeInLineEstFun;
-import krych.bartosz.interfaces.EstimateFunction;
-import krych.bartosz.interfaces.GameAlgorithm;
 
 import javax.swing.*;
 import java.awt.*;

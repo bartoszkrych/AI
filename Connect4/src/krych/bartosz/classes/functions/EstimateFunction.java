@@ -1,4 +1,4 @@
-package krych.bartosz.interfaces;
+package krych.bartosz.classes.functions;
 
 import krych.bartosz.classes.State;
 
