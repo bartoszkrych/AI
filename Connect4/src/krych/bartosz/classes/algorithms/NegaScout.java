@@ -24,9 +24,9 @@ public class NegaScout extends GameAlgorithm {
 
     public Move findMove(State state) {
         scoutMove = new Move();
-//        return negaScout(state, 0, new Move(Integer.MIN_VALUE), new Move(Integer.MAX_VALUE), player);
-        negaScoutInt(state, 0, Integer.MIN_VALUE, Integer.MAX_VALUE, player);
-        return scoutMove;
+        return negaScout(state, 0, new Move(Integer.MIN_VALUE), new Move(Integer.MAX_VALUE), player);
+//        negaScoutInt(state, 0, Integer.MIN_VALUE, Integer.MAX_VALUE, player);
+//        return scoutMove;
     }
 
     private Move negaScout(State state, int curDepth, Move alpha, Move beta, Integer curPlayer) {

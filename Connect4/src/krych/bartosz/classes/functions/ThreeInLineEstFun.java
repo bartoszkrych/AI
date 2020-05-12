@@ -13,18 +13,17 @@ public class ThreeInLineEstFun implements EstimateFunction {
 
     @Override
     public Integer makeEstimate(State state) {
-        int fitP1 = 0;
-        int fitP2 = 0;
+        int estimate = 0;
         if (state.isWin()) {
             if (state.getWinner().equals(Consts.P_1)) {
-                fitP1 = 1000;
+                estimate = 1000;
             } else if (state.getWinner().equals(Consts.P_2)) {
-                fitP2 = 1000;
+                estimate = -1000;
             }
         }
-        fitP1 += counterThreeInLine(state, Consts.P_1) * 100;
-        fitP2 += counterThreeInLine(state, Consts.P_2) * 100;
-        return fitP1 - fitP2;
+        estimate += counterThreeInLine(state, Consts.P_1) * 100;
+        estimate -= counterThreeInLine(state, Consts.P_2) * 100;
+        return estimate;
     }
 
     @Override
