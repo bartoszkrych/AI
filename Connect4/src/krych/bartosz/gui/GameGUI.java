@@ -1,6 +1,6 @@
 package krych.bartosz.gui;
 
-import krych.bartosz.classes.Consts;
+import krych.bartosz.Consts;
 import krych.bartosz.classes.State;
 import krych.bartosz.classes.algorithms.AlphaBeta;
 import krych.bartosz.classes.algorithms.MinMax;

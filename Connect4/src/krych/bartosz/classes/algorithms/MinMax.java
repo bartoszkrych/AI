@@ -1,6 +1,6 @@
 package krych.bartosz.classes.algorithms;
 
-import krych.bartosz.classes.Consts;
+import krych.bartosz.Consts;
 import krych.bartosz.classes.Move;
 import krych.bartosz.classes.State;
 import krych.bartosz.interfaces.EstimateFunction;

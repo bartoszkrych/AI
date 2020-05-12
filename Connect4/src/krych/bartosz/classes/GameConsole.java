@@ -1,5 +1,6 @@
 package krych.bartosz.classes;
 
+import krych.bartosz.Consts;
 import krych.bartosz.interfaces.GameAlgorithm;
 
 import java.util.ArrayList;

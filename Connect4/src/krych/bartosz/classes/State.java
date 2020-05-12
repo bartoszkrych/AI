@@ -1,5 +1,7 @@
 package krych.bartosz.classes;
 
+import krych.bartosz.Consts;
+
 import java.util.ArrayList;
 import java.util.List;
 

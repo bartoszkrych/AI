@@ -1,4 +1,4 @@
-package krych.bartosz.classes;
+package krych.bartosz;
 
 public class Consts {
     public static final Integer P_1 = 1;

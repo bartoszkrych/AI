@@ -1,6 +1,6 @@
 package krych.bartosz.interfaces;
 
-import krych.bartosz.classes.Consts;
+import krych.bartosz.Consts;
 import krych.bartosz.classes.Move;
 import krych.bartosz.classes.State;
 
