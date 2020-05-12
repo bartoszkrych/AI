@@ -42,9 +42,17 @@ public class Research {
         EstimateFunction ef1 = getEstimateFunction(est1);
         EstimateFunction ef2 = getEstimateFunction(est2);
         iterationOneAlg(alg, ef1, ef2);
+
         if (est1 != est2)
             iterationOneAlg(alg, ef2, ef1);
+    }
 
+    public void fightMMAB(int est1, int est2) {
+        EstimateFunction ef1 = getEstimateFunction(est1);
+        EstimateFunction ef2 = getEstimateFunction(est2);
+
+        fightTwoAlg(Consts.AlphaBeta, 3, ef1, ef2);
+        fightTwoAlg(3, Consts.AlphaBeta, ef1, ef2);
     }
 
 
@@ -149,7 +157,7 @@ public class Research {
             }
             System.out.println("            " + p1_ai.getNameAlg() + " (" + j + ")         " + p2_ai.getNameAlg() + " (" + j + ")         ");
 
-            dataSaver = new DataSaver(p1_ai.getNameAlg() + "_" + p2_ai.getNameAlg() + "/" + est1.getNameEst() + "_" + est2.getNameEst(),
+            dataSaver = new DataSaver(p1_ai.getNameAlg() + "_" + p2_ai.getNameAlg() + "_+10/" + est1.getNameEst() + "_" + est2.getNameEst(),
                     j + "_" + j);
 
             dataLines = new ArrayList<>();
@@ -159,7 +167,7 @@ public class Research {
             List<Integer> times = new ArrayList<>();
             List<Integer> timeMoveP1 = new ArrayList<>();
             List<Integer> timeMoveP2 = new ArrayList<>();
-            for (int i = 1; i <= 10; i++) {
+            for (int i = 1; i <= 20; i++) {
                 Integer[] temp = game.startAiVsAi(p1_ai, p2_ai, true);
                 winners.add(temp[0]);
                 moves.add(temp[1]);
@@ -189,13 +197,89 @@ public class Research {
 
             sumLines.add(new String[]{j + "", dMove + "", dTime + "", dTimeP1 + "", dTimeP2 + "", p1Win + "", p2Win + "", draws + ""});
             if (j == k) {
-                dataSaver = new DataSaver(p1_ai.getNameAlg() + "_" + p2_ai.getNameAlg() + "/" + est1.getNameEst() + "_" + est2.getNameEst(),
+                dataSaver = new DataSaver(p1_ai.getNameAlg() + "_" + p2_ai.getNameAlg() + "+10/" + est1.getNameEst() + "_" + est2.getNameEst(),
                         "sum");
                 dataSaver.saveToFile(sumLines, "csv");
             }
         }
 
     }
+
+
+    private void fightTwoAlg(int gameAlg1, int gameAlg2, EstimateFunction est1, EstimateFunction est2) {
+        GameAlgorithm p1_ai, p2_ai;
+        int k = 8;
+//        if (gameAlg1 == Consts.MinMax) k = 7;
+//        else if (gameAlg1 == Consts.AlphaBeta) k = 10;
+//        else k = 7;
+
+        sumLines = new ArrayList<>();
+        sumLines.add(new String[]{"depth", "moves", "time", "P1 times", "P2 times", "p1 win", "p2 win", "draws"});
+        for (int j = 1; j <= k; j++) {
+
+            if (gameAlg2 == Consts.MinMax) p2_ai = new MinMax(j, Consts.P_2, est2);
+            else if (gameAlg2 == Consts.AlphaBeta) p2_ai = new AlphaBeta(j, Consts.P_2, est2);
+            else {
+                p2_ai = new NegaScout(j, Consts.P_2, est2);
+            }
+
+            if (gameAlg1 == Consts.MinMax) {
+                p1_ai = new MinMax(j, Consts.P_1, est1);
+            } else if (gameAlg1 == Consts.AlphaBeta) {
+                p1_ai = new AlphaBeta(j, Consts.P_1, est1);
+            } else {
+                p1_ai = new NegaScout(j, Consts.P_1, est1);
+            }
+            System.out.println("            " + p1_ai.getNameAlg() + " (" + j + ")         " + p2_ai.getNameAlg() + " (" + j + ")         ");
+
+            dataSaver = new DataSaver(p1_ai.getNameAlg() + "_" + p2_ai.getNameAlg() + "_+10/" + est1.getNameEst() + "_" + est2.getNameEst(),
+                    j + "_" + j);
+
+            dataLines = new ArrayList<>();
+            dataLines.add(new String[]{"Winner", "Moves", "Time", "P1 time", "P2 time"});
+            List<Integer> winners = new ArrayList<>();
+            List<Integer> moves = new ArrayList<>();
+            List<Integer> times = new ArrayList<>();
+            List<Integer> timeMoveP1 = new ArrayList<>();
+            List<Integer> timeMoveP2 = new ArrayList<>();
+            for (int i = 1; i <= 20; i++) {
+                Integer[] temp = game.startAiVsAi(p1_ai, p2_ai, true);
+                winners.add(temp[0]);
+                moves.add(temp[1]);
+                times.add(temp[2]);
+                timeMoveP1.add(temp[3]);
+                timeMoveP2.add(temp[4]);
+                dataLines.add(new String[]{temp[0] + " ", temp[1] + " ", temp[2] + " ", temp[3] + " ", temp[4] + " "});
+            }
+            double dMove, dTime, dTimeP1, dTimeP2;
+            int p1Win, p2Win, draws;
+            dMove = moves.stream().mapToDouble(Integer::doubleValue).average().orElse(0);
+            dTime = times.stream().mapToDouble(Integer::doubleValue).average().orElse(0);
+            dTimeP1 = timeMoveP1.stream().mapToDouble(Integer::doubleValue).average().orElse(0);
+            dTimeP2 = timeMoveP2.stream().mapToDouble(Integer::doubleValue).average().orElse(0);
+            p1Win = (int) winners.stream().filter(w -> w.equals(Consts.P_1)).count();
+            p2Win = (int) winners.stream().filter(w -> w.equals(Consts.P_2)).count();
+            draws = (int) winners.stream().filter(w -> w.equals(Consts.EMPTY)).count();
+            dataLines.add(new String[]{"-----------", "------------"});
+            dataLines.add(new String[]{"moves", dMove + ""});
+            dataLines.add(new String[]{"times", dTime + ""});
+            dataLines.add(new String[]{"timeP1Move", dTimeP1 + ""});
+            dataLines.add(new String[]{"timeP2Move", dTimeP2 + ""});
+            dataLines.add(new String[]{p1_ai.getNameAlg(), p1Win + ""});
+            dataLines.add(new String[]{p2_ai.getNameAlg(), p2Win + ""});
+            dataLines.add(new String[]{"draws", draws + ""});
+            dataSaver.saveToFile(dataLines, "csv");
+
+            sumLines.add(new String[]{j + "", dMove + "", dTime + "", dTimeP1 + "", dTimeP2 + "", p1Win + "", p2Win + "", draws + ""});
+            if (j == k) {
+                dataSaver = new DataSaver(p1_ai.getNameAlg() + "_" + p2_ai.getNameAlg() + "_+10/" + est1.getNameEst() + "_" + est2.getNameEst(),
+                        "sum");
+                dataSaver.saveToFile(sumLines, "csv");
+            }
+        }
+
+    }
+
 
     private EstimateFunction getEstimateFunction(int est) {
         if (est == Consts.JustWinner) return new JustWinnerEstFun();
