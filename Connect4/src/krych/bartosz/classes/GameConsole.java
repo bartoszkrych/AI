@@ -15,9 +15,6 @@ public class GameConsole {
         List<Long> p1_times = new ArrayList<>();
         List<Long> p2_times = new ArrayList<>();
 
-
-        game.setLastPlayer(Consts.P_2);
-
 //        printBoard(game.getBoard());
 
         Scanner in = new Scanner(System.in);
@@ -77,8 +74,6 @@ public class GameConsole {
         int P1_moves = 0;
         int P2_moves = 0;
         int result;
-
-        game.setLastPlayer(Consts.P_2);
 
         printBoard(game.getBoard());
 

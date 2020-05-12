@@ -12,7 +12,7 @@ public class State {
     private int cols = Consts.COLS;
 
     public State() {
-        this.lastPlayer = Consts.EMPTY;
+        this.lastPlayer = Consts.P_2;
         this.lastMove = new Move();
         this.board = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
