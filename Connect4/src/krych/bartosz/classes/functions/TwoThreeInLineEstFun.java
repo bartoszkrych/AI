@@ -11,15 +11,14 @@ public class TwoThreeInLineEstFun extends ThreeInLineMethod implements EstimateF
     public Integer makeEstimate(State state) {
         int estimate = 0;
         if (state.isWin()) {
-            if (state.getWinner().equals(Consts.P_1)) {
-                estimate = 1000;
-            } else if (state.getWinner().equals(Consts.P_2)) {
-                estimate = -1000;
+            estimate = 1000;
+            if (state.getWinner().equals(Consts.P_2)) {
+                estimate = -estimate;
             }
         }
-        estimate += counterThreeInLine(state, Consts.P_1) * 100 + counterTwoInLine(state, Consts.P_1) * 10;
-        estimate -= counterThreeInLine(state, Consts.P_2) * 100 + counterTwoInLine(state, Consts.P_2) * 10;
-        return estimate;
+        return estimate
+                + counterThreeInLine(state, Consts.P_1) * 100 + counterTwoInLine(state, Consts.P_1) * 10
+                - counterThreeInLine(state, Consts.P_2) * 100 + counterTwoInLine(state, Consts.P_2) * 10;
     }
 
     @Override
