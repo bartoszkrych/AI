@@ -8,10 +8,11 @@ import krych.bartosz.interfaces.GameAlgorithm;
 
 import java.util.List;
 
-public class AlphaBeta implements GameAlgorithm {
-    private int depth;
-    private int player;
-    private EstimateFunction fitFun;
+public class AlphaBeta extends GameAlgorithm {
+    private final int depth;
+    private final int player;
+    private final EstimateFunction fitFun;
+    private final String nameAlg = "AlphaBeta";
 
     public AlphaBeta(int depth, int player, EstimateFunction fitFun) {
         this.depth = depth;
@@ -19,7 +20,6 @@ public class AlphaBeta implements GameAlgorithm {
         this.fitFun = fitFun;
     }
 
-    @Override
     public Move findMove(State state) {
         if (player == Consts.P_1) {
             return max(new State(state), 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
@@ -27,26 +27,24 @@ public class AlphaBeta implements GameAlgorithm {
         return min(new State(state), 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
-    @Override
     public int getPlayer() {
         return player;
     }
 
-    @Override
     public String getNameAlg() {
-        return "AlphaBeta";
+        return nameAlg;
     }
 
     public Move max(State state, int curDepth, int alpha, int beta) {
         if ((state.isEnd()) || (curDepth == depth)) {
             return new Move(state.getLastMove().getRow(), state.getLastMove().getCol(), fitFun.makeEstimate(state));
         }
-        List<State> nodes = state.generateNodes(Consts.P_1);
+        List<State> nodes = generateNodes(Consts.P_1, state);
         Move maxMove = new Move(Integer.MIN_VALUE);
         for (State node : nodes) {
             Move move = min(node, curDepth + 1, alpha, beta);
             if (move.getEstimate() > alpha) {
-                minMaxHelper(maxMove, node, move);
+                setNewValues(maxMove, node, move);
                 alpha = move.getEstimate();
             }
             if (alpha >= beta) break;
@@ -58,22 +56,16 @@ public class AlphaBeta implements GameAlgorithm {
         if ((state.isEnd()) || (curDepth == depth)) {
             return new Move(state.getLastMove().getRow(), state.getLastMove().getCol(), fitFun.makeEstimate(state));
         }
-        List<State> nodes = state.generateNodes(Consts.P_2);
+        List<State> nodes = generateNodes(Consts.P_2, state);
         Move minMove = new Move(Integer.MAX_VALUE);
         for (State node : nodes) {
             Move move = max(node, curDepth + 1, alpha, beta);
             if (move.getEstimate() < beta) {
-                minMaxHelper(minMove, node, move);
+                setNewValues(minMove, node, move);
                 beta = move.getEstimate();
             }
             if (alpha >= beta) break;
         }
         return minMove;
-    }
-
-    private void minMaxHelper(Move minMaxMove, State node, Move move) {
-        minMaxMove.setRow(node.getLastMove().getRow());
-        minMaxMove.setCol(node.getLastMove().getCol());
-        minMaxMove.setEstimate(move.getEstimate());
     }
 }

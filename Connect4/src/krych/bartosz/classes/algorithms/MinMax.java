@@ -8,11 +8,12 @@ import krych.bartosz.interfaces.GameAlgorithm;
 
 import java.util.List;
 
-public class MinMax implements GameAlgorithm {
+public class MinMax extends GameAlgorithm {
 
-    private int depth;
-    private int player;
-    private EstimateFunction fitFun;
+    private final int depth;
+    private final int player;
+    private final EstimateFunction fitFun;
+    private final String nameAlg = "MinMax";
 
     public MinMax(int depth, int player, EstimateFunction fitFun) {
         this.depth = depth;
@@ -20,7 +21,6 @@ public class MinMax implements GameAlgorithm {
         this.fitFun = fitFun;
     }
 
-    @Override
     public Move findMove(State state) {
         if (player == Consts.P_1) {
             return max(new State(state), 0);
@@ -32,11 +32,11 @@ public class MinMax implements GameAlgorithm {
         if ((state.isEnd()) || (curDepth == depth)) {
             return new Move(state.getLastMove().getRow(), state.getLastMove().getCol(), fitFun.makeEstimate(state));
         }
-        List<State> nodes = state.generateNodes(Consts.P_1);
+        List<State> nodes = generateNodes(Consts.P_1, state);
         Move maxMove = new Move(Integer.MIN_VALUE);
         for (State node : nodes) {
             Move move = min(node, curDepth + 1);
-            if (move.getEstimate() > maxMove.getEstimate()) minMaxHelper(maxMove, node, move);
+            if (move.getEstimate() > maxMove.getEstimate()) setNewValues(maxMove, node, move);
         }
         return maxMove;
     }
@@ -45,27 +45,20 @@ public class MinMax implements GameAlgorithm {
         if ((state.isEnd()) || (curDepth == depth)) {
             return new Move(state.getLastMove().getRow(), state.getLastMove().getCol(), fitFun.makeEstimate(state));
         }
-        List<State> nodes = state.generateNodes(Consts.P_2);
+        List<State> nodes = generateNodes(Consts.P_2, state);
         Move minMove = new Move(Integer.MAX_VALUE);
         for (State node : nodes) {
             Move move = max(node, curDepth + 1);
-            if (move.getEstimate() < minMove.getEstimate()) minMaxHelper(minMove, node, move);
+            if (move.getEstimate() < minMove.getEstimate()) setNewValues(minMove, node, move);
         }
         return minMove;
-    }
-
-    private void minMaxHelper(Move minMaxMove, State node, Move move) {
-        minMaxMove.setRow(node.getLastMove().getRow());
-        minMaxMove.setCol(node.getLastMove().getCol());
-        minMaxMove.setEstimate(move.getEstimate());
     }
 
     public int getPlayer() {
         return player;
     }
 
-    @Override
     public String getNameAlg() {
-        return "MinMax";
+        return nameAlg;
     }
 }

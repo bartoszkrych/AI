@@ -8,7 +8,7 @@ import krych.bartosz.interfaces.GameAlgorithm;
 
 import java.util.List;
 
-public class NegaScout implements GameAlgorithm {
+public class NegaScout extends GameAlgorithm {
 
     private int depth;
     private int player;
@@ -21,7 +21,6 @@ public class NegaScout implements GameAlgorithm {
         this.fitFun = fitFun;
     }
 
-    @Override
     public Move findMove(State state) {
         scoutMove = new Move();
 //        return negaScout(state, 0, new Move(Integer.MIN_VALUE), new Move(Integer.MAX_VALUE), player);
@@ -37,7 +36,7 @@ public class NegaScout implements GameAlgorithm {
         if (curPlayer.equals(Consts.P_1)) opponent = Consts.P_2;
         else opponent = Consts.P_1;
 
-        List<State> nodes = state.generateNodes(curPlayer);
+        List<State> nodes = generateNodes(curPlayer, state);
         for (int i = 0; i < nodes.size(); i++) {
             Move move;
             //if child is first child then
@@ -75,7 +74,7 @@ public class NegaScout implements GameAlgorithm {
         int opponent;
         if (curPlayer == Consts.P_1) opponent = Consts.P_2;
         else opponent = Consts.P_1;
-        List<State> nodes = state.generateNodes(curPlayer);
+        List<State> nodes = generateNodes(curPlayer, state);
         for (int i = 0; i < nodes.size(); i++) {
             int score = 0;
             //if child is first child then
@@ -113,50 +112,35 @@ public class NegaScout implements GameAlgorithm {
         if (curPlayer.equals(Consts.P_1)) opponent = Consts.P_2;
         else opponent = Consts.P_1;
 
-        List<State> nodes = state.generateNodes(curPlayer);
+        List<State> nodes = generateNodes(curPlayer, state);
         for (int i = 0; i < nodes.size(); i++) {
             Move move = new Move();
             //if child is first child then
             if (i == 0) {
                 // score := −pvs(child, depth − 1, −β, −α, −color)
-                algHelper(move, nodes.get(i), negaScout2(nodes.get(i), curDepth + 1, beta.scoutChange(), alpha.scoutChange(), opponent).scoutChange());
+                setNewValues(move, nodes.get(i), negaScout2(nodes.get(i), curDepth + 1, beta.scoutChange(), alpha.scoutChange(), opponent).scoutChange());
             } else {
                 //  score := −pvs(child, depth − 1, −α − 1, −α, −color)
-                algHelper(move, nodes.get(i), negaScout2(nodes.get(i), curDepth + 1, alpha.scoutChangeMinus(), alpha.scoutChange(), opponent).scoutChange());
+                setNewValues(move, nodes.get(i), negaScout2(nodes.get(i), curDepth + 1, alpha.scoutChangeMinus(), alpha.scoutChange(), opponent).scoutChange());
                 // if α < score < β then
                 if (alpha.getEstimate() < move.getEstimate() && move.getEstimate() < beta.getEstimate()) {
                     // score := −pvs(child, depth − 1, −β, −score, −color)
-                    algHelper(move, nodes.get(i), negaScout2(nodes.get(i), curDepth + 1, beta.scoutChange(), move.scoutChange(), opponent).scoutChange());
+                    setNewValues(move, nodes.get(i), negaScout2(nodes.get(i), curDepth + 1, beta.scoutChange(), move.scoutChange(), opponent).scoutChange());
                 }
             }
             // α := max(α, score)
             if (move.getEstimate() > alpha.getEstimate()) {
-                algHelper(alpha, nodes.get(i), move);
-//                Move node = nodes.get(i).getLastMove();
-//                alpha = move;
-//                alpha.setCol(node.getCol());
-//                alpha.setRow(node.getRow());
-//                alpha.setEstimate(move.getEstimate());
+                setNewValues(alpha, nodes.get(i), move);
             }
             // if α ≥ β then
             if (alpha.getEstimate() >= beta.getEstimate()) break;
         }
         return alpha;
     }
-
-
-    private void algHelper(Move to, State node, Move from) {
-        to.setRow(node.getLastMove().getRow());
-        to.setCol(node.getLastMove().getCol());
-        to.setEstimate(from.getEstimate());
-    }
-
-    @Override
     public int getPlayer() {
         return player;
     }
 
-    @Override
     public String getNameAlg() {
         return "NegaScout";
     }

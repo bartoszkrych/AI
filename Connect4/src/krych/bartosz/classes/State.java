@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class State {
-    private Integer lastPlayer;
+    private int lastPlayer;
     private Move lastMove;
     private List<List<Integer>> board;
     private Integer winner;
@@ -47,18 +47,6 @@ public class State {
         lastMove = new Move(row, col);
         lastPlayer = player;
         board.get(row).set(col, player);
-    }
-
-    public List<State> generateNodes(int player) {
-        List<State> nodes = new ArrayList<>();
-        for (int i = 0; i < cols; i++) {
-            if (!isFullCol(i)) {
-                State node = new State(this);
-                node.nextMove(i, player);
-                nodes.add(node);
-            }
-        }
-        return nodes;
     }
 
     public boolean isWin() {
@@ -117,20 +105,16 @@ public class State {
         return false;
     }
 
+    public boolean canMove(int row, int col) {
+        return (row > -1) && (col > -1) && (row <= 5) && (col <= 6);
+    }
+
     private Integer getEmptyRow(int col) {
         int lastRow = -1;
         for (int i = 0; i < rows; i++) {
             if (board.get(i).get(col).equals(Consts.EMPTY)) lastRow = i;
         }
         return lastRow;
-    }
-
-    public boolean isFullCol(int col) {
-        return !board.get(0).get(col).equals(Consts.EMPTY);
-    }
-
-    public boolean canMove(int row, int col) {
-        return (row > -1) && (col > -1) && (row <= 5) && (col <= 6);
     }
 
     public Integer getWinner() {

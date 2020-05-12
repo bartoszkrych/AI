@@ -95,7 +95,7 @@ public class GameConsole {
                         do {
                             System.out.print("\nSelect column: ");
                             col = in.nextInt();
-                        } while (game.isFullCol(col - 1));
+                        } while (game.getBoard().get(0).get(col).equals(Consts.EMPTY));
                     } catch (Exception e) {
                         System.err.println("Only [1,7].\n");
                         break;
