@@ -136,6 +136,7 @@ public class NegaScout extends GameAlgorithm {
         }
         return alpha;
     }
+
     public int getPlayer() {
         return player;
     }
