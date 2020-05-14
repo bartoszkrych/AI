@@ -1,13 +1,15 @@
 package krych.bartosz;
 
 import krych.bartosz.classes.GameConsole;
+import krych.bartosz.classes.algorithms.NegaScout;
+import krych.bartosz.classes.functions.ThreeInLineEstFun;
 
 public class MainConsole {
 
     public static void main(String[] args) {
-        Research research = new Research(new GameConsole());
+//        Research research = new Research(new GameConsole());
 //
-//        new GameConsole().startHumVsAi(new NegaScout(5,Consts.P_2, new ThreeInLineEstFun()));
+        new GameConsole().startHumVsAi(new NegaScout(5, Consts.P_2, new ThreeInLineEstFun()));
 //        new GameConsole().startAiVsAi(new AlphaBeta(4, Consts.P_1, new ThreeInLineEstFun()), new MinMax(7, Consts.P_2, new ThreeInLineEstFun()), true);
 
 //        research.comparingOne(Consts.AlphaBeta, Consts.ThreeInLine, Consts.ThreeInLine);

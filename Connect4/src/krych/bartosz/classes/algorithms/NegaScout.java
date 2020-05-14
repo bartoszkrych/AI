@@ -66,7 +66,6 @@ public class NegaScout extends GameAlgorithm {
         return alpha;
     }
 
-
     private int negaScoutInt(State state, int curDepth, int alpha, int beta, int curPlayer) {
         if ((state.isEnd()) || (curDepth == depth)) {
             return fitFun.makeEstimate(state);
