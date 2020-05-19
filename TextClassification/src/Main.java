@@ -4,7 +4,7 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Set<String> classes = new HashSet<>();
         List<String> contents = new ArrayList<>();
         List<String> toSave = new ArrayList<>();
@@ -12,7 +12,7 @@ public class Main {
         String arg4 = "@DATA \n";
 
 
-        File[] files = new File("data/test").listFiles();
+        File[] files = new File("data").listFiles();
         //If this pathname does not denote a directory, then listFiles() returns null.
 
         for (File file : files) {
@@ -30,10 +30,12 @@ public class Main {
                         line = br.readLine();
                     }
                     String everything = sb.toString();
-                    everything.replace("nbsp;", " ").replaceAll("\""," ")
+                    everything.replace("nbsp;", " ")
                             .replace(System.getProperty("line.separator"), "").strip();
 
-                    String content = new StringBuilder().append("\"").append(everything).append("\",").append(name).append(System.getProperty("line.separator")).toString();
+                    everything = String.join("", everything.split("'"));
+
+                    String content = new StringBuilder().append("'").append(everything).append("',").append(name).append(System.getProperty("line.separator")).toString();
                     contents.add(content);
 
                     br.close();
@@ -43,7 +45,7 @@ public class Main {
             }
         }
 
-        classes.forEach(x -> System.out.println(x));
+        classes.forEach(System.out::println);
 
         StringBuilder builderToSave = new StringBuilder();
         builderToSave.append(arg1).append("{");
@@ -56,11 +58,15 @@ public class Main {
         builderToSave.append("}\n\n");
         builderToSave.append(arg4);
 
-        FileWriter writer = new FileWriter("test.arff");
-        writer.write(builderToSave.toString());
-        for (String str : contents) {
-            writer.write(str);
+        try{
+            FileWriter writer = new FileWriter("data.arff");
+            writer.write(builderToSave.toString());
+            for (String str : contents) {
+                writer.write(str);
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        writer.close();
     }
 }
