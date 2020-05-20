@@ -17,7 +17,7 @@
 					"StringToWordVector"
 				]
 			},
-			"coordinates" : "17,14"
+			"coordinates" : "157,17"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.Filter",
@@ -34,7 +34,7 @@
 					"ClassAssigner"
 				]
 			},
-			"coordinates" : "154,18"
+			"coordinates" : "152,133"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.ClassAssigner",
@@ -47,7 +47,7 @@
 					"AttributeSelection"
 				]
 			},
-			"coordinates" : "229,182"
+			"coordinates" : "233,301"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.CrossValidationFoldMaker",
@@ -59,13 +59,15 @@
 			},
 			"connections" : {
 				"trainingSet" : [
-					"NaiveBayesMultinomial"
+					"NaiveBayesMultinomial",
+					"J48"
 				],
 				"testSet" : [
-					"NaiveBayesMultinomial"
+					"NaiveBayesMultinomial",
+					"J48"
 				]
 			},
-			"coordinates" : "668,19"
+			"coordinates" : "655,126"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.Saver",
@@ -84,7 +86,7 @@
 			},
 			"connections" : {
 			},
-			"coordinates" : "485,170"
+			"coordinates" : "473,296"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.SerializedModelSaver",
@@ -97,7 +99,7 @@
 			},
 			"connections" : {
 			},
-			"coordinates" : "814,177"
+			"coordinates" : "649,4"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.TrainTestSplitMaker",
@@ -115,7 +117,7 @@
 					"ArffSaver"
 				]
 			},
-			"coordinates" : "489,15"
+			"coordinates" : "479,122"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.Classifier",
@@ -136,7 +138,7 @@
 					"ClassifierPerformanceEvaluator"
 				]
 			},
-			"coordinates" : "814,23"
+			"coordinates" : "814,4"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.TextViewer",
@@ -145,7 +147,7 @@
 			},
 			"connections" : {
 			},
-			"coordinates" : "1208,32"
+			"coordinates" : "1161,133"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
@@ -163,9 +165,12 @@
 			"connections" : {
 				"text" : [
 					"TextViewer"
+				],
+				"thresholdData" : [
+					"ModelPerformanceChart"
 				]
 			},
-			"coordinates" : "999,16"
+			"coordinates" : "975,5"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.Filter",
@@ -173,7 +178,7 @@
 				"filter" : {
 					"type" : "optionHandler",
 					"class" : "weka.filters.supervised.attribute.AttributeSelection",
-					"options" : "-E \"weka.attributeSelection.GainRatioAttributeEval \" -S \"weka.attributeSelection.Ranker -T -1.7976931348623157E308 -N 200\""
+					"options" : "-E \"weka.attributeSelection.ChiSquaredAttributeEval \" -S \"weka.attributeSelection.Ranker -T -1.7976931348623157E308 -N 200\""
 				},
 				"name" : "AttributeSelection"
 			},
@@ -182,7 +187,79 @@
 					"TrainTestSplitMaker"
 				]
 			},
-			"coordinates" : "351,26"
+			"coordinates" : "344,125"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Classifier",
+			"properties" : {
+				"classifier" : {
+					"type" : "optionHandler",
+					"class" : "weka.classifiers.trees.J48",
+					"options" : "-C 0.25 -M 2"
+				},
+				"loadClassifierFileName" : "",
+				"name" : "J48",
+				"resetIncrementalClassifier" : false,
+				"updateIncrementalClassifier" : true
+			},
+			"connections" : {
+				"batchClassifier" : [
+					"SerializedModelSaver2",
+					"ClassifierPerformanceEvaluator2"
+				]
+			},
+			"coordinates" : "805,267"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.SerializedModelSaver",
+			"properties" : {
+				"filenamePrefix" : "",
+				"includeRelationNameInFilename" : false,
+				"incrementalSaveSchedule" : 0,
+				"name" : "SerializedModelSaver2",
+				"outputDirectory" : "D:/Projects/ai/TextClassification/DT_model"
+			},
+			"connections" : {
+			},
+			"coordinates" : "642,266"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
+			"properties" : {
+				"collectPredictionsForVisAndAUC" : true,
+				"costMatrixString" : "",
+				"errorPlotPointSizeProportionalToMargin" : false,
+				"evaluateWithRespectToCosts" : false,
+				"evaluationMetricsToOutput" : "Correct,Incorrect,Kappa,Total cost,Average cost,KB relative,KB information,Correlation,Complexity 0,Complexity scheme,Complexity improvement,MAE,RMSE,RAE,RRSE,TP rate,FP rate,Precision,Recall,F-measure,MCC,ROC area,PRC area",
+				"name" : "ClassifierPerformanceEvaluator2",
+				"outputConfusionMatrix" : true,
+				"outputEntropyMetrics" : false,
+				"outputPerClassStats" : true
+			},
+			"connections" : {
+				"thresholdData" : [
+					"ModelPerformanceChart"
+				],
+				"text" : [
+					"TextViewer"
+				]
+			},
+			"coordinates" : "973,265"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ModelPerformanceChart",
+			"properties" : {
+				"name" : "ModelPerformanceChart",
+				"offscreenAdditionalOpts" : "",
+				"offscreenHeight" : "400",
+				"offscreenRendererName" : "Weka Chart Renderer",
+				"offscreenWidth" : "500",
+				"offscreenXAxis" : "",
+				"offscreenYAxis" : ""
+			},
+			"connections" : {
+			},
+			"coordinates" : "975,128"
 		}
 	]
 }
