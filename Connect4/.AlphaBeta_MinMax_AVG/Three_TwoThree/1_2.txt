@@ -1,0 +1,17 @@
+WINNER;MOVES;TIME
+2 ;7 ;0 
+2 ;7 ;0 
+2 ;7 ;0 
+2 ;5 ;15 
+2 ;7 ;0 
+2 ;7 ;0 
+2 ;9 ;0 
+2 ;8 ;0 
+1 ;11 ;0 
+2 ;7 ;0 
+-;-;-
+moves;7.5
+times;1.5
+AlphaBeta;1
+MinMax;9
+draws;0

@@ -1,0 +1,11 @@
+WINNER;MOVES;TIME
+MinMax;7;31
+MinMax;6;33
+MinMax;7;51
+MinMax;7;34
+MinMax;7;37
+MinMax;7;37
+MinMax;6;25
+MinMax;7;31
+MinMax;8;36
+MinMax;7;32

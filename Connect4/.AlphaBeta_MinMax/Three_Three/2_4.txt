@@ -1,0 +1,11 @@
+WINNER;MOVES;TIME
+AlphaBeta;14;31
+AlphaBeta;13;28
+-;-1;29
+MinMax;19;28
+AlphaBeta;16;30
+AlphaBeta;14;32
+AlphaBeta;16;29
+AlphaBeta;16;29
+AlphaBeta;16;29
+AlphaBeta;13;26

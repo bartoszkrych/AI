@@ -1,0 +1,11 @@
+WINNER;MOVES;TIME
+AlphaBeta;8;3230
+AlphaBeta;17;661
+AlphaBeta;9;876
+AlphaBeta;13;698
+AlphaBeta;8;3252
+AlphaBeta;16;520
+AlphaBeta;8;3236
+AlphaBeta;17;658
+AlphaBeta;16;516
+AlphaBeta;8;3263

@@ -1,0 +1,32 @@
+
+T
+java:S2696£"6Make the enclosing method "static" or remove this set.(‘…•°8æ®½¶ž.
+X	java:S110	"<This class has 6 parents which is greater than 5 authorized.(Â”Í¤8þúÞ›.
+I
+java:S1444'",Make this "public static height" field final(¾ÁÕ‚8Û¡¹Üœ.
+K
+java:S1948!")Make "handler" transient or serializable.(”ÿÅýÿÿÿÿ8þúÞ›.
+Y
+java:S2696¦"6Make the enclosing method "static" or remove this set.(Ø›Œˆÿÿÿÿÿ8Öšï¶ž.
+T
+java:S2696§"6Make the enclosing method "static" or remove this set.(¬ÓÌ¡8—ˆð¶ž.
+T
+java:S2696¡"6Make the enclosing method "static" or remove this set.(í¯ÀÒ8æ®½¶ž.
+n
+java:S1104&"QMake width a static final constant or non-public and provide accessors if needed.(²Ä·×8þúÞ›.
+H
+java:S1444&"+Make this "public static width" field final(²Ä·×8þúÞ›.
+o
+java:S1104'"RMake height a static final constant or non-public and provide accessors if needed.(¾ÁÕ‚8Û¡¹Üœ.
+i
+java:S3252,"LUse static access with "javax.swing.WindowConstants" for "DISPOSE_ON_CLOSE".(Òœ Ð8æ®½¶ž.
+L
+java:S2387'"/"height" is the name of a field in "Component".(¾ÁÕ‚8Û¡¹Üœ.
+Y
+java:S2696¢"6Make the enclosing method "static" or remove this set.(…‡Ôüÿÿÿÿ8æ®½¶ž.
+T
+java:S2696¤"6Make the enclosing method "static" or remove this set.(ÒšÅ¢8Öšï¶ž.
+K
+java:S2387&"."width" is the name of a field in "Component".(²Ä·×8þúÞ›.
+T
+java:S2696¥"6Make the enclosing method "static" or remove this set.(Ìþ †8Öšï¶ž.

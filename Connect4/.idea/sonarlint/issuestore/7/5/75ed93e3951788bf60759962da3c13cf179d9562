@@ -1,0 +1,21 @@
+
+]	java:S1252"<This block of commented-out lines of code should be removed.(É¦ïåüÿÿÿÿ8›îå°.
+]	java:S125"<This block of commented-out lines of code should be removed.(É¦ïåüÿÿÿÿ8«¾÷°.
+r	java:S117K"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Õ–æ¾üÿÿÿÿ8¬©³“œ.
+[
+java:S18548">Remove this useless assignment to local variable "winnerName".(ù½ÆÀ8Ç”µ.
+r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(êïÿÃûÿÿÿÿ8ˆŸ–„Ÿ.
+]	java:S125)"<This block of commented-out lines of code should be removed.(¦Õ´üÿÿÿÿ8àéã°.
+L
+java:S14818"/Remove this unused "winnerName" local variable.(ù½ÆÀ8Ç”µ.
+V
+java:S1854w":Remove this useless assignment to local variable "result".(ü°ş!8šè„¯.
+]	java:S125"<This block of commented-out lines of code should be removed.(¦Õ´üÿÿÿÿ8èØã°.
+r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Õ–æ¾üÿÿÿÿ8•ã “œ.
+m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®· ã8šè„¯.
+m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ø·¾¸8ˆŸ–„Ÿ.
+M
+java:S1481M"+Remove this unused "result" local variable.(ÑûÃÇûÿÿÿÿ8šè„¯.
+m	java:S117L"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®· ã8¼İ¢“œ.
+\
+java:S1854t":Remove this useless assignment to local variable "result".(£ôæúÿÿÿÿ8šè„¯.

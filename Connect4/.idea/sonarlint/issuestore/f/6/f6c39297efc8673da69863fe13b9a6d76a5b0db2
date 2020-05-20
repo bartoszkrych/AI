@@ -1,0 +1,76 @@
+
+c
+java:S1192v"FDefine a constant instead of duplicating this literal "moves" 5 times.(Œ×òù8—ÉÛ« .
+l	java:S117<"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„¿É:8—ÉÛ« .
+l	java:S117<"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„¿É:8—ÉÛ« .
+i
+java:S1192 "FDefine a constant instead of duplicating this literal "_+10/" 3 times.(Å¶€âıÿÿÿÿ8—ÉÛ« .
+n
+java:S1192u"LDefine a constant instead of duplicating this literal "-----------" 3 times.(öµ³Æüÿÿÿÿ8—ÉÛ« .
+h
+java:S1192["KDefine a constant instead of duplicating this literal ")         " 6 times.(‹úÿß8—ÉÛ« .
+@
+java:S1659m"#Declare "p2Win" on a separate line.(äÚÂ8—ÉÛ« .
+A
+java:S1659ş"#Declare "dTime" on a separate line.(Åëóš8—ÉÛ« .
+m	java:S117Š"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„¿É:8—ÉÛ« .
+@
+java:S1659Š"#Declare "p2_ai" on a separate line.(„¿É:8—ÉÛ« .
+j
+java:S1192["MDefine a constant instead of duplicating this literal "            " 3 times.(‹úÿß8—ÉÛ« .
+d
+java:S1192]"GDefine a constant instead of duplicating this literal "Winner" 3 times.(Ñ†ã•8—ÉÛ« .
+o
+java:S1192u"MDefine a constant instead of duplicating this literal "------------" 3 times.(öµ³Æüÿÿÿÿ8—ÉÛ« .
+^	java:S125Ô"<This block of commented-out lines of code should be removed.(ı‘õúÿÿÿÿ8Š˜í« .
+C
+java:S1659³"%Declare "dTimeP2" on a separate line.(Åëóš8—ÉÛ« .
+h
+java:S1192x"KDefine a constant instead of duplicating this literal "timeP1Move" 3 times.(ªÈÀ¦8—ÉÛ« .
+A
+java:S1659ÿ"#Declare "draws" on a separate line.(äÚÂ8—ÉÛ« .
+C
+java:S1659ş"%Declare "dTimeP1" on a separate line.(Åëóš8—ÉÛ« .
+A
+java:S1659´"#Declare "draws" on a separate line.(äÚÂ8—ÉÛ« .
+e
+java:S1192]"HDefine a constant instead of duplicating this literal "P1 time" 3 times.(Ñ†ã•8—ÉÛ« .
+m	java:S117Ò"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„¿É:8—ÉÛ« .
+m	java:S117Ò"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„¿É:8—ÉÛ« .
+h
+java:S1192O"FDefine a constant instead of duplicating this literal "draws" 6 times.(‹¸ƒâúÿÿÿÿ8—ÉÛ« .
+C
+java:S1659ş"%Declare "dTimeP2" on a separate line.(Åëóš8—ÉÛ« .
+o
+java:S3776;"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(¼‹ü8—ÉÛ« .
+h
+java:S1192y"KDefine a constant instead of duplicating this literal "timeP2Move" 3 times.(¹£µÓ8—ÉÛ« .
+?
+java:S1659<"#Declare "p2_ai" on a separate line.(„¿É:8—ÉÛ« .
+B
+java:S1659l"%Declare "dTimeP2" on a separate line.(Åëóš8—ÉÛ« .
+A
+java:S1659³"#Declare "dTime" on a separate line.(Åëóš8—ÉÛ« .
+h
+java:S1192w"FDefine a constant instead of duplicating this literal "times" 3 times.(Ò¢ÓÍşÿÿÿÿ8—ÉÛ« .
+e
+java:S1192]"HDefine a constant instead of duplicating this literal "P2 time" 3 times.(Ñ†ã•8—ÉÛ« .
+m	java:S117Š"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„¿É:8—ÉÛ« .
+B
+java:S1659l"%Declare "dTimeP1" on a separate line.(Åëóš8—ÉÛ« .
+@
+java:S1659m"#Declare "draws" on a separate line.(äÚÂ8—ÉÛ« .
+@
+java:S1659Ò"#Declare "p2_ai" on a separate line.(„¿É:8—ÉÛ« .
+C
+java:S1659³"%Declare "dTimeP1" on a separate line.(Åëóš8—ÉÛ« .
+@
+java:S1659l"#Declare "dTime" on a separate line.(Åëóš8—ÉÛ« .
+B
+java:S1659=" Declare "p2" on a separate line.(¼âÆÁûÿÿÿÿ8—ÉÛ« .
+c
+java:S1192]"FDefine a constant instead of duplicating this literal "Moves" 3 times.(Ñ†ã•8—ÉÛ« .
+A
+java:S1659ÿ"#Declare "p2Win" on a separate line.(äÚÂ8—ÉÛ« .
+A
+java:S1659´"#Declare "p2Win" on a separate line.(äÚÂ8—ÉÛ« .
